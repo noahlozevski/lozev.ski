@@ -1,5 +1,6 @@
 {
   "eslint.workingDirectories": [
     "./lozev.ski"
-]
+],
+"prettier.semi": false,
 }
