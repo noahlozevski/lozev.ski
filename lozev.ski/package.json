@@ -2,6 +2,10 @@
   "name": "lozev.ski",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "Noah Lozevski",
+    "email": "noahlozevski@gmail.com"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
