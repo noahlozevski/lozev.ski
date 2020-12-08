@@ -17,14 +17,15 @@ module.exports = {
         semi: false,
         printWidth: 120,
         arrayExpand: true,
-        embeddedLanguageFormatting: "auto"
+        embeddedLanguageFormatting: "auto",
+        spaceBeforeFunctionParen: "never",
       }
     ],
     "lines-between-class-members": ["error", "always"],
     "space-before-function-paren": [
       "error",
       {
-        anonymous: "always",
+        anonymous: "never",
         named: "never",
         asyncArrow: "always"
       }

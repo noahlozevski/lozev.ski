@@ -1,606 +1,1561 @@
-<template>
-  <div class="home">
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App" /> -->
-    <glitch-text> </glitch-text>
-    <!-- <input type="checkbox" />
-    <div id="wrap">
-      <div class="inner">
-        <template v-for="i in 21"> <div v-show="true" :key="`box-${i}`" class="box"></div></template>
-      </div>
-      <div class="text">
-        <h5>
-          <span>CREATIVE</span>
-          <span>DEVELOPER</span>
-        </h5>
-        <a href="https://codepen.io/cobra_winfrey/" target="_blank">
-          <i class="fab fa-codepen"></i>
-        </a>
-        <a href="https://twitter.com/cobra_winfrey" target="_blank">
-          <i class="fab fa-twitter"></i>
-        </a>
-      </div>
-    </div> -->
-  </div>
-</template>
+<template lang="pug">
+  div.fill-height.overflow-x-hidden
+    .bg-wrapper
+      .bg-container
+        div(v-for="i in 50" :class="`shape-container--${i} shape-animation`" :key="`shapesss-${i}`")
+          .random-shape
+    v-container.entrance-page.pa-0(fluid fill-height)
+      v-overlay.solid-background(v-if="loading" id="page-overlay")
+        .typing-text-container(id="typing")
+          p.typing-text__inner.anim-typewriter(id='p-typing') { nl }
+      v-container.home-page-container.px-4.px-sm-6.px-md-10.px-lg-16.py-0
+        transition(name='fade')
+          .mx-lg-12.mx-md-12.mx-sm-4.mx-1(v-if="!loading")
+            .home-page(:style="`--app-bar-height: ${$vuetify.application.top}px`")
+              .home-page-inner
+                h1.hello.animate__animated.animate__fadeInDown.animate__faster.animate__delay-2s Hello, my name is
+                .typing-text-container-name.animate__animated.animate__fadeInDown.animate__faster.mb-1.animate__delay-3s
+                  h3.typing-text__inner.anim-typewriter-name(:style="'--d: .25s; --s: steps(14); --t: 2s; --b: 7; --dd: 0s'") Noah Lozevski.
+                template(v-if='$vuetify.breakpoint.lgAndUp')
+                  .typing-text-container-name.animate__animated.animate__fadeInDown.animate__faster.animate__delay-4s.mt-2
+                    h6.typing-text__inner.anim-typewriter-name(:style="'--d: .55s; --s: steps(32); --t: 2.5s; --b: 9; --dd: 0s'") I build things for the internet.
+                template(v-else)
+                  .typing-text-container-name.animate__animated.animate__fadeInDown.animate__faster.animate__delay-4s.mt-3
+                    h6.typing-text__inner.anim-typewriter-name(:style="'--d: .75s; --s: steps(22); --t: 2s; --b: 8; --dd: 0s'") I build things for the
+                  .typing-text-container-name.animate__animated.animate__fadeInDown.animate__faster.animate__delay-4s.mt-1
+                    h6.typing-text__inner.anim-typewriter-name(:style="'--d: 2.75s; --s: steps(9); --t: 1s; --b: 4; --dd: 2.75s'") internet.
+                p.intro.mt-6.animate__animated.animate__fadeInDown.animate__faster.animate__delay-5s I am an experienced software engineer based in Raleigh, NC specializing in planning, building, and designing exceptional websites, applications, and everything in between.
+                .resume-button.mt-6.animate__animated.animate__fadeInDown.animate__faster.animate__delay-5s
+                  a.my-auto(href="mailto:noah@lozev.ski?subject=Lets Chat! 🤟&body=Hi Noah,") Message me
 
+            .page.about-page
+              v-lazy(:options="{ threshold: .25 }" transition="fade-transition")
+                .page-inner
+                  h2.numbered-header(:style="`--content: '01.'`") About me
+                  v-container.pa-0.ma-0(fluid)
+                    v-row
+                      v-col.col-sm-8(cols="12")
+                        .bio
+                          .animate__animated.animate__fadeInDown.animate__faster.animate__delay-2s
+                            p Hello! I'm Noah, a software engineer based in Raleigh, NC.
+                            p I enjoy creating things that live on the internet, whether that be websites, applications, or anything in between. My goal is to always build products that provide pixel-perfect, performant experiences.
+                            //- p I've been doing Shortly after graduating from Northeastern University, I joined the engineering team at Upstatement where I work on a wide variety of interesting and meaningful projects on a daily basis.
+                            p Here are the technologies I've worked with in the recent past:
+                          .skills-list-container
+                            .animate__animated.animate__fadeInDown.animate__faster.animate__delay-3s
+                              .list-title Frontend
+                              ul.skills-list
+                                li Vue.js
+                                li React / React Native
+                                li Angular
+                                li WordPress
+                                li Pug / Jade
+                                li SASS / SCSS
+
+                            .animate__animated.animate__fadeInDown.animate__faster.animate__delay-3s
+                              .list-title.mt-4 Backend
+                              ul.skills-list
+                                li Node.js / Express.js
+                                li Ruby / Rails
+                                li Nuxt.js / Next.js
+                                li Java
+                                li Python / Django
+                                li PHP
+                            
+                            .animate__animated.animate__fadeInDown.animate__faster.animate__delay-3s
+                              .list-title.mt-4 Libraries / Services
+                              ul.skills-list
+                                li AWS
+                                li Google Cloud
+                                li Heroku
+                                li Netlify
+                                li Bootstrap / Material
+                                li Laravel
+                      v-col.col-sm-4(cols="12")
+                        .picture-container.mx-auto.animate__animated.animate__fadeInRight.animate__faster.animate__delay-4s(@mousemove="mouseOver" id="picture-container-fun")
+                          .eye-container
+                            .eyes(:style="`--eyes-top: ${top}%; --eyes-left: ${left}%;`")
+                              .eye
+                              .eye
+                          img.profile-pic(src="/profile.jpg")
+
+            .page.experience-page
+              v-lazy(:options="{ threshold: .25 }" transition="fade-transition")
+                .page-inner
+                  h2.numbered-header(:style="`--content: '02.'`") Some Places I've Worked
+                  v-container.pa-0.ma-0(fluid)
+                    .d-none.d-sm-block
+                      .table-bigger
+                        .labels(:style="`--top-position: ${barPosition}px`")
+                          .label(v-for="(data, i) in companies" @click="selectedCompanyIndex = i" :class="i === selectedCompanyIndex ? 'selected' : ''" :key="`company-label-${i}`") {{ data.company_name }}
+                        .item
+                          .top
+                            span.position {{ selectedCompany.position }} 
+                            span.green-text @ 
+                              a(:class='selectedCompany.company_url !== "#" ? "hvr-underline-from-center" : ""' :href="selectedCompany.company_url") {{ selectedCompany.company_name }}
+                          .dates
+                            | {{ selectedCompany.date_string }}
+                          ul.action-list
+                            li(v-for="(bullet, j) in selectedCompany.bullets" :key="`action-list-${i}-${j}`") {{ bullet }}
+            .footer
+              .links.d-md-none
+                .item
+                  a(href="https://github.com/noahlozevski" target="_blank")
+                    svg.icon(xmlns="http://www.w3.org/2000/svg", role="img", viewBox="0 0 438.549 438.549")
+                      title GitHub
+                      path(d="M409.132,114.573c-19.608-33.596-46.205-60.194-79.798-79.8C295.736,15.166,259.057,5.365,219.271,5.365 c-39.781,0-76.472,9.804-110.063,29.408c-33.596,19.605-60.192,46.204-79.8,79.8C9.803,148.168,0,184.854,0,224.63 c0,47.78,13.94,90.745,41.827,128.906c27.884,38.164,63.906,64.572,108.063,79.227c5.14,0.954,8.945,0.283,11.419-1.996 c2.475-2.282,3.711-5.14,3.711-8.562c0-0.571-0.049-5.708-0.144-15.417c-0.098-9.709-0.144-18.179-0.144-25.406l-6.567,1.136 c-4.187,0.767-9.469,1.092-15.846,1c-6.374-0.089-12.991-0.757-19.842-1.999c-6.854-1.231-13.229-4.086-19.13-8.559 c-5.898-4.473-10.085-10.328-12.56-17.556l-2.855-6.57c-1.903-4.374-4.899-9.233-8.992-14.559 c-4.093-5.331-8.232-8.945-12.419-10.848l-1.999-1.431c-1.332-0.951-2.568-2.098-3.711-3.429c-1.142-1.331-1.997-2.663-2.568-3.997 c-0.572-1.335-0.098-2.43,1.427-3.289c1.525-0.859,4.281-1.276,8.28-1.276l5.708,0.853c3.807,0.763,8.516,3.042,14.133,6.851 c5.614,3.806,10.229,8.754,13.846,14.842c4.38,7.806,9.657,13.754,15.846,17.847c6.184,4.093,12.419,6.136,18.699,6.136 c6.28,0,11.704-0.476,16.274-1.423c4.565-0.952,8.848-2.383,12.847-4.285c1.713-12.758,6.377-22.559,13.988-29.41 c-10.848-1.14-20.601-2.857-29.264-5.14c-8.658-2.286-17.605-5.996-26.835-11.14c-9.235-5.137-16.896-11.516-22.985-19.126 c-6.09-7.614-11.088-17.61-14.987-29.979c-3.901-12.374-5.852-26.648-5.852-42.826c0-23.035,7.52-42.637,22.557-58.817 c-7.044-17.318-6.379-36.732,1.997-58.24c5.52-1.715,13.706-0.428,24.554,3.853c10.85,4.283,18.794,7.952,23.84,10.994 c5.046,3.041,9.089,5.618,12.135,7.708c17.705-4.947,35.976-7.421,54.818-7.421s37.117,2.474,54.823,7.421l10.849-6.849 c7.419-4.57,16.18-8.758,26.262-12.565c10.088-3.805,17.802-4.853,23.134-3.138c8.562,21.509,9.325,40.922,2.279,58.24 c15.036,16.18,22.559,35.787,22.559,58.817c0,16.178-1.958,30.497-5.853,42.966c-3.9,12.471-8.941,22.457-15.125,29.979 c-6.191,7.521-13.901,13.85-23.131,18.986c-9.232,5.14-18.182,8.85-26.84,11.136c-8.662,2.286-18.415,4.004-29.263,5.146 c9.894,8.562,14.842,22.077,14.842,40.539v60.237c0,3.422,1.19,6.279,3.572,8.562c2.379,2.279,6.136,2.95,11.276,1.995 c44.163-14.653,80.185-41.062,108.068-79.226c27.88-38.161,41.825-81.126,41.825-128.906 C438.536,184.851,428.728,148.168,409.132,114.573z")
+                .item.linkedin
+                  a(href="https://www.linkedin.com/in/nlozevski/" target="_blank")
+                    svg.icon(xmlns="http://www.w3.org/2000/svg", role="img", viewBox="0 0 430.117 430.117")
+                      title LinkedIn
+                      path(d="M430.117,261.543V420.56h-92.188V272.193c0-37.271-13.334-62.707-46.703-62.707 c-25.473,0-40.632,17.142-47.301,33.724c-2.432,5.928-3.058,14.179-3.058,22.477V420.56h-92.219c0,0,1.242-251.285,0-277.32h92.21 v39.309c-0.187,0.294-0.43,0.611-0.606,0.896h0.606v-0.896c12.251-18.869,34.13-45.824,83.102-45.824 C384.633,136.724,430.117,176.361,430.117,261.543z M52.183,9.558C20.635,9.558,0,30.251,0,57.463 c0,26.619,20.038,47.94,50.959,47.94h0.616c32.159,0,52.159-21.317,52.159-47.94C103.128,30.251,83.734,9.558,52.183,9.558z M5.477,420.56h92.184v-277.32H5.477V420.56z")
+                .item.indeed
+                  a(href="https://my.indeed.com/p/noahl-im8w8tp" target="_blank")
+                    svg.icon(xmlns="http://www.w3.org/2000/svg", xlink="http://www.w3.org/1999/xlink", version="1.1", x="0px", y="0px", viewBox="0 0 512 512", style="enable-background:new 0 0 512 512;", space="preserve")
+                      title Indeed
+                      g
+                        path(d="M316.2,219.9c-51.1,26.2-108.4-22.7-90.6-77.3c17.9-54.7,93-60.3,118.8-8.8C360.4,165.3,347.9,204,316.2,219.9L316.2,219.9   z M247.5,12.2C300.2-7,360.4-6,405.5,33.2c9.5,7.8,17,17.8,21.8,29.2c4.5,14.7-16-1.5-18.8-3.6c-14.2-9.7-29.6-17.6-45.9-23.4   c-88.8-27.1-172.8,22.3-224.7,99.3c-21.2,33.9-37.3,70.8-48,109.3c-1,4.7-2.5,9.3-4.5,13.8c-2.3,4.3-1.1-11.8-1.1-12.2   c1.9-16.1,5-32.1,9.2-47.8C117.6,113.9,170.9,44.1,247.5,12.2L247.5,12.2z M248.3,460v-187c5.3,0.6,10.3,0.8,15.7,0.8   c24.3,0.1,48-6.6,68.8-19.1V460c0,17.6-3.3,30.5-11.2,39c-7.9,8.7-19.1,13.4-30.9,13c-11.6,0.4-22.7-4.3-30.5-13   C252.2,490.4,248.2,477.4,248.3,460L248.3,460z")
+                .item.upwork
+                  a(href="https://www.upwork.com/freelancers/~018b9263e67b5c6ad0" target="_blank")
+                    svg.icon(xmlns="http://www.w3.org/2000/svg", xlink="http://www.w3.org/1999/xlink", style="enable-background:new 0 0 56.7 56.7;", version="1.1", viewBox="0 0 56.7 56.7", space="preserve")
+                      path(d="M42.4,17.7c-5.3,0-9.3,3.5-10.9,9c-2.5-3.9-4.5-8.3-5.6-12.1h-5.6v14.7c0,2.9-2.4,5.3-5.3,5.3c-2.9,0-5.3-2.4-5.3-5.3V14.7  H4.3v14.7c0,6.1,4.9,11,10.9,11c6,0,10.9-4.9,10.9-11v-2.5c1.1,2.2,2.5,4.6,4,6.7l-3.5,16.3h5.7L34.7,38c2.2,1.4,4.7,2.2,7.7,2.2  c6.1,0,11.1-5,11.1-11.4C53.5,22.7,48.5,17.7,42.4,17.7z M42.4,34.6c-2.2,0-4.5-1-6.3-2.5l0.6-2.2v-0.1c0.4-2.4,1.7-6.4,5.8-6.4  c3.1,0,5.6,2.5,5.6,5.6C48,32.1,45.3,34.6,42.4,34.6z")
+                .item.codepen
+                  a(href="https://codepen.io/lozevski" target="_blank")
+                    svg.icon(xmlns="http://www.w3.org/2000/svg", role="img", viewBox="0 0 31.665 31.665")
+                      title Codepen
+                      path(d="M16.878,0.415c-0.854-0.565-1.968-0.552-2.809,0.034L1.485,9.214c-0.671,0.468-1.071,1.233-1.071,2.052v9.444 c0,0.84,0.421,1.623,1.122,2.086l12.79,8.455c0.836,0.553,1.922,0.553,2.758,0l13.044-8.618c0.7-0.463,1.122-1.246,1.122-2.086 v-9.279c0-0.839-0.421-1.622-1.121-2.085L16.878,0.415z M26.621,10.645l-4.821,3.237l-4.521-3.288L17.25,4.127L26.621,10.645z M13.979,4.133v6.329l-4.633,3.24l-4.621-3.099L13.979,4.133z M3.458,13.722l2.991,2.004l-2.991,2.093V13.722z M14.058,27.215 l-9.331-6.258l4.661-3.258l4.67,3.133V27.215z M12.286,15.674l3.021-2.113l3.519,2.313l-3.119,2.095L12.286,15.674z M17.354,27.215 V20.83l4.463-2.991l4.805,3.159L17.354,27.215z M27.954,17.927l-3.168-2.082l3.168-2.125V17.927z")
+              //- .item.email
+                a(href="mailto:noah@lozev.ski?subject=Lets Chat! 🤟&body=Hi Noah, I'd like to hire you!") noah@lozev.ski
+              .item.github-link.email
+                a(href="https://github.com/noahlozevski/lozev.ski" target="_blank")
+                  div Designed and Built by Noah Lozevski
+                  .stats
+                    svg(aria-label="stars", viewBox="0 0 14 16", version="1.1", width="14", height="16", role="img")
+                      path(fill-rule="evenodd", d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z")
+                    span 2,032
+                    svg(aria-label="forks", viewBox="0 0 10 16", version="1.1", width="10", height="16", role="img")
+                      path(fill-rule="evenodd", d="M8 1a1.993 1.993 0 0 0-1 3.72V6L5 8 3 6V4.72A1.993 1.993 0 0 0 2 1a1.993 1.993 0 0 0-1 3.72V6.5l3 3v1.78A1.993 1.993 0 0 0 5 15a1.993 1.993 0 0 0 1-3.72V9.5l3-3V4.72A1.993 1.993 0 0 0 8 1zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3 10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3-10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z")
+                    span 1,535
+                      //-   .bio
+                      //-     p Hello! I'm Noah, a software engineer based in Raleigh, NC.
+                      //-     p I enjoy creating things that live on the internet, whether that be websites, applications, or anything in between. My goal is to always build products that provide pixel-perfect, performant experiences.
+                      //-     p Here are the technologies I've worked with in the recent past:
+                      //-     .skills-list-container
+                      //-       .list-title Frontend
+                      //-       ul.skills-list
+                      //-         li Vue.js
+                      //-         li React / React Native
+                      //-         li Angular
+                      //-         li WordPress
+                      //-         li Pug / Jade
+                      //-         li SASS / SCSS
+
+                      //-       .list-title.mt-4 Backend
+                      //-       ul.skills-list
+                      //-         li Node.js / Express.js
+                      //-         li Ruby / Rails
+                      //-         li Nuxt.js / Next.js
+                      //-         li Java
+                      //-         li Python / Django
+                      //-         li PHP
+                              
+                      //-       .list-title.mt-4 Libraries / Services
+                      //-       ul.skills-list
+                      //-         li AWS
+                      //-         li Google Cloud
+                      //-         li Heroku
+                      //-         li Netlify
+                      //-         li Bootstrap / Material
+                      //-         li Laravel
+                      //- v-col.col-sm-4(cols="12")
+                      //-   .picture-container.mx-auto
+                      //-     img.profile-pic(src="/profile.jpg")
+                      
+</template>
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue"
-import GlitchText from "../components/glitchText.vue"
+import TypingText from "@/components/typingText"
+import _ from "lodash"
+import Nameplate from "@/components/nameplate"
+import About from "@/components/about"
+import Projects from "@/components/projects"
+import Resume from "@/components/resume"
+import Contact from "@/components/contact"
 
 export default {
-  name: "Home",
-  components: {
-    HelloWorld,
-    GlitchText,
+  components: { TypingText, Nameplate, Contact, About, Projects, Resume },
+  data() {
+    return {
+      state: 0,
+      isMobile: false,
+      tabs: ["home", "projects", "resume", "contact"],
+      slideOff: 0.25,
+      selectedTab: null,
+      loading: true,
+      loading2: true,
+      left: 0,
+      top: 0,
+      selectedCompanyIndex: 0,
+      companies: [
+        // {
+        //   company_name: "Vaporware",
+        //   position: "Software Engineer",
+        //   company_url: "https://www.vaporware.net/",
+        //   date_string: "Fall 2020 - Present",
+        //   bullets: [
+        //     "Worked on full stack financial forecasting team focused on automating P&L statements",
+        //     "Developed a new Java backend API and serverless workflow automation service that decreased lead time of P&L statements by 80%",
+        //     "Designed and implemented a frontend UI in Vue.js to trigger the new backend API calls",
+        //   ],
+        // },
+        {
+          company_name: "Upwork / Intellex",
+          position: "Software Engineer",
+          company_url: "https://upwork.com/",
+          date_string: "2015 - Present",
+          bullets: [
+            "Developed personalized software solutions for over 100+ satisfied customers, ranging from attorney database management to full stack website design / hosting",
+            "Maintain 8 regular client accounts for on-demand service",
+            "Worked on projects independently as a freelancer or as a contract employee for smaller startups in agile / scrum based environments",
+          ],
+        },
+        {
+          company_name: "Amazon Web Services",
+          position: "Software Development Engineer Intern",
+          company_url: "https://aws.amazon.com/",
+          date_string: "Summer 2020",
+          bullets: [
+            "Worked on full stack financial forecasting team focused on automating P&L statements",
+            "Developed a new Java backend API and serverless workflow automation service that decreased lead time of P&L statements by 80%",
+            "Designed and implemented a frontend UI in Vue.js to trigger the new backend API calls",
+          ],
+        },
+        {
+          company_name: "Luxury Concierge",
+          // company_name: "Luxury Concierge / La Parlay / Supreme Rentals",
+          position: "Import/Export Specialist",
+          company_url: "#",
+          date_string: "2019 - Present",
+          bullets: [
+            "Founded/Manage 3 companies used for international business transactions involving luxury cars",
+            "Brokered 25+ deals between international clientele and domestic dealerships, arranging logistics and filing legal paperwork for escrow accounts",
+            "Credited with $1+ million in revenue in first year",
+          ],
+        },
+        {
+          company_name: "LaLush Laboratory",
+          position: "Lab Assistant",
+          company_url: "#",
+          date_string: "2018 - 2019",
+          bullets: [
+            "Assisted in the development of AI-optimized image scanning for cancer and radioactive tracer quantification/identification",
+            "Machine learning implementation of multimodal quantitative imaging analysis from PET-MRI scans to lower radiotracer dosage to patients by 50%",
+          ],
+        },
+      ],
+      items: [
+        {
+          img: "https://www.goodcore.co.uk/blog/wp-content/uploads/2019/08/coding-vs-programming-2-1400x600.jpg",
+          height: "300",
+          // width: "200px",
+          title: "What a cool fucking guy",
+          text: "Noahs the fucking man",
+        },
+        {
+          img: "https://cdn-media-1.freecodecamp.org/images/0*ngXgBNNdx6iiWP8q.png",
+          height: "300",
+          // width: "200px",
+          title: "Howd he get so cool?",
+          text: "He probably gets hella girls",
+        },
+        {
+          img:
+            "https://itchronicles.com/wp-content/uploads/2018/10/bigstock-Programming-Web-Banner-Best-P-258081862.jpg",
+          title: "Have you met him before?",
+          height: "500",
+          // width: "200px",
+          text: "People say hes quite the attractive fellow",
+        },
+        {
+          img: "https://miro.medium.com/max/1260/1*HLGtY6O2vUHqIyEbWdmBgA.jpeg",
+          height: "350",
+          // width: "200px",
+          title: "Wish I could be him",
+          text: "The best people are named Noah",
+        },
+        // {
+        //   img: "http://www.rleonardi.com/image/illustration-portfolio.png",
+        //   height: "200",
+        //   // width: "200px",
+        //   title: "What a cool fucking guy",
+        //   text: "Noahs the best man",
+        // },
+      ],
+    }
+  },
+  computed: {
+    selectedCompany() {
+      return this.companies[this.selectedCompanyIndex]
+    },
+    barPosition() {
+      return `${this.selectedCompanyIndex * 49}`
+    },
+    message() {
+      return this.isMobile
+        ? ["{ nl }"]
+        : // ? ["hi!", "my name is$", "noah lozevski", "welcome$", "to my site."]
+          ["{ nl }"]
+      // ["hi!", "my name is$", "noah lozevski.", "welcome to$", "my site."]
+    },
+    showPage() {
+      return !!this.$route.query?.home
+    },
+    slideOffset() {
+      return this.selectedTab !== null ? 0 : this.slideOff
+    },
+  },
+  mounted() {
+    this.isMobile = window.innerWidth <= 600
+    this.selectedTab = this.$route.query?.tab || 0
+
+    Promise.resolve()
+      .delay(250)
+      .then(() => {
+        setTimeout(() => {
+          const logo = document.getElementById("logo-app-bar")
+
+          const logo_prev = document.getElementById("typing")
+          const text = document.getElementById("p-typing")
+
+          const rect = logo.getBoundingClientRect()
+
+          if (this.$vuetify.breakpoint.mdAndUp) {
+            logo_prev.classList.add("move-logo")
+            logo_prev.style.transform = `translate(calc(-50vw + ${rect.left + 8}px),calc(-50vh + ${rect.top}px))`
+            text.classList.add("move-move")
+          } else {
+            logo_prev.classList.add("animate__animated")
+            // logo_prev.classList.add("")
+            logo_prev.classList.add("text-glow-faster")
+          }
+          setTimeout(() => {
+            document.getElementById("page-overlay").classList.remove("solid-background")
+            this.loading = false
+            this.$emit("loaded")
+            // var html = `<div class="bg-container">`
+
+            // for (var i = 1; i <= 50; i++) {
+            //   html += '<div class="shape-container--' + i + ' shape-animation"><div class="random-shape"></div></div>'
+            // }
+            // html += `</div>`
+            // console.log(html, document.querySelector(".home-page-container"))
+            // document.getElementById("fdsafdsa").innerHTML += html
+            // setTimeout(() => (this.loading2 = false), 1000)
+          }, 1100)
+        }, 2500)
+      })
+    // window.addEventListener("mousemove", e => {
+    //   let eyes = document.getElementsByClassName("eye")
+    //   // let eye = eyes[0]
+    //   // var x = eye.offset().left + eye.width() / 2
+    //   // var y = eye.offset().top + eye.height() / 2
+    //   // var rad = Math.atan2(event.pageX - x, event.pageY - y)
+    //   // var rot = rad * (180 / Math.PI) * -1 + 180
+
+    //   // console.log(x, y, rad, rot)
+    //   // // eye.style
+    //   // console.log(eye)
+    //   // console.log(e)
+    // })
+  },
+  methods: {
+    mouseOver(e) {
+      let picContainer = document.getElementById("picture-container-fun")
+      let x = (e.offsetX / picContainer.clientWidth) * 50
+      let y = (e.offsetY / picContainer.clientHeight) * 50
+
+      this.left = x
+      this.top = y
+    },
+    selectTab(i) {
+      if (this.$route.query?.tab != `${i}`) {
+        this.$router.replace({ name: this.$route.name, query: { home: true, tab: `${i}` } })
+      }
+      const selector = document.querySelector(`.i${this.selectedTab}`)
+
+      console.log(selector, i, this.selectedTab)
+      this.selectedTab = i
+      // selector.classList.add("perspectiveRight") // make page fall out
+      // selector.classList.remove("perspectiveRightReturn")
+      // setTimeout(() => {
+      //   const selectorr = document.querySelector(`.i${i}`)
+
+      //   selectorr.classList.remove("perspectiveRight")
+      //   selectorr.classList.add("perspectiveRightReturn") // make page fall out
+      //   this.selectedTab = i
+      //   // this.sel
+      // }, 1100)
+      // document.getElementsByClassName("entrance-page")[0].className += " run-animation"
+      // this.items = _.shuffle(this.items)
+
+      console.log(i)
+    },
+    trigger() {
+      document.getElementById("entrance_text").className += "flicker-in-2"
+      setTimeout(() => {
+        this.$router.replace({ name: this.$route.name, query: { home: true } })
+        document.getElementById("entrance_text").className = ""
+        setTimeout(() => {
+          this.selectedTab = this.$route.query?.tab || 0
+        }, this.slideOffset * 6 * 1000)
+      }, 3.1 * 1000)
+    },
   },
 }
 </script>
-<style lang="scss">
-$p: #fe5911;
-$y: #fecc5c;
-$pu: #ff8cb7;
-$w: #f0e6d2;
+<style lang="sass" scoped>
+$dark-blue: #0a192fd9
+$lighter-blue: rgb(23, 42, 69)
+$neon-green: rgb(100, 255, 218)
+$navy: #0a192f
+$light-navy: #172a45
+$lightest-navy: #303C55
+$slate: #8892b0
+$light-slate: #a8b2d1
+$lightest-slate: #ccd6f6
+$white: #e6f1ff
+$green: #64ffda
+.hvr-underline-from-center
+  /* display: inline-block;
+  vertical-align: middle
+  -webkit-transform: perspective(1px) translateZ(0)
+  transform: perspective(1px) translateZ(0)
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0)
+  position: relative
+  overflow: hidden
 
-// body {
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   height: 100vh;
-//   background: #000;
-//   perspective: 1000000000000px;
-//   font-family: "Nova Cut", cursive;
-// }
-// input {
-//   position: absolute;
-//   z-index: 999;
-//   width: 500px;
-//   height: 500px;
-//   opacity: 0;
-//   left: calc(50% - 250px);
-//   top: calc(50% - 250px);
-//   cursor: pointer;
-//   &:hover {
-//     & ~ #wrap {
-//       .inner {
-//         .box {
-//           &:nth-of-type(21) {
-//             &:after {
-//               letter-spacing: 8px;
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-//   &:checked {
-//     // related to the lines on the outside of the box
-//     & ~ #wrap {
-//       transform: scaleY(1);
-//       &:before {
-//         box-shadow: 0 0 0 90px #000, 0 0 0 91px $pu;
-//         clip-path: polygon(-200% 50%, 300% 50%, 265% -300%, -200% 300%);
-//         transition: 1400ms ease-in-out, box-shadow 800ms cubic-bezier(1, 0.25, 0.25, 1);
-//         transition-delay: 500ms, 0s;
-//       }
-//       &:after {
-//         box-shadow: 0 0 0 90px #000, 0 0px 0 91px $p;
-//       }
-//       .text {
-//         a {
-//           i {
-//             transform: translateY(0);
-//             transition-delay: 1400ms, 0s;
-//           }
-//           &:first-of-type {
-//             transition-delay: 1700ms, 0s;
-//           }
-//         }
-//         h5 {
-//           span {
-//             &:before {
-//               transform: translate(-50%, -50%);
-//               transition: transform 800ms cubic-bezier(1, 0.25, 0.25, 1);
-//               transition-delay: 1200ms;
-//               opacity: 1;
-//             }
-//           }
-//         }
-//       }
-//     }
-//     & ~ #wrap .inner {
-//       transform: rotateY(-45deg);
-//       transition-delay: 700ms;
-//       .box {
-//         @for $i from 1 through 11 {
-//           &:nth-of-type(#{$i}) {
-//             transition-delay: 600ms;
-//             &:before,
-//             &:after {
-//               transition-delay: 600ms;
-//             }
-//           }
-//         }
-//         @for $i from 12 through 20 {
-//           &:nth-of-type(#{$i}) {
-//             background-position: 0% 0%, 0% 0%;
-//             clip-path: polygon(0 50%, 100% 50%, 100% 50%, 0 50%);
-//             transition-delay: 0s;
-//           }
-//         }
-//         &:first-of-type {
-//           background: darken($p, 5%);
-//           &:after {
-//             background: darken($p, 5%);
-//             box-shadow: inset 0 20px 20px -10px transparentize(darken($pu, 10%), 0.5);
-//           }
-//         }
-//         &:nth-of-type(2) {
-//           background: darken($p, 12.5%);
-//           box-shadow: inset 0 -20px 30px -15px transparentize(darken($pu, 10%), 0.25);
-//           &:after {
-//             box-shadow: inset 0 76px 0 0 $p, inset 0 75px 20px transparentize(darken($pu, 10%), 0.25);
-//             z-index: 9;
-//           }
-//           &:before {
-//             background-position: 50% 50%;
-//             background-size: 100% 100%;
-//             box-shadow: inset 0 20px 30px -15px transparentize(darken($pu, 10%), 0.5), inset 0 -55px 0 darken($p, 5%),
-//               inset 0 -55px 0 transparentize(darken($pu, 10%), 0.5);
-//           }
-//         }
-//         &:nth-of-type(3) {
-//           background: darken($p, 5%);
-//           &:before {
-//             background: darken($p, 10%);
-//             box-shadow: inset 0 40px 30px -10px transparentize(darken($pu, 10%), 0.5), inset 0 55px 0 0 darken($p, 10%),
-//               inset 0 115px 25px -20px transparentize(darken($pu, 10%), 0.5);
-//           }
-//           &:after {
-//             background: darken($p, 5%);
-//             box-shadow: inset 0 40px 30px -10px transparentize(darken($pu, 10%), 0.5);
-//           }
-//         }
-//         &:nth-of-type(4) {
-//           &:before {
-//             background: darken($p, 5%);
-//             box-shadow: inset 0 -30px 30px -10px transparentize(darken($pu, 10%), 0.5);
-//           }
-//           &:after {
-//             background: darken($p, 5%);
-//             box-shadow: inset 0 20px 30px -10px transparentize(darken($pu, 10%), 0.5);
-//           }
-//         }
-//         &:nth-of-type(5) {
-//           background: darken($p, 5%);
-//           box-shadow: inset 0 20px 30px -10px transparentize(darken($pu, 10%), 0.5),
-//             inset 0 -20px 30px -10px transparentize(darken($pu, 10%), 0.5);
-//           &:before {
-//             background: darken($p, 5%);
-//             box-shadow: inset 0 -40px 40px -10px transparentize(darken($pu, 10%), 0.4);
-//           }
-//         }
-//         &:nth-of-type(6) {
-//           box-shadow: inset 0 50px 30px transparentize(darken($pu, 10%), 0.6);
-//           &:before {
-//             box-shadow: inset 0 20px 15px -12.5px transparentize(darken($pu, 20%), 0.7),
-//               inset 0 -100px 0 0 transparentize(darken($pu, 10%), 0.8),
-//               0 7px 10px transparentize(darken($pu, 10%), 0.85);
-//           }
-//         }
-//         &:nth-of-type(7) {
-//           background: darken($p, 5%);
-//           box-shadow: inset 0 -5px 30px transparentize(darken($pu, 10%), 0.5);
-//           &:after {
-//             box-shadow: inset 0 -5px 30px -10px transparentize(darken($pu, 10%), 0.5),
-//               inset 0 5px 30px -10px transparentize(darken($pu, 10%), 0.5);
-//           }
-//         }
-//         &:nth-of-type(8) {
-//           background: darken($p, 5%);
-//           box-shadow: inset 0 -5px 30px transparentize(darken($pu, 10%), 0.5);
-//           &:after {
-//             background: darken($p, 5%);
-//           }
-//         }
-//         &:nth-of-type(9) {
-//           box-shadow: inset 0 42.5px 20px -12.5px $p, inset 0 75px 10px -40px transparentize(darken($pu, 20%), 0.95),
-//             inset 0 100px 40px -30px transparentize(darken($pu, 10%), 0.5);
-//           &:before {
-//             background: $p;
-//             box-shadow: inset 0 -10px 30px -20px transparentize(darken($pu, 10%), 0.5);
-//           }
-//           &:after {
-//             background: darken($p, 5%);
-//             box-shadow: inset 0 -40px 20px -10px transparentize(darken($pu, 10%), 0.5);
-//           }
-//         }
-//         &:nth-of-type(10) {
-//           background: darken($p, 5%);
-//           box-shadow: inset 0 180px 30px darken($p, 5%), inset 0 210px 0 transparentize(darken($pu, 10%), 0.5),
-//             inset 0 250px 20px transparentize(darken($pu, 10%), 0.5);
-//           &:before {
-//             background: darken($p, 5%);
-//             box-shadow: inset 0 -20px 30px -20px transparentize(darken($pu, 10%), 0.5),
-//               inset 0 60px 40px -20px transparentize(darken($pu, 10%), 0.5);
-//           }
-//           &:after {
-//             background: darken($p, 10%);
-//             box-shadow: inset 0 -40px 30px -15px transparentize(darken($pu, 10%), 0.5);
-//             left: -4px;
-//           }
-//         }
-//         &:nth-of-type(11) {
-//           background: darken($p, 10%);
-//           &:before {
-//             background: darken($p, 5%);
-//             box-shadow: inset 0 -90px 50px -20px transparentize(darken($pu, 10%), 0.5),
-//               inset 0 60px 40px -20px darken($p, 5%);
-//           }
-//           &:after {
-//             background: $p;
-//             box-shadow: inset 0 40px 30px -15px transparentize(darken($pu, 10%), 0.5);
-//           }
-//         }
-//         &:nth-of-type(21) {
-//           &:after {
-//             transform: translateX(-125%);
-//             transition-delay: 0ms;
-//           }
-//         }
-//       }
-//     }
-//   }
-// }
-// // this is for the edges
-// #wrap {
-//   transform: scale(0.5);
-//   transition: all 800ms cubic-bezier(1, 0.25, 0.25, 1);
-//   &:before,
-//   &:after {
-//     content: "";
-//     position: absolute;
-//     width: 100%;
-//     height: 100%;
-//     left: 0;
-//     top: 0;
-//     box-shadow: 0 0 0 25px #000, 0 0 0 50px $w, inset 0 -5px 0 #000, inset 0 5px 0 #000;
-//     transition: box-shadow 800ms cubic-bezier(1, 0.25, 0.25, 1), clip-path 1000ms ease-in-out;
-//     z-index: 1;
-//     clip-path: polygon(-200% 50%, 300% 50%, 300% -300%, -200% -300%);
-//   }
-//   &:after {
-//     clip-path: polygon(-200% 50%, 300% 50%, 300% 300%, -200% 300%);
-//   }
-//   .text {
-//     position: absolute;
-//     width: 100%;
-//     height: 100%;
-//     z-index: 99;
-//     left: 0;
-//     top: 0;
-//     overflow: visible;
-//     a {
-//       position: absolute;
-//       bottom: -75px;
-//       right: -45px;
-//       z-index: 9;
-//       color: #fff;
-//       font-size: 22px;
-//       transition: 0.2s ease-in-out;
-//       display: inline-block;
-//       overflow: hidden;
-//       i {
-//         display: inline-block;
-//         transition: transform 600ms cubic-bezier(1, 0.25, 0.25, 1), color 0.2s ease-in-out;
-//         transform: translateY(75px);
-//       }
-//       &:hover {
-//         color: $pu;
-//         i {
-//           color: $pu;
-//         }
-//       }
-//       &:last-of-type {
-//         right: -75px;
-//       }
-//     }
-//     h5 {
-//       color: transparent;
-//       margin: 0px;
-//       position: absolute;
-//       left: -375px;
-//       top: -102.5px;
-//       span {
-//         font-size: 20px;
-//         display: inline-block;
-//         margin-left: 5px;
-//         letter-spacing: 22px;
-//         transform: scaleY(0.75);
-//         overflow: hidden;
-//         font-weight: 100;
-//         &:before {
-//           color: #fff;
-//           content: "developer";
-//           position: absolute;
-//           top: 50%;
-//           left: 50%;
-//           transform: translate(-50%, calc(-50% + 30px));
-//           transition: transform 400ms cubic-bezier(1, 0.25, 0.25, 1), opacity 0.2s ease-in-out;
-//           opacity: 0;
-//         }
-//         &:first-of-type {
-//           transform-origin: calc(100% + 20px) 50%;
-//           transform: rotate(-90deg) scaleY(0.85) translateX(10px);
-//           margin-left: 0;
-//           &:before {
-//             content: "software";
-//             position: absolute;
-//             top: 50%;
-//             left: 50%;
-//           }
-//         }
-//       }
-//     }
-//   }
-// }
-// #wrap .inner {
-//   width: 400px;
-//   height: 400px;
-//   display: grid;
-//   grid-template-columns: repeat(20, 25px);
-//   grid-template-rows: repeat(20, 25px);
-//   transform-style: preserve-3d;
-//   transform: rotateY(0deg) scaleY(0.95) translateY(-3%);
-//   transition: all 800ms cubic-bezier(1, 0.25, 0.25, 1);
-//   &:before,
-//   &:after {
-//     color: #fff;
-//     font-size: 20px;
-//     letter-spacing: 20px;
-//     position: absolute;
-//     font-weight: 900;
-//   }
-//   .box {
-//     position: relative;
-//     background: $p;
-//     transition: all 800ms cubic-bezier(1, 0.25, 0.25, 1);
-//     transform-style: preserve-3d;
-//     z-index: 1;
-//     &:before,
-//     &:after {
-//       content: "";
-//       background: $p;
-//       position: absolute;
-//       width: 100%;
-//       transition: all 800ms cubic-bezier(1, 0.25, 0.25, 1);
-//       transform-style: preserve-3d;
-//     }
-//     &:first-of-type {
-//       grid-column: 1;
-//       grid-row: 3 / span 5;
-//       z-index: 3;
-//       &:before,
-//       &:after {
-//         content: "";
-//         position: absolute;
-//         height: 52.5%;
-//         top: -52.5%;
-//         transform-origin: bottom;
-//         transform: rotateX(49deg);
-//       }
-//       &:after {
-//         height: 57.5%;
-//         top: -10%;
-//         transform: rotateX(45deg);
-//       }
-//     }
-//     &:nth-of-type(2) {
-//       grid-column: 3;
-//       grid-row: 6 / span 4;
-//       z-index: 1;
-//       &:before {
-//         height: 125%;
-//         bottom: -125%;
-//         transform-origin: top;
-//         transform: rotateX(45deg);
-//         background: linear-gradient(-125deg, darken($p, 12.5%), darken($p, 10%) 45%, $p 45%, $p 200px);
-//         background-position: 50% -150px;
-//         background-size: 100% 220%;
-//         background-repeat: no-repeat;
-//       }
-//       &:after {
-//         box-shadow: inset 0 20px 20px -20px $p, inset 0 -55px 0 $p, inset 0 -56px 0 $p;
-//         height: 200%;
-//         top: 75%;
-//         transform: translateX(-200%);
-//       }
-//     }
-//     &:nth-of-type(3) {
-//       grid-column: 1;
-//       grid-row: 3 / span 5;
-//       z-index: 3;
-//       &:before {
-//         top: -35%;
-//         width: 100%;
-//         height: 125%;
-//         transform: translateZ(-50px);
-//       }
-//       &:after {
-//         top: 167.5%;
-//         left: 400.5%;
-//         width: 100%;
-//         height: 60%;
-//         transform-origin: top;
-//         transform: translateZ(-51px) rotateX(43deg);
-//       }
-//     }
-//     &:nth-of-type(4) {
-//       grid-column: 5;
-//       grid-row: 1 / span 7;
-//       &:before {
-//         height: 41.5%;
-//         top: -41.5%;
-//         transform-origin: bottom;
-//         transform: rotateX(135.5deg);
-//       }
-//       &:after {
-//         height: 41%;
-//         top: 59%;
-//         transform-origin: bottom;
-//         transform: rotateX(45deg);
-//       }
-//     }
-//     &:nth-of-type(5) {
-//       grid-column: 7;
-//       grid-row: 3 / span 3;
-//       &:before {
-//         height: 120%;
-//         top: 160%;
-//         width: 100%;
-//       }
-//       &:after {
-//         height: 150%;
-//         top: 200%;
-//         width: 100%;
-//         left: -200%;
-//       }
-//     }
-//     &:nth-of-type(6) {
-//       grid-column: 11;
-//       grid-row: 10 / span 3;
-//       transform: translateY(-5%);
-//       &:before {
-//         height: 45%;
-//         bottom: 58%;
-//         transform-origin: top;
-//         transform: rotateX(45deg);
-//       }
-//     }
+  &:before
+    content: ""
+    position: absolute
+    z-index: -1
+    left: 51%
+    right: 51%
+    bottom: -6px
+    background: rgb(100, 255, 218)
+    height: 2px
+    -webkit-transition-property: left, right
+    transition-property: left, right
+    -webkit-transition-duration: 0.1s
+    transition-duration: 0.1s
+    -webkit-transition-timing-function: ease-out
+    transition-timing-function: ease-out
+    border-radius: 1px
 
-//     &:nth-of-type(7) {
-//       grid-column: 3;
-//       grid-row: 13 / span 2;
-//       z-index: -5;
-//       &:before {
-//         height: 105%;
-//         top: -105%;
-//         transform-origin: bottom;
-//         transform: rotateX(-45deg);
-//         background: linear-gradient(to bottom, transparentize(darken($pu, 10%), 0.5), darken($p, 1.5%)), $p;
-//       }
-//       &:after {
-//         height: 350%;
-//         left: 1000%;
-//         bottom: -67.5%;
-//       }
-//     }
-//     &:nth-of-type(8) {
-//       grid-column: 9;
-//       grid-row: 3 / span 11;
-//       z-index: 9;
-//       &:before {
-//         height: 25.75%;
-//         top: -25.75%;
-//         transform-origin: bottom;
-//         transform: rotateX(45deg);
-//         z-index: 9;
-//       }
-//       &:after {
-//         height: 25.75%;
-//         top: 54.25%;
-//         transform-origin: bottom;
-//         transform: rotateX(45deg);
-//       }
-//     }
-//     &:nth-of-type(9) {
-//       z-index: -1;
-//       grid-column: 11;
-//       grid-row: 1 / span 6;
-//       &:before {
-//         height: 47.5%;
-//         top: 0%;
-//         transform-origin: bottom;
-//         transform: rotateX(-135deg);
-//       }
-//       &:after {
-//         height: 35%;
-//         top: 112%;
-//       }
-//     }
-//     &:nth-of-type(10) {
-//       grid-column: 13;
-//       grid-row: 1 / span 7;
-//       box-shadow: inset 0 210px 0 $p, inset 0 -100px 20px -100px darken($p, 10%);
-//       &:before {
-//         height: 40%;
-//         top: 0%;
-//         transform-origin: top;
-//         transform: rotateX(-30deg);
-//       }
-//       &:after {
-//         height: 40%;
-//         top: -10px;
-//         left: 0px;
-//         transform-origin: bottom;
-//         transform: translateZ(-40px) rotateX(32deg);
-//       }
-//     }
-//     &:nth-of-type(11) {
-//       grid-column: 16;
-//       grid-row: 1 / span 6;
-//       &:before {
-//         height: 125%;
-//         top: 100%;
-//       }
-//       &:after {
-//         height: 100%;
-//         top: 125%;
-//         transform: rotateX(-30deg);
-//         transform-origin: bottom;
-//       }
-//     }
-//     &:nth-of-type(21) {
-//       grid-column: 15;
-//       grid-row: 1 / span 17;
-//       background: transparent;
-//       transform: translateX(-55%);
-//       overflow: hidden;
-//       &:after {
-//         content: "click me";
-//         writing-mode: vertical-lr;
-//         height: 100%;
-//         background: transparent;
-//         text-align: center;
-//         font-size: 30px;
-//         letter-spacing: 5px;
-//         transition: transform 400ms cubic-bezier(1, 0.25, 0.25, 1),
-//           letter-spacing 400ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
-//         color: $w;
-//         transition-delay: 1200ms, 0s;
-//         font-family: "Nova Square";
-//       }
-//     }
-//     @for $i from 12 through 20 {
-//       &:nth-of-type(#{$i}) {
-//         grid-column: #{(($i - 12) * 2) - 1};
-//         grid-row: 1 / span 17;
-//         z-index: 3;
-//         background: linear-gradient(to top, transparentize(darken($pu, 10%), 0.5), $p 25%), $p;
-//         background-size: 100% 400%;
-//         background-position: 0% 100%;
-//         background-repeat: no-repeat;
-//         overflow: hidden;
-//         z-index: 99;
-//         transform: translateZ(100px);
-//         transform-style: preserve-3d;
-//         clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
-//         transition-delay: 500ms;
-//       }
-//       &:nth-of-type(20) {
-//         grid-column: 16;
-//       }
-//     }
-//   }
-// }
+  &:hover:before, &:focus:before, &:active:before
+    left: 0
+    right: 0
+.footer
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  margin-bottom: 30px
+  .links
+    display: flex
+    flex-direction: row
+    justify-content: space-evenly
+    align-items: center
+    width: max(300px, 60vw)
+    .item
+      // padding: 20px 10px
+      height: 25px
+      width: 25px
+      color: $light-slate !important
+      // transform: translateY(4px)
+      transition: .25s transform ease-in-out
+
+      &:hover
+        // transform: translateY(0px)
+      a
+        color: $light-slate !important
+        text-decoration: none
+        // color: $lightest-slate !important
+        svg
+          path
+            transition: fill .35s ease-in-out
+            fill: currentcolor
+      a:hover
+        color: $green !important
+        svg
+          path
+            transition: fill .35s ease-in-out
+            fill: currentcolor
+  .email
+    margin-top: 25px
+    color: $light-slate !important
+    // transform: translateY(4px)
+    // transition: .25s transform ease-in-out
+    font-size: 14px
+    font-family: "JetBrains Mono"
+    line-height: 30px
+    &.github-link
+      margin-top: 25px
+      .stats
+        text-align: center
+      span
+        margin: 0 10px
+    &:hover
+      // transform: translateY(0px)
+    a
+      transition: .25s color ease-in-out
+      color: $light-slate !important
+      text-decoration: none
+      svg
+        transform: translateY(2px)
+        path
+          transition: fill .35s ease-in-out
+          fill: currentcolor
+    a:hover
+      color: $green !important
+      svg
+        path
+          transition: fill .35s ease-in-out
+          fill: currentcolor
+
+
+.page
+  display: flex
+  justify-content: center
+  flex-direction: column
+  align-items: flex-start
+  min-height: 100vh
+  padding: 50px 0
+  &.about-page
+  &.experience-page
+    align-items: center
+    min-height: 50vh
+
+    // min-height: 100vh
+    // margin-top: 150px
+  .page-inner
+    .numbered-header
+      display: flex
+      -webkit-box-align: center
+      align-items: center
+      position: relative
+      margin: 10px 0px 40px
+      width: 100%
+      font-size: clamp(16px,5vw,28px)
+      white-space: nowrap
+      font-family: 'gotham'
+      color: $lightest-slate
+      &:before
+        content: var(--content)
+        color: $green
+        font-family: 'JetBrains Mono'
+        margin: calc(clamp(16px,5vw,28px) * .25) 15px 0 0
+        font-size: calc(clamp(16px,5vw,28px) * .75)
+      &:after
+        display: block
+        position: relative
+        content: ""
+        width: inherit
+        height: 1px
+        margin-left: 25px
+        background-color: $slate
+    .picture-container
+      // height: 500px
+      // width: min(50%, 200px)
+      width: 100%
+      max-width: 300px
+      position: relative
+      .profile-pic
+        position: relative
+        top: 0px
+        left: 0px
+        width: 100%
+        height: 100%
+        object-fit: fit
+        object-position: center center
+        opacity: 1
+        transition: opacity 500ms ease 0s
+        border-radius: 25px
+        z-index: 1
+      &:after
+        content: ""
+        // display: block
+        position: absolute
+        width: calc(100% - 2px)
+        height: calc(100% - 2px)
+        border-radius: 25px
+        transition: all .2s ease-in-out
+        border: 2px solid $green
+        top: 20px
+        left: 25px
+        z-index: 0
+      &:hover
+        .eye-container
+          opacity: 1
+        &:after
+          top: 10px
+          left: 12.5px
+    .table-bigger
+      display: flex
+      flex-direction: row
+      font-family: 'gotham'
+      align-items: flex-start
+      min-height: 300px
+      max-width: 800px
+      // background-color: red
+      .labels
+        // max-width: 300px
+        min-width: 190px
+        cursor: pointer
+        &::before
+          width: 1px
+          height: 49px
+          background-color: $green
+          position: absolute
+          content: ""
+          transition: all .25s ease-in-out
+          transform: translateY(var(--top-position))
+        .label
+          font-family: 'JetBrains Mono'
+          font-size: 13px
+          padding: 15px 20px
+          color: $slate
+          transition: box-shadow .2s ease-in-out, color 0.2s ease-in-out
+          box-shadow: inset 0px 0 0 0 $navy
+          // background-size: 200% 100%
+          // background-position: 0 0
+          // background-image: linear-gradient(to right, $navy 50%, $light-navy 50%)
+          &:hover
+            // background-color: $light-navy
+            // opacity: .2
+            color: $green
+            // background-position: -100% 0
+            box-shadow: inset 0 -50px 0 0 $light-navy
+        .selected
+          box-shadow: inset 0 -50px 0 0 $light-navy
+          color: $green
+
+
+      .item
+        padding: 0 25px
+        font-family: 'gotham'
+        padding: 10px 20px
+        .top
+          // margin-bottom: 5px
+          .position
+            color: $white
+            font-size: 16px
+          .green-text
+            font-family: 'gotham-bold'
+            color: $green
+            a
+              color: $green
+              font-size: 16px
+
+              text-decoration: none
+              &.hvr-underline-from-center
+                line-height: 17px
+        .dates
+          font-family: 'JetBrains Mono'
+          font-size: 13px
+          color: $slate
+          padding: 8px 0 25px 0
+
+        .action-list
+          padding: 0px
+          overflow: hidden
+          list-style: none
+          margin-top: 0
+          li
+            padding-left: 30px
+            color: $light-slate
+            font-size: 14px
+            position: relative
+            margin-bottom: 10px
+            // &:nth-child(odd)
+            &:before
+              content: "▹"
+              // margin-right: 10px
+              left: 10px
+              top: 2px
+              // transform: translateY(50%)
+              position: absolute
+              color: $green
+              font-size: 16px
+              line-height: 12px
+            // &:nth-child(even)
+            //   margin-left: 30px
+            //   padding: 0
+            //   content: ""
+            //   display: block
+            //   width: var(--amt)
+            //   height: 2px
+            //   margin-top: 5px
+            //   margin-bottom: 5px
+            //   background-color: $green
+            //   &:after
+        // background: green
+    .bio
+      p
+        font-family: 'gotham'
+        font-size: 16px
+        color: $light-slate
+      .skills-list-container
+        font-family: 'JetBrains Mono'
+        margin: 20px 0px 0px
+        .list-title
+          font-size: 16px
+          color: $green
+          margin-bottom: 7px
+          // &:after
+          //   content: "test"
+          //   text-align: right
+          //   display: inline-block
+        .skills-list
+          display: grid
+          grid-template-columns: repeat(2, minmax(140px, 300px))
+          padding: 0px
+          overflow: hidden
+          list-style: none
+          li
+            padding-left: 30px
+            color: $light-slate
+            font-size: 14px
+            position: relative
+            // &:nth-child(odd)
+            &:before
+              content: "▹"
+              // margin-right: 10px
+              left: 10px
+              top: 2px
+              // transform: translateY(50%)
+              position: absolute
+              color: $green
+              font-size: 16px
+              line-height: 12px
+            // &:nth-child(even)
+            //   margin-left: 30px
+            //   padding: 0
+            //   content: ""
+            //   display: block
+            //   width: var(--amt)
+            //   height: 2px
+            //   margin-top: 5px
+            //   margin-bottom: 5px
+            //   background-color: $green
+            //   &:after
+
+.home-page
+  display: flex
+  justify-content: center
+  flex-direction: column
+  align-items: flex-start
+  min-height: calc(100vh - var(--app-bar-height))
+  // height: calc(100vh - var(--app-bar-height))
+  .home-page-inner
+    .hello
+      color: $green
+      padding-left: 4px
+      margin-bottom: 25px
+      // padding-left: 2px
+      font-size: clamp(14px,5vw,16px)
+    h3
+      color: $lightest-slate
+    h6
+      color: $slate
+    .intro
+      color: $light-slate
+      font-size: 16px
+      max-width: min(100%, 500px)
+      padding-right: 10px
+
+      // max-width: min(calc(100vw - 8px), 500px)
+      font-family: gotham
+    .resume-button
+      border-radius: 5px
+      border: 1.5px solid $green
+      width: 150px
+      height: 50px
+      padding: auto
+      transition: all .25s ease-in-out
+      text-align: center
+      a
+        line-height: 45px
+
+        // transform: translateX(2px)
+        // line-height: 50px
+        // height: 50px
+        display: block
+        text-decoration: none
+        color: $green
+      &:hover
+        background-color: rgb(100, 255, 218,0.2)
+      // white-space: nowrap
+      // text-align: justify
+  // overflow: hidden !important
+
+
+.home-page-container
+  max-width: 1200px !important
+
+.entrance-page
+  .v-overlay
+    // transition: all 1s ease-in-out !important
+    .v-overlay__content
+      position: absolute !important
+
+// #page-overlay
+//   .v-overlay__scrim
+//     transition: all 1s ease-in-out !important
+//     background-color: blue !important
+
+.solid-background
+  // transition: all 1s ease-in-out !important
+  background-color: #040b15 !important
+  // .v-overlay__scrim
+  //   transition: all 1s ease-in-out !important
+  //   background-color: red !important
+
+  // overflow-y: hidden !important
+
+
+$delay:.5s
+$length: 2s
+
+.slide-in-top
+  -webkit-animation: slide-in-top 0.3s cubic-bezier(0.075, 0.82, 0.165, 1) .5s both
+  animation: slide-in-top 0.3s cubic-bezier(0.075, 0.82, 0.165, 1) .5s both
+
+
+@-webkit-keyframes slide-in-top
+  0%
+    -webkit-transform: translateY(-1000px)
+    transform: translateY(-1000px)
+    opacity: 0
+
+  100%
+    -webkit-transform: translateY(0)
+    transform: translateY(0)
+    opacity: 1
+
+@keyframes slide-in-top
+  0%
+    -webkit-transform: translateY(-1000px)
+    transform: translateY(-1000px)
+    opacity: 0
+
+  100%
+    -webkit-transform: translateY(0)
+    transform: translateY(0)
+    opacity: 1
+
+.fade-enter-active, .fade-leave-active
+  transition: opacity .5s
+
+.fade-enter, .fade-leave-to
+  opacity: 0
+
+
+
+.typing-text-container-name
+  white-space: nowrap
+  /** aligns the element in the center of the page at the start */
+  /** the typing bar */
+  text-align: left
+  // height: auto
+  width: fit-content
+  max-width: calc(100% - 4px)
+  font-size: clamp(40px, 8vw, 80px)
+  // margin: 0 !important
+  transition: all 1s ease-in-out !important
+  .typing-text__inner
+    text-align: left
+    margin: 0 !important
+    height: 100%
+    width: 100%
+    overflow: hidden
+    // font-size: 72px
+    line-height: 100%
+    border-right: 2px solid transparent
+    // &p
+      // position: fixed
+
+.typing-text-container
+  white-space: nowrap
+  position: fixed
+  /** aligns the element in the center of the page at the start */
+  // margin: 0 auto
+  transform: translate(-50%,-50%)
+  /** the typing bar */
+  text-align: center
+  height: 72px
+  width: 260px
+  margin: 0 !important
+  transition: all 1s ease-in-out !important
+  .typing-text__inner
+    margin: 0 !important
+    height: 100%
+    width: 100%
+    overflow: hidden
+    font-size: 72px
+    line-height: 100%
+    border-right: 2px solid #e6f1ff
+    // &p
+      // position: fixed
+.hide-text
+  display: none
+
+.move-move
+  animation: 1s ease-in-out 0s 1 normal both running typing !important
+  // animation
+
+.move-logo
+  height: 28px
+  width: 126px
+  transition: all 1s ease-in-out !important
+  .typing-text__inner
+    transition: all 1s ease-in-out !important
+    border: none !important
+    line-height: 28px
+    overflow: visible
+
+  // animation: 1s ease-in-out 0s 1 normal both running typing !important
+  // transition: all 1s ease-in-out
+  p
+    // font-size: 35px !important
+    // line-height: 35px !important
+
+  // height: 35px
+
+  // position: fixed !important
+  // transform: translate(calc(-145px),-50px)
+  // position: absolute
+  // width: 150px
+
+.anim-typewriter
+  animation: typewriter $length steps(6) $delay 1 normal both, blinkTextCursor 350ms steps(6) infinite normal
+
+.anim-typewriter-name
+  // animation: typewriter 2s steps(14) var(--d) 1 normal both, blinkTextCursor 350ms steps(14) 20 normal
+  animation: typewriter var(--t) var(--s) var(--d) 1 normal both, blinkTextCursor 350ms var(--s) var(--dd) var(--b) normal
+
+@keyframes typewriter
+  0%
+    width: 0%
+  100%
+    width: 100%
+
+@keyframes blinkTextCursor
+  from
+    border-right-color: #e6f1ff
+  to
+    border-right-color: transparent
+
+
+@keyframes typing
+  0%
+    font-size: 72px
+  100%
+    font-size: 50px
+
+
+
+
+.magictime.bombRightOut
+    -webkit-animation-duration: 1s
+    animation-duration: 1s
+.card
+  animation: opacityanim .5s ease-in-out var(--delay) both
+@keyframes opacityanim
+  0%
+    opacity: 0
+  100%
+    opacity: 1
+
+.roll-in-blurred-left
+  -webkit-animation: roll-in-blurred-left 0.65s cubic-bezier(0.23, 1, 0.32, 1) var(--delay) both
+  animation: roll-in-blurred-left 0.65s cubic-bezier(0.23, 1, 0.32, 1) var(--delay) both
+
+/* ----------------------------------------------
+ * Generated by Animista on 2020-11-24 23:15:20
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info.
+ * w: http://animista.net, t: @cssanimista
+ * ----------------------------------------------
+
+/**
+ * ----------------------------------------
+ * animation roll-in-blurred-left
+ * ----------------------------------------
+@-webkit-keyframes roll-in-blurred-left
+  0%
+    -webkit-transform: translateX(-1000px) rotate(-720deg)
+    transform: translateX(-1000px) rotate(-720deg)
+    -webkit-filter: blur(50px)
+    filter: blur(50px)
+    opacity: 0
+
+  100%
+    -webkit-transform: translateX(0) rotate(0deg)
+    transform: translateX(0) rotate(0deg)
+    -webkit-filter: blur(0)
+    filter: blur(0)
+    opacity: 1
+
+@keyframes roll-in-blurred-left
+  0%
+    -webkit-transform: translateX(-1000px) rotate(-720deg)
+    transform: translateX(-1000px) rotate(-720deg)
+    -webkit-filter: blur(50px)
+    filter: blur(50px)
+    opacity: 0
+
+  100%
+    -webkit-transform: translateX(0) rotate(0deg)
+    transform: translateX(0) rotate(0deg)
+    -webkit-filter: blur(0)
+    filter: blur(0)
+    opacity: 1
+.card-animation
+  -webkit-animation: all 1s ease
+  animation: all 1s ease
+
+ul.pre-loader
+  // position: absolute
+  // top: 50%
+  // left: 50%
+  // transform: translate(-50%, -50%)
+  // margin: 0
+  // padding: 0
+  -webkit-animation: slide-in-blurred-bottom 0.6s cubic-bezier(0.23, 1, 0.32, 1) var(--delay) both
+  animation: slide-in-blurred-bottom 0.6s cubic-bezier(0.23, 1, 0.32, 1) var(--delay) both
+
+
+// .items
+//   li
+//     list-style: none
+
+.list-complete-item
+  transition: all 1s
+
+.list-complete-enter, .list-complete-leave-to
+  /* .list-complete-leave-active below version 2.1.8 */
+  opacity: 0
+  transform: translateX(30px)
+
+.list-complete-leave-active
+  position: absolute
+
+ul.pre-loader li
+  list-style: none
+  color: #484848
+  display: inline
+  // font-size: 5em
+  font-size: 2.25em
+  // letter-spacing: 15px
+
+.animate-start
+  -webkit-animation: pre-load 3s ease-in-out 2s infinite
+  animation: pre-load 3s ease-in-out 2s infinite
+
+  // animation: pre-load 3s ease-in-out infinite,
+.flip-list-move
+  transition: transform 1s
+
+@keyframes pre-load
+  0%
+    color: #ddbf3b
+    text-shadow: 0 0 3px #ddbf3b, 0 0 10px #ddbf3b
+
+  20%
+    color: white
+    text-shadow: none
+
+  40%
+    color: #ddbf3b
+    text-shadow: 0 0 3px #ddbf3b, 0 0 10px #ddbf3b
+
+  60%
+    color: white
+    text-shadow: none
+
+  80%
+    color: #ddbf3b
+    text-shadow: 0 0 3px #ddbf3b, 0 0 10px #ddbf3b
+
+  100%
+    color: white
+    text-shadow: none
+
+ul
+  li:nth-child(1)
+    animation-delay: .1s
+
+  &.pre-loader li
+    &:nth-child(2)
+      animation-delay: .15s
+
+    &:nth-child(3)
+      animation-delay: .2s
+
+    &:nth-child(4)
+      animation-delay: .25s
+
+    &:nth-child(5)
+      animation-delay: .3s
+
+    &:nth-child(6)
+      animation-delay: .35s
+
+    &:nth-child(7)
+      animation-delay: .4s
+
+    &:nth-child(8)
+      animation-delay: .45s
+
+    &:nth-child(9)
+      animation-delay: .5s
+
+    &:nth-child(10)
+      animation-delay: .55s
+
+    &:nth-child(11)
+      animation-delay: .6s
+    &:nth-child(12)
+      animation-delay: .65s
+    &:nth-child(13)
+      animation-delay: .7s
+
+.entrance-page
+  // height: 50%
+  padding: 2px
+  border: solid
+  // border-width: var(--border-thickness)
+  border-color: white
+
+.text-glow
+  animation: textPulse 2s ease-in-out 0s infinite normal !important
+.text-glow-faster
+  animation: textPulse .5s ease-in-out 0s infinite normal !important
+
+@keyframes textPulse
+  0%
+    -webkit-text-shadow: 0 0 5px rgba(255, 255, 255, 0.75)
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.75)
+
+  50%
+    -webkit-text-shadow: 0 0 7px rgba(255, 255, 255, 0.8), 0 0 11px rgba(255, 255, 255, 0.8)
+    text-shadow: 0 0 7px rgba(255, 255, 255, 0.8), 0 0 11px rgba(255, 255, 255, 0.8)
+
+  100%
+    -webkit-text-shadow: 0 0 5px rgba(255, 255, 255, 0.75)
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.75)
+
+
+@media only screen and (max-width: 600px)
+  .entrance-page
+    border-width: 0px
+
+@media only screen and (min-width: 601px)
+  .entrance-page
+    border-width: 0px
+
+
+.slide-in-blurred-bl
+  -webkit-animation: slide-in-blurred-bl 0.6s cubic-bezier(0.23, 1, 0.32, 1) var(--delay) both
+  animation: slide-in-blurred-bl 0.6s cubic-bezier(0.23, 1, 0.32, 1) var(--delay) both
+
+@-webkit-keyframes slide-in-blurred-bl
+  0%
+    -webkit-transform: translate(-1000px, 1000px) skew(-80deg, -10deg)
+    transform: translate(-1000px, 1000px) skew(-80deg, -10deg)
+    -webkit-transform-origin: 100% 100%
+    transform-origin: 100% 100%
+    -webkit-filter: blur(40px)
+    filter: blur(40px)
+    opacity: 0
+
+  100%
+    -webkit-transform: translate(0, 0) skew(0deg, 0deg)
+    transform: translate(0, 0) skew(0deg, 0deg)
+    -webkit-transform-origin: 50% 50%
+    transform-origin: 50% 50%
+    -webkit-filter: blur(0)
+    filter: blur(0)
+    opacity: 1
+
+@keyframes slide-in-blurred-bl
+  0%
+    -webkit-transform: translate(-1000px, 1000px) skew(-80deg, -10deg)
+    transform: translate(-1000px, 1000px) skew(-80deg, -10deg)
+    -webkit-transform-origin: 100% 100%
+    transform-origin: 100% 100%
+    -webkit-filter: blur(40px)
+    filter: blur(40px)
+    opacity: 0
+
+  100%
+    -webkit-transform: translate(0, 0) skew(0deg, 0deg)
+    transform: translate(0, 0) skew(0deg, 0deg)
+    -webkit-transform-origin: 50% 50%
+    transform-origin: 50% 50%
+    -webkit-filter: blur(0)
+    filter: blur(0)
+    opacity: 1
+
+.slide-in-blurred-bottom
+  -webkit-animation: slide-in-blurred-bottom 0.6s cubic-bezier(0.23, 1, 0.32, 1) var(--delay) both
+  animation: slide-in-blurred-bottom 0.6s cubic-bezier(0.23, 1, 0.32, 1) var(--delay) both
+
+@-webkit-keyframes slide-in-blurred-bottom
+  0%
+    -webkit-transform: translateY(1000px) scaleY(2.5) scaleX(0.2)
+    transform: translateY(1000px) scaleY(2.5) scaleX(0.2)
+    -webkit-transform-origin: 50% 100%
+    transform-origin: 50% 100%
+    -webkit-filter: blur(40px)
+    filter: blur(40px)
+    opacity: 0
+
+  100%
+    -webkit-transform: translateY(0) scaleY(1) scaleX(1)
+    transform: translateY(0) scaleY(1) scaleX(1)
+    -webkit-transform-origin: 50% 50%
+    transform-origin: 50% 50%
+    -webkit-filter: blur(0)
+    filter: blur(0)
+    opacity: 1
+
+@keyframes slide-in-blurred-bottom
+  0%
+    -webkit-transform: translateY(1000px) scaleY(2.5) scaleX(0.2)
+    transform: translateY(1000px) scaleY(2.5) scaleX(0.2)
+    -webkit-transform-origin: 50% 100%
+    transform-origin: 50% 100%
+    -webkit-filter: blur(40px)
+    filter: blur(40px)
+    opacity: 0
+
+  100%
+    -webkit-transform: translateY(0) scaleY(1) scaleX(1)
+    transform: translateY(0) scaleY(1) scaleX(1)
+    -webkit-transform-origin: 50% 50%
+    transform-origin: 50% 50%
+    -webkit-filter: blur(0)
+    filter: blur(0)
+    opacity: 1
+.flicker-in-2
+  -webkit-animation: flicker-in-2 3s linear reverse both
+  animation: flicker-in-2 3s linear reverse both
+
+@-webkit-keyframes flicker-in-2
+  0%
+    opacity: 0
+
+  10%
+    opacity: 0
+    -webkit-text-shadow: none
+    text-shadow: none
+
+  10.1%
+    opacity: 1
+    -webkit-text-shadow: none
+    text-shadow: none
+
+  10.2%
+    opacity: 0
+    -webkit-text-shadow: none
+    text-shadow: none
+
+  20%
+    opacity: 0
+    -webkit-text-shadow: none
+    text-shadow: none
+
+  20.1%
+    opacity: 1
+    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.25)
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.25)
+
+  20.6%
+    opacity: 0
+    -webkit-text-shadow: none
+    text-shadow: none
+
+  30%
+    opacity: 0
+    -webkit-text-shadow: none
+    text-shadow: none
+
+  30.1%
+    opacity: 1
+    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
+
+  30.5%
+    opacity: 1
+    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
+
+  30.6%
+    opacity: 0
+    -webkit-text-shadow: none
+    text-shadow: none
+
+  45%
+    opacity: 0
+    -webkit-text-shadow: none
+    text-shadow: none
+
+  45.1%
+    opacity: 1
+    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
+
+  50%
+    opacity: 1
+    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
+
+  55%
+    opacity: 1
+    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
+
+  55.1%
+    opacity: 0
+    -webkit-text-shadow: none
+    text-shadow: none
+
+  57%
+    opacity: 0
+    -webkit-text-shadow: none
+    text-shadow: none
+
+  57.1%
+    opacity: 1
+    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.55), 0 0 5px rgba(255, 255, 255, 0.3)
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.55), 0 0 5px rgba(255, 255, 255, 0.3)
+
+  60%
+    opacity: 1
+    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.55), 0 0 5px rgba(255, 255, 255, 0.3)
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.55), 0 0 5px rgba(255, 255, 255, 0.3)
+
+  60.1%
+    opacity: 0
+    -webkit-text-shadow: none
+    text-shadow: none
+
+  65%
+    opacity: 0
+    -webkit-text-shadow: none
+    text-shadow: none
+
+  65.1%
+    opacity: 1
+    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.55), 0 0 5px rgba(255, 255, 255, 0.3), 0 0 7px rgba(255, 255, 255, 0.1)
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.55), 0 0 5px rgba(255, 255, 255, 0.3), 0 0 7px rgba(255, 255, 255, 0.1)
+
+  75%
+    opacity: 1
+    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.55), 0 0 5px rgba(255, 255, 255, 0.3), 0 0 7px rgba(255, 255, 255, 0.1)
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.55), 0 0 5px rgba(255, 255, 255, 0.3), 0 0 7px rgba(255, 255, 255, 0.1)
+
+  75.1%
+    opacity: 0
+    -webkit-text-shadow: none
+    text-shadow: none
+
+  77%
+    opacity: 0
+    -webkit-text-shadow: none
+    text-shadow: none
+
+  77.1%
+    opacity: 1
+    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 5px rgba(255, 255, 255, 0.4), 0 0 9px rgba(255, 255, 255, 0.2), 0 0 7px rgba(255, 255, 255, 0.1)
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 5px rgba(255, 255, 255, 0.4), 0 0 9px rgba(255, 255, 255, 0.2), 0 0 7px rgba(255, 255, 255, 0.1)
+
+  85%
+    opacity: 1
+    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 5px rgba(255, 255, 255, 0.4), 0 0 9px rgba(255, 255, 255, 0.2), 0 0 7px rgba(255, 255, 255, 0.1)
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 5px rgba(255, 255, 255, 0.4), 0 0 9px rgba(255, 255, 255, 0.2), 0 0 7px rgba(255, 255, 255, 0.1)
+
+  85.1%
+    opacity: 0
+    -webkit-text-shadow: none
+    text-shadow: none
+
+  86%
+    opacity: 0
+    -webkit-text-shadow: none
+    text-shadow: none
+
+  86.1%
+    opacity: 1
+    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 5px rgba(255, 255, 255, 0.45), 0 0 9px rgba(255, 255, 255, 0.25), 0 0 7px rgba(255, 255, 255, 0.1)
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 5px rgba(255, 255, 255, 0.45), 0 0 9px rgba(255, 255, 255, 0.25), 0 0 7px rgba(255, 255, 255, 0.1)
+
+  100%
+    opacity: 1
+    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 5px rgba(255, 255, 255, 0.45), 0 0 9px rgba(255, 255, 255, 0.25), 0 0 7px rgba(255, 255, 255, 0.1)
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 5px rgba(255, 255, 255, 0.45), 0 0 9px rgba(255, 255, 255, 0.25), 0 0 7px rgba(255, 255, 255, 0.1)
+
+@keyframes flicker-in-2
+  0%
+    opacity: 0
+
+  10%
+    opacity: 0
+    -webkit-text-shadow: none
+    text-shadow: none
+
+  10.1%
+    opacity: 1
+    -webkit-text-shadow: none
+    text-shadow: none
+
+  10.2%
+    opacity: 0
+    -webkit-text-shadow: none
+    text-shadow: none
+
+  20%
+    opacity: 0
+    -webkit-text-shadow: none
+    text-shadow: none
+
+  20.1%
+    opacity: 1
+    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.25)
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.25)
+
+  20.6%
+    opacity: 0
+    -webkit-text-shadow: none
+    text-shadow: none
+
+  30%
+    opacity: 0
+    -webkit-text-shadow: none
+    text-shadow: none
+
+  30.1%
+    opacity: 1
+    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
+
+  30.5%
+    opacity: 1
+    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
+
+  30.6%
+    opacity: 0
+    -webkit-text-shadow: none
+    text-shadow: none
+
+  45%
+    opacity: 0
+    -webkit-text-shadow: none
+    text-shadow: none
+
+  45.1%
+    opacity: 1
+    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
+
+  50%
+    opacity: 1
+    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
+
+  55%
+    opacity: 1
+    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
+
+  55.1%
+    opacity: 0
+    -webkit-text-shadow: none
+    text-shadow: none
+
+  57%
+    opacity: 0
+    -webkit-text-shadow: none
+    text-shadow: none
+
+  57.1%
+    opacity: 1
+    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.55), 0 0 5px rgba(255, 255, 255, 0.3)
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.55), 0 0 5px rgba(255, 255, 255, 0.3)
+
+  60%
+    opacity: 1
+    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.55), 0 0 5px rgba(255, 255, 255, 0.3)
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.55), 0 0 5px rgba(255, 255, 255, 0.3)
+
+  60.1%
+    opacity: 0
+    -webkit-text-shadow: none
+    text-shadow: none
+
+  65%
+    opacity: 0
+    -webkit-text-shadow: none
+    text-shadow: none
+
+  65.1%
+    opacity: 1
+    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.55), 0 0 5px rgba(255, 255, 255, 0.3), 0 0 7px rgba(255, 255, 255, 0.1)
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.55), 0 0 5px rgba(255, 255, 255, 0.3), 0 0 7px rgba(255, 255, 255, 0.1)
+
+  75%
+    opacity: 1
+    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.55), 0 0 5px rgba(255, 255, 255, 0.3), 0 0 7px rgba(255, 255, 255, 0.1)
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.55), 0 0 5px rgba(255, 255, 255, 0.3), 0 0 7px rgba(255, 255, 255, 0.1)
+
+  75.1%
+    opacity: 0
+    -webkit-text-shadow: none
+    text-shadow: none
+
+  77%
+    opacity: 0
+    -webkit-text-shadow: none
+    text-shadow: none
+
+  77.1%
+    opacity: 1
+    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 5px rgba(255, 255, 255, 0.4), 0 0 9px rgba(255, 255, 255, 0.2), 0 0 7px rgba(255, 255, 255, 0.1)
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 5px rgba(255, 255, 255, 0.4), 0 0 9px rgba(255, 255, 255, 0.2), 0 0 7px rgba(255, 255, 255, 0.1)
+
+  85%
+    opacity: 1
+    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 5px rgba(255, 255, 255, 0.4), 0 0 9px rgba(255, 255, 255, 0.2), 0 0 7px rgba(255, 255, 255, 0.1)
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 5px rgba(255, 255, 255, 0.4), 0 0 9px rgba(255, 255, 255, 0.2), 0 0 7px rgba(255, 255, 255, 0.1)
+
+  85.1%
+    opacity: 0
+    -webkit-text-shadow: none
+    text-shadow: none
+
+  86%
+    opacity: 0
+    -webkit-text-shadow: none
+    text-shadow: none
+
+  86.1%
+    opacity: 1
+    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 5px rgba(255, 255, 255, 0.45), 0 0 9px rgba(255, 255, 255, 0.25), 0 0 7px rgba(255, 255, 255, 0.1)
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 5px rgba(255, 255, 255, 0.45), 0 0 9px rgba(255, 255, 255, 0.25), 0 0 7px rgba(255, 255, 255, 0.1)
+
+  100%
+    opacity: 1
+    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 5px rgba(255, 255, 255, 0.45), 0 0 9px rgba(255, 255, 255, 0.25), 0 0 7px rgba(255, 255, 255, 0.1)
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 5px rgba(255, 255, 255, 0.45), 0 0 9px rgba(255, 255, 255, 0.25), 0 0 7px rgba(255, 255, 255, 0.1)
 </style>

@@ -1,0 +1,25 @@
+#!/usr/local/bin/fish
+
+echo "building static site"
+cd ./lozev.ski
+npm run build
+echo "done building site"
+
+echo "clearing out s3 bucket"
+aws s3 rm s3://noah.lozev.ski-website --recursive
+echo "done clearing bucket"
+
+echo "uploading files to s3"
+aws s3 cp ./dist s3://noah.lozev.ski-website/ --recursive
+echo "done uploading to s3"
+
+echo "invalidate and update cloudfront"
+aws cloudfront create-invalidation --distribution-id=E1D8FF0DG1T5F4 --paths "/*"
+echo "complete"
+
+echo "removing cached files"
+rm -rf ./dist
+echo "complete"
+cd ../
+
+

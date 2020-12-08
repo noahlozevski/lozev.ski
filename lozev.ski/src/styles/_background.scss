@@ -1,0 +1,188 @@
+@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css);
+
+$black: #000000;
+$white: #FFFFFF;
+$outer-dim: 30px;
+$inner-dim: 14px;
+// :root {
+//   --eyes-top: 0%;
+//   --eyes-left: 50%;
+// }
+.eye-container {
+  align-items: center;
+  // background: silver;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  position: absolute;
+  z-index: 99;
+  opacity: 0;
+  
+  .eyes {
+    align-items: center;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    // margin-bottom: 2rem;
+    // padding: 1rem;
+    position: relative;
+    top: -13%;
+    left: -1%;
+    .eye {
+      border: 2px solid $white;
+      border-radius: 50%;
+      box-sizing: border-box;
+      display: inline-block;
+      height: 100%;
+      max-height: $outer-dim;
+      max-width: $outer-dim;
+      min-height: $outer-dim;
+      min-width: $outer-dim;
+      position: relative;
+      width: 50%;
+      background: $white;
+    }
+    .eye:first-child {
+      margin-right: 0.25rem;
+    }
+    .eye:last-child {
+      margin-left: 0.25rem;
+    }
+    .eye:after { // pupil
+      background: $black;
+      border-radius: 50%;
+      content: " ";
+      height: $inner-dim;
+      position: absolute;
+      left: var(--eyes-left);
+      top: var(--eyes-top);
+      width: $inner-dim;
+    }
+  }
+}
+
+
+
+
+
+
+
+
+.bg-wrapper {
+  /** drastically improves blur/filter performance */
+  -webkit-backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  -webkit-transform: translate3d(0,0,0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000;
+  transform: translate3d(0,0,0);
+  transform: translateZ(0);
+}
+.bg-container {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  z-index: 0;
+  opacity: .8;
+  filter: blur(4px);
+}
+.shape {
+  margin: 0 auto;
+  position: relative;
+  opacity: 0.7;
+}
+
+.random-shape:after {
+  font-family: FontAwesome;
+  content: "\f04d";
+}
+
+$circle-size: 100px;
+// $colors: #45ffdc, #ffef96, #ff94a1, #cda1ff, #31b4ff, #4800c0, #9300c9;
+$colors: #DF0024,#F3C300,#00AC9F,#2E6DB4;
+// $shapes: '\f111', '\f10c', '\f068', '\f22d', '\f077',  '\f04b', '\f067', '\f04d';
+$shapes: '\f22d','\f077','\f067','\f121','\f0c8';
+
+$shape-count: 50;
+
+
+@for $i from 1 through $shape-count {
+  $shape-size: 4 + random(5);
+  
+  $rotation: random(360);
+
+  $axis: random(1);
+  $position-1: percentage(random(100) / 100);
+  $position-2: percentage(random(100) / 100);
+  $px: random(75);
+  $py: random(35);
+  // $position-y1: percentage(random(100) / 100);
+
+  // $position-x2: percentage(random(100) / 100);
+  // $position-y2: percentage(random(100) / 100);
+
+  // $position: percentage(random(100) / 100);
+  
+  $speed: 5 + random(8);
+  $delay: random(5000);
+  $color-key: random( length($colors) );
+  $shape-color: nth( $colors, $color-key );
+  $shape-key: random( length($shapes) );
+  $shape-type: nth( $shapes, $shape-key );
+  // $text: random(10);
+  @if 1 == 1 {
+  // @if $axis > 0.5 {
+    // x-axis starting point
+    /** base point is 125vw, -25vh */
+    // x range -> 25,125
+    // y range -> -25, 50
+    @keyframes shape-#{$i} {
+          0% {
+            transform: translate(#{175 - $px}vw,#{-35 - $py}vh) 
+            // rotate(#{$rotation + 0}deg)
+            // transform: translate(calc($position-1 * -1),-110%) rotate(#{$rotation + 0}deg);
+          }
+          // 50% {
+          //   transform: translate($position-2,110%) rotate(#{$rotation + 0}deg);
+          // }
+          100% {
+            transform: translate(#{-25 - $px}vw,#{120 + $py}vh)
+            // transform: translate(-10vw,100vh) rotate(#{$rotation + 0}deg)
+            // transform: translate($position-1,-110%) rotate(#{$rotation + 0}deg);
+          }
+        }
+      }
+  @else {
+    @keyframes shape-#{$i} {
+      0% {
+            transform: translate(-100%,-100%) rotate(#{$rotation + 0}deg);
+            // transform: translate(-110%,$position-1) rotate(#{$rotation + 0}deg);
+          }
+          50% {
+            transform: translate(110%,$position-2) rotate(#{$rotation + 0}deg);
+          }
+          100% {
+            transform: translate(100%,100%) rotate(#{$rotation + 0}deg);
+            // transform: translate(-110%,$position-1) rotate(#{$rotation + 0}deg);
+        }
+    }
+  }
+
+  .shape-container--#{$i} { 
+      animation: shape-#{$i} #{$speed}s linear infinite;
+      animation-delay: #{$delay}ms;
+      z-index: -1;
+      position: absolute;
+      
+      .random-shape:after {
+        margin: #{$shape-size}px;
+        z-index: -1;
+        color: $shape-color;
+        font-size: #{$shape-size * 0.2}rem;
+        content: $shape-type;
+        font-weight: 600;
+      }
+  }
+}
