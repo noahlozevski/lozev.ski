@@ -274,7 +274,7 @@ export default {
           company_url: "#",
           date_string: "2018 - 2019",
           bullets: [
-            "Assisted in the development of AI-optimized image scanning for cancer and radioactive tracer quantification/identification",
+            "Assisted in the development of AI-optimized image scanning for cancer and radioactive tracer quantification / identification",
             "Machine learning implementation of multimodal quantitative imaging analysis from PET-MRI scans to lower radiotracer dosage to patients by 50%",
           ],
         },
@@ -402,9 +402,7 @@ export default {
       }
       const selector = document.querySelector(`.i${this.selectedTab}`)
 
-      console.log(selector, i, this.selectedTab)
       this.selectedTab = i
-      console.log(i)
     },
     trigger() {
       document.getElementById("entrance_text").className += "flicker-in-2"

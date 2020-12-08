@@ -150,7 +150,6 @@ export default {
       }
       const selector = document.querySelector(`.i${this.selectedTab}`)
 
-      console.log(selector, i, this.selectedTab)
       this.selectedTab = i
       // selector.classList.add("perspectiveRight") // make page fall out
       // selector.classList.remove("perspectiveRightReturn")

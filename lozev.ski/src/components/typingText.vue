@@ -63,8 +63,6 @@ export default {
   },
   methods: {
     trigger() {
-      console.log("clicked")
-      // document.getElementsByClassName("enter-text")[0].className += "hide-cursor"
       this.$emit("trigger")
     },
     async triggerMessage(i) {

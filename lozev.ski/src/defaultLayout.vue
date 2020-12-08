@@ -127,10 +127,10 @@ export default {
     },
     resumeButton() {
       this.navigationDrawer(false)
-      console.log("resume button")
     },
     loadedPage() {
-      console.log("loaded")
+      console.log("hey there :)")
+      console.info("thanks for visiting my site")
       this.loaded = true
     },
   },
