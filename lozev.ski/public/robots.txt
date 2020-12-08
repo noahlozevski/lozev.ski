@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Sitemap: https://noah.lozev.ski/sitemap.xml
+Host: https://noah.lozev.ski

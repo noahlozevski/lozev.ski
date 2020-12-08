@@ -2,46 +2,45 @@
   v-app
     v-navigation-drawer.drawer(app right temporary v-model="drawerStatus" @input="test")
       .px-4.py-1
-        button.ml-auto.hamburger.hamburger--collapse(@click="navigationDrawer" type="button")
+        button.ml-auto.hamburger.hamburger--collapse(@click="navigationDrawer()" type="button")
           span.hamburger-box
             span.hamburger-inner
         .nav.mt-10
           .item
             .number 01.
-            a.type.hvr-underline-from-center(href="#about" @click="navigationDrawer") About
+            a.type.hvr-underline-from-center(href="#" @click="navigationDrawer('#about')") About
           .item
             .number 02.
-            a.type.hvr-underline-from-center(href="#experience" @click="navigationDrawer") Experience
+            a.type.hvr-underline-from-center(href="#" @click="navigationDrawer('#experience')") Experience
           .item
             .number 03.
-            a.type.hvr-underline-from-center(href="#work" @click="navigationDrawer") Work
+            a.type.hvr-underline-from-center(href="#" @click="navigationDrawer('#projects')") Projects
           .item
             .number 04.
-            a.type.hvr-underline-from-center(href="#contact" @click="navigationDrawer") Contact
+            a.type.hvr-underline-from-center(href="#" @click="navigationDrawer('#contact')") Contact
           .item
             .resume-button
-              a.my-auto(href="#" @click="resumeButton") Resume
+              a.my-auto(href="/resume.pdf" @click="resumeButton" target="_blank") Resume
     v-app-bar.bar.w-100(app :hide-on-scroll="$vuetify.breakpoint.mdAndUp" elevate-on-scroll :prominent="$vuetify.breakpoint.mdAndUp" :shrink-on-scroll="$vuetify.breakpoint.mdAndUp")
       .ml-2.ml-md-8.logo.mr-auto(:style="$vuetify.breakpoint.mdAndUp ? 'font-size: 50px' : 'font-size: 35px'")
         p.my-auto.text-glow(id="logo-app-bar") { nl }
       template(v-if="loaded")
         .item.d-none.d-sm-none.d-md-block.slide-in-top(:style="'--slide-delay: 0.1s'")
           .number 01.
-          a.type.hvr-underline-from-center(href="#about" @click="$vuetify.goTo('about', scrollOptions)") About
+          a.type.hvr-underline-from-center(href="#" @click="$vuetify.goTo('#about', scrollOptions)") About
         .item.d-none.d-sm-none.d-md-block.slide-in-top(:style="'--slide-delay: 0.2s'")
           .number 02.
-          a.type.hvr-underline-from-center(href="#experience" @click="navigationDrawer") Experience
+          a.type.hvr-underline-from-center(href="#"  @click="$vuetify.goTo('#experience', scrollOptions)") Experience
         .item.d-none.d-sm-none.d-md-block.slide-in-top(:style="'--slide-delay: 0.3s'")
           .number 03.
-          a.type.hvr-underline-from-center(href="#work" @click="navigationDrawer") Work
+          a.type.hvr-underline-from-center(href="#"  @click="$vuetify.goTo('#projects', scrollOptions)") Projects
         .item.d-none.d-sm-none.d-md-block.slide-in-top(:style="'--slide-delay: 0.4s'")
           .number 04.
-          a.type.hvr-underline-from-center(href="#contact" @click="navigationDrawer") Contact
+          a.type.hvr-underline-from-center(href="#" @click="$vuetify.goTo('#contact', scrollOptions)") Contact
         .item.d-none.d-sm-none.d-md-block.mr-8.slide-in-top(:style="'--slide-delay: 0.5s'")
           .resume-button
-            a(href="#" @click="resumeButton") Resume
-
-      button.d-md-none.ml-auto.hamburger.hamburger--collapse(@click="navigationDrawer" type="button")
+            a(href="/resume.pdf" @click="resumeButton" target="_blank") Resume
+      button.d-md-none.ml-auto.hamburger.hamburger--collapse(@click="navigationDrawer()" type="button")
         span.hamburger-box
           span.hamburger-inner
     v-main.pb-0(background="#0a192fd9")
@@ -95,14 +94,11 @@ export default {
       loaded: false,
       drawerStatus: false,
       scrollOptions: {
-        duration: 300,
-        offset: 200,
+        duration: 750,
+        offset: 0,
         easing: "easeInOutCubic",
       },
     }
-  },
-  mounted() {
-    // setTimeout(() => (this.loaded = true), 4000)
   },
   methods: {
     test(input) {
@@ -114,7 +110,7 @@ export default {
         else el.classList.remove("is-active")
       }
     },
-    navigationDrawer(status) {
+    navigationDrawer(status = null) {
       const els = document.getElementsByClassName("hamburger")
 
       for (let el of els) {
@@ -122,9 +118,15 @@ export default {
         else el.classList.remove("is-active")
       }
       this.drawerStatus = !this.drawerStatus
+      if (status !== null) {
+        this.$vuetify.goTo(status, this.scrollOptions)
+      }
+      // else if (status === null) {
+      //   this.drawerStatus = !this.drawerStatus
+      // }
     },
     resumeButton() {
-      this.navigationDrawer(!this.drawerStatus)
+      this.navigationDrawer(false)
       console.log("resume button")
     },
     loadedPage() {

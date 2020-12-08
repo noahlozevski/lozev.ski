@@ -28,8 +28,8 @@
                 .resume-button.mt-6.animate__animated.animate__fadeInDown.animate__faster.animate__delay-5s
                   a.my-auto(href="mailto:noah@lozev.ski?subject=Lets Chat! 🤟&body=Hi Noah,") Message me
 
-            .page.about-page
-              v-lazy(:options="{ threshold: .25 }" transition="fade-transition")
+            .page.about-page(id="about")
+              v-lazy(:options="{ threshold: .1 }" transition="fade-transition")
                 .page-inner
                   h2.numbered-header(:style="`--content: '01.'`") About me
                   v-container.pa-0.ma-0(fluid)
@@ -38,8 +38,9 @@
                         .bio
                           .animate__animated.animate__fadeInDown.animate__faster.animate__delay-2s
                             p Hello! I'm Noah, a software engineer based in Raleigh, NC.
-                            p I enjoy creating things that live on the internet, whether that be websites, applications, or anything in between. My goal is to always build products that provide pixel-perfect, performant experiences.
-                            //- p I've been doing Shortly after graduating from Northeastern University, I joined the engineering team at Upstatement where I work on a wide variety of interesting and meaningful projects on a daily basis.
+                            //- p I enjoy creating things that live on the internet, whether that be websites, applications, or anything in between. My goal is to always build products that provide pixel-perfect, performant experiences.
+                            p I am a full stack software engineer, with over 100+ satisfied customers/clients in the past 5 years. I am always striving to become a more innovative and creative developer in every job that I take on. Although most of my recent software work has been done in an individual setting (freelance hiring), I have always enjoyed and excelled when working in larger groups.
+                            p My formal education is centered around statistical pattern recognition, probability theory, and machine learning / AI. I graduated summa cum laude from NC State University with a B.S. in Biomedical Engineering and a M.S. in Electrical Engineering.
                             p Here are the technologies I've worked with in the recent past:
                           .skills-list-container
                             .animate__animated.animate__fadeInDown.animate__faster.animate__delay-3s
@@ -72,23 +73,23 @@
                                 li Bootstrap / Material
                                 li Laravel
                       v-col.col-sm-4(cols="12")
-                        .picture-container.mx-auto.animate__animated.animate__fadeInRight.animate__faster.animate__delay-4s(@mousemove="mouseOver" id="picture-container-fun")
+                        .picture-container.mx-auto.animate__animated.animate__fadeInRight.animate__faster.animate__delay-3s(@mousemove="mouseOver" id="picture-container-fun")
                           .eye-container
                             .eyes(:style="`--eyes-top: ${top}%; --eyes-left: ${left}%;`")
                               .eye
                               .eye
                           img.profile-pic(src="/profile.jpg")
 
-            .page.experience-page
-              v-lazy(:options="{ threshold: .25 }" transition="fade-transition")
+            .page.experience-page(id="experience")
+              v-lazy(:options="{ threshold: .1 }" transition="fade-transition")
                 .page-inner
-                  h2.numbered-header(:style="`--content: '02.'`") Some Places I've Worked
+                  h2.numbered-header.animate__animated.animate__fadeInDown.animate__faster.animate__delay-2s(:style="`--content: '02.'`") Some Places I've Worked
                   v-container.pa-0.ma-0(fluid)
-                    .d-none.d-sm-block
+                    .d-sm-block.d-block
                       .table-bigger
-                        .labels(:style="`--top-position: ${barPosition}px`")
+                        .labels.animate__animated.animate__fadeInDown.animate__faster.animate__delay-2s(:style="`--top-position: ${barPosition}px`")
                           .label(v-for="(data, i) in companies" @click="selectedCompanyIndex = i" :class="i === selectedCompanyIndex ? 'selected' : ''" :key="`company-label-${i}`") {{ data.company_name }}
-                        .item
+                        .item.animate__animated.animate__fadeInDown.animate__faster.animate__delay-2s
                           .top
                             span.position {{ selectedCompany.position }} 
                             span.green-text @ 
@@ -96,7 +97,61 @@
                           .dates
                             | {{ selectedCompany.date_string }}
                           ul.action-list
-                            li(v-for="(bullet, j) in selectedCompany.bullets" :key="`action-list-${i}-${j}`") {{ bullet }}
+                            li(v-for="(bullet, j) in selectedCompany.bullets" :key="`action-list-${j}`") {{ bullet }}
+            
+            .page.projects(id="projects")
+              v-lazy(:options="{ threshold: .1 }" transition="fade-transition")
+                .page-inner
+                  h2.numbered-header(:style="`--content: '03.'`") Things I've Built
+                  v-container.pa-0.ma-0(fluid)
+                    .project-item(v-for="(project, i) in projects.filter(p => p.featured)" :key="`project-item-${i}`")
+                      .p-container
+                        .title.animate__animated.animate__fadeInDown.animate__faster.animate__delay-2s {{ project.name }}
+                        .description.animate__animated.animate__fadeInDown.animate__faster.animate__delay-3s {{ project.description }}
+                          .extra-link(v-if="!!project.extraLink")
+                            a.hvr-underline-from-center(:href='project.extraLink.src') {{ project.extraLink.label }}
+                        .services.animate__animated.animate__fadeInDown.animate__faster.animate__delay-3s
+                          .service(v-for="(service,j) in project.services" :key="`services-${j}-${i}`") {{ service }}
+                        .items.animate__animated.animate__fadeInDown.animate__faster.animate__delay-2s
+                          .item.github-link(v-if="!!project.github")
+                            a(:href="project.github" target="_blank")
+                              svg.icon(xmlns="http://www.w3.org/2000/svg", role="img", viewBox="0 0 438.549 438.549")
+                                title GitHub
+                                path(d="M409.132,114.573c-19.608-33.596-46.205-60.194-79.798-79.8C295.736,15.166,259.057,5.365,219.271,5.365 c-39.781,0-76.472,9.804-110.063,29.408c-33.596,19.605-60.192,46.204-79.8,79.8C9.803,148.168,0,184.854,0,224.63 c0,47.78,13.94,90.745,41.827,128.906c27.884,38.164,63.906,64.572,108.063,79.227c5.14,0.954,8.945,0.283,11.419-1.996 c2.475-2.282,3.711-5.14,3.711-8.562c0-0.571-0.049-5.708-0.144-15.417c-0.098-9.709-0.144-18.179-0.144-25.406l-6.567,1.136 c-4.187,0.767-9.469,1.092-15.846,1c-6.374-0.089-12.991-0.757-19.842-1.999c-6.854-1.231-13.229-4.086-19.13-8.559 c-5.898-4.473-10.085-10.328-12.56-17.556l-2.855-6.57c-1.903-4.374-4.899-9.233-8.992-14.559 c-4.093-5.331-8.232-8.945-12.419-10.848l-1.999-1.431c-1.332-0.951-2.568-2.098-3.711-3.429c-1.142-1.331-1.997-2.663-2.568-3.997 c-0.572-1.335-0.098-2.43,1.427-3.289c1.525-0.859,4.281-1.276,8.28-1.276l5.708,0.853c3.807,0.763,8.516,3.042,14.133,6.851 c5.614,3.806,10.229,8.754,13.846,14.842c4.38,7.806,9.657,13.754,15.846,17.847c6.184,4.093,12.419,6.136,18.699,6.136 c6.28,0,11.704-0.476,16.274-1.423c4.565-0.952,8.848-2.383,12.847-4.285c1.713-12.758,6.377-22.559,13.988-29.41 c-10.848-1.14-20.601-2.857-29.264-5.14c-8.658-2.286-17.605-5.996-26.835-11.14c-9.235-5.137-16.896-11.516-22.985-19.126 c-6.09-7.614-11.088-17.61-14.987-29.979c-3.901-12.374-5.852-26.648-5.852-42.826c0-23.035,7.52-42.637,22.557-58.817 c-7.044-17.318-6.379-36.732,1.997-58.24c5.52-1.715,13.706-0.428,24.554,3.853c10.85,4.283,18.794,7.952,23.84,10.994 c5.046,3.041,9.089,5.618,12.135,7.708c17.705-4.947,35.976-7.421,54.818-7.421s37.117,2.474,54.823,7.421l10.849-6.849 c7.419-4.57,16.18-8.758,26.262-12.565c10.088-3.805,17.802-4.853,23.134-3.138c8.562,21.509,9.325,40.922,2.279,58.24 c15.036,16.18,22.559,35.787,22.559,58.817c0,16.178-1.958,30.497-5.853,42.966c-3.9,12.471-8.941,22.457-15.125,29.979 c-6.191,7.521-13.901,13.85-23.131,18.986c-9.232,5.14-18.182,8.85-26.84,11.136c-8.662,2.286-18.415,4.004-29.263,5.146 c9.894,8.562,14.842,22.077,14.842,40.539v60.237c0,3.422,1.19,6.279,3.572,8.562c2.379,2.279,6.136,2.95,11.276,1.995 c44.163-14.653,80.185-41.062,108.068-79.226c27.88-38.161,41.825-81.126,41.825-128.906 C438.536,184.851,428.728,148.168,409.132,114.573z")
+                          .item.external-link(v-if="!!project.link")
+                            a(:href="project.link" target="_blank")
+                              svg(xmlns="http://www.w3.org/2000/svg", role="img", viewBox="0 0 194.818 194.818")
+                                title External Link
+                                g
+                                  path(d="M185.818,2.161h-57.04c-4.971,0-9,4.029-9,9s4.029,9,9,9h35.312l-86.3,86.3c-3.515,3.515-3.515,9.213,0,12.728 c1.758,1.757,4.061,2.636,6.364,2.636s4.606-0.879,6.364-2.636l86.3-86.3v35.313c0,4.971,4.029,9,9,9s9-4.029,9-9v-57.04 C194.818,6.19,190.789,2.161,185.818,2.161z")
+                                  path(d="M149,77.201c-4.971,0-9,4.029-9,9v88.456H18v-122h93.778c4.971,0,9-4.029,9-9s-4.029-9-9-9H9c-4.971,0-9,4.029-9,9v140 c0,4.971,4.029,9,9,9h140c4.971,0,9-4.029,9-9V86.201C158,81.23,153.971,77.201,149,77.201z")
+                      .img-container(v-if="!!project.photo")
+                        img.featured-project-image(:src="project.photo")
+
+            .page.contact-page(id="contact")
+              v-lazy(:options="{ threshold: .1 }" transition="fade-transition")
+                .page-inner
+                  h2.numbered-header(:style="`--content: '04.'`") Contact Me
+                  
+                  //- h1.numbered-header Contact Me
+                  v-container.pa-0.ma-0(fluid)
+                    .body
+                      p My inbox is always open! I love hearing about new opportunities, big or small. Whether you have a question or just want to say hi, I'll try my best to get back to you!
+                      p
+                        | Feel free to send a message with the form below or click 
+                        span.email-me
+                          a.hvr-underline-from-center(href="mailto:noah@lozev.ski?subject=Lets Chat! 🤟&body=Hi Noah,") here
+                        |  to directly email me.
+                      .form
+                        v-text-field(placeholder="Email" clearable v-model="email" color="#64ffda")
+                        v-textarea(placeholder="Message" full-width v-model="email_message" color="#64ffda")
+                        .send-message
+                          a(@click="sendMessage") Send Message
+                      
+
+                    
+                  
+                    
             .footer
               .links.d-md-none
                 .item
@@ -136,41 +191,11 @@
                     svg(aria-label="forks", viewBox="0 0 10 16", version="1.1", width="10", height="16", role="img")
                       path(fill-rule="evenodd", d="M8 1a1.993 1.993 0 0 0-1 3.72V6L5 8 3 6V4.72A1.993 1.993 0 0 0 2 1a1.993 1.993 0 0 0-1 3.72V6.5l3 3v1.78A1.993 1.993 0 0 0 5 15a1.993 1.993 0 0 0 1-3.72V9.5l3-3V4.72A1.993 1.993 0 0 0 8 1zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3 10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3-10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z")
                     span 1,535
-                      //-   .bio
-                      //-     p Hello! I'm Noah, a software engineer based in Raleigh, NC.
-                      //-     p I enjoy creating things that live on the internet, whether that be websites, applications, or anything in between. My goal is to always build products that provide pixel-perfect, performant experiences.
-                      //-     p Here are the technologies I've worked with in the recent past:
-                      //-     .skills-list-container
-                      //-       .list-title Frontend
-                      //-       ul.skills-list
-                      //-         li Vue.js
-                      //-         li React / React Native
-                      //-         li Angular
-                      //-         li WordPress
-                      //-         li Pug / Jade
-                      //-         li SASS / SCSS
-
-                      //-       .list-title.mt-4 Backend
-                      //-       ul.skills-list
-                      //-         li Node.js / Express.js
-                      //-         li Ruby / Rails
-                      //-         li Nuxt.js / Next.js
-                      //-         li Java
-                      //-         li Python / Django
-                      //-         li PHP
-                              
-                      //-       .list-title.mt-4 Libraries / Services
-                      //-       ul.skills-list
-                      //-         li AWS
-                      //-         li Google Cloud
-                      //-         li Heroku
-                      //-         li Netlify
-                      //-         li Bootstrap / Material
-                      //-         li Laravel
-                      //- v-col.col-sm-4(cols="12")
-                      //-   .picture-container.mx-auto
-                      //-     img.profile-pic(src="/profile.jpg")
-                      
+            svg#svgfilters(aria-hidden="true", style="position: absolute; width: 0; height: 0; overflow: hidden;", version="1.1", xmlns="http://www.w3.org/2000/svg", xlink="http://www.w3.org/1999/xlink")
+              defs
+                filter#noise(x="0%", y="0%", width="100%", height="100%")
+                  feTurbulence(baseFrequency="0.01 0.4", result="NOISE", numOctaves="2")
+                  feDisplacementMap(in="SourceGraphic", in2="NOISE", scale="20", xChannelSelector="R", yChannelSelector="R")
 </template>
 <script>
 import TypingText from "@/components/typingText"
@@ -194,6 +219,8 @@ export default {
       loading2: true,
       left: 0,
       top: 0,
+      email: "",
+      email_message: "",
       selectedCompanyIndex: 0,
       companies: [
         // {
@@ -252,43 +279,55 @@ export default {
           ],
         },
       ],
-      items: [
+      projects: [
         {
-          img: "https://www.goodcore.co.uk/blog/wp-content/uploads/2019/08/coding-vs-programming-2-1400x600.jpg",
-          height: "300",
-          // width: "200px",
-          title: "What a cool fucking guy",
-          text: "Noahs the fucking man",
+          featured: true,
+          name: "Simply Video",
+          description:
+            "Cross-platform video/audio meeting application for small-to-medium businesses. Allows customers to customize the company banner and other UI through a simple web interface. Users can login and join meetings through any web browser/phone or even Skype.",
+          link: "https://www.simplydemo.me/",
+          services: ["Vue.js", "WebRTC", "Bootstrap", "jQuery"],
+          photo: "/simplyvideo.png",
+          year: 2018,
         },
         {
-          img: "https://cdn-media-1.freecodecamp.org/images/0*ngXgBNNdx6iiWP8q.png",
-          height: "300",
-          // width: "200px",
-          title: "Howd he get so cool?",
-          text: "He probably gets hella girls",
+          featured: true,
+          name: "KidNet",
+          description:
+            "Site made for a local school and allows teachers to communicate, save, and share lesson plans with their students. It also organizes their schedule and has additional functionality for other administrative personnel.",
+          link: "http://gokidnet.com/",
+          services: ["Vue.js", "Nuxt.js", "Node.js", "Laravel"],
+          year: 2018,
+          photo: "/gokidnet.png",
         },
         {
-          img:
-            "https://itchronicles.com/wp-content/uploads/2018/10/bigstock-Programming-Web-Banner-Best-P-258081862.jpg",
-          title: "Have you met him before?",
-          height: "500",
-          // width: "200px",
-          text: "People say hes quite the attractive fellow",
+          featured: true,
+          name: "Autonomous Electric Scooter",
+          description:
+            "iPhone application that interfaces with Xiaomi m365 electric scooters via Bluetooth to send automatic braking commands. Utilizes a custom trained YOLOv3 CoreML model to classify objects in phones nearby vicinity automatically.",
+          github: "https://github.com/noahlozevski/YOLO-v3-COCO-CoreML",
+          services: ["Swift", "Python", "PyTorch", "CoreML"],
+          year: 2019,
+          photo: "/yolo.jpeg",
         },
         {
-          img: "https://miro.medium.com/max/1260/1*HLGtY6O2vUHqIyEbWdmBgA.jpeg",
-          height: "350",
-          // width: "200px",
-          title: "Wish I could be him",
-          text: "The best people are named Noah",
+          featured: true,
+          name: "Ral.ai",
+          extraLink: { src: "https://jonaharts.com", label: "Jonah Lozevski" },
+          description: "Website designed for a local AI consulting company. Designed and built with my brother, ",
+          github: "https://github.com/noahlozevski/ral.ai",
+          link: "https://ral.ai",
+          year: 2020,
+          services: ["Vue.js", "Nuxt.js", "Vuetify", "SASS/SCSS"],
+          photo: "/ralai.png",
         },
-        // {
-        //   img: "http://www.rleonardi.com/image/illustration-portfolio.png",
-        //   height: "200",
-        //   // width: "200px",
-        //   title: "What a cool fucking guy",
-        //   text: "Noahs the best man",
-        // },
+        {
+          featured: false,
+          name: "PAC Generator",
+          link: "https://paceg.herokuapp.com/",
+          services: ["Vue.js", "Vuetify", "Heroku"],
+          year: 2018,
+        },
       ],
     }
   },
@@ -341,33 +380,14 @@ export default {
             document.getElementById("page-overlay").classList.remove("solid-background")
             this.loading = false
             this.$emit("loaded")
-            // var html = `<div class="bg-container">`
-
-            // for (var i = 1; i <= 50; i++) {
-            //   html += '<div class="shape-container--' + i + ' shape-animation"><div class="random-shape"></div></div>'
-            // }
-            // html += `</div>`
-            // console.log(html, document.querySelector(".home-page-container"))
-            // document.getElementById("fdsafdsa").innerHTML += html
-            // setTimeout(() => (this.loading2 = false), 1000)
           }, 1100)
         }, 2500)
       })
-    // window.addEventListener("mousemove", e => {
-    //   let eyes = document.getElementsByClassName("eye")
-    //   // let eye = eyes[0]
-    //   // var x = eye.offset().left + eye.width() / 2
-    //   // var y = eye.offset().top + eye.height() / 2
-    //   // var rad = Math.atan2(event.pageX - x, event.pageY - y)
-    //   // var rot = rad * (180 / Math.PI) * -1 + 180
-
-    //   // console.log(x, y, rad, rot)
-    //   // // eye.style
-    //   // console.log(eye)
-    //   // console.log(e)
-    // })
   },
   methods: {
+    sendMessage() {
+      console.log("message sent!")
+    },
     mouseOver(e) {
       let picContainer = document.getElementById("picture-container-fun")
       let x = (e.offsetX / picContainer.clientWidth) * 50
@@ -384,19 +404,6 @@ export default {
 
       console.log(selector, i, this.selectedTab)
       this.selectedTab = i
-      // selector.classList.add("perspectiveRight") // make page fall out
-      // selector.classList.remove("perspectiveRightReturn")
-      // setTimeout(() => {
-      //   const selectorr = document.querySelector(`.i${i}`)
-
-      //   selectorr.classList.remove("perspectiveRight")
-      //   selectorr.classList.add("perspectiveRightReturn") // make page fall out
-      //   this.selectedTab = i
-      //   // this.sel
-      // }, 1100)
-      // document.getElementsByClassName("entrance-page")[0].className += " run-animation"
-      // this.items = _.shuffle(this.items)
-
       console.log(i)
     },
     trigger() {
@@ -521,7 +528,17 @@ $green: #64ffda
           transition: fill .35s ease-in-out
           fill: currentcolor
 
-
+// @media only screen and (min-width: 600px)
+//   .page
+//     .page-inner
+//       .project-item
+//         .p-container
+//         .img-container
+//           width: 100px
+//           height: 100px
+//           .featured-project-image
+//             height: 100px
+//             width: 100px
 .page
   display: flex
   justify-content: center
@@ -533,10 +550,263 @@ $green: #64ffda
   &.experience-page
     align-items: center
     min-height: 50vh
+  &.contact-page
+    align-items: center
+    min-height: 50vh
+    // min-width: min(80%, 500px)
+    .page-inner
+      font-family: 'gotham'
+      font-size: 16px
+      .v-container
+      .body
+        padding: 30px
+        border-radius: 6px
+        background-color: $light-navy
+        transition: all .2s linear
+        box-shadow: none
+        max-width: 700px
+        .email-me
+          display: inline
+          width: fit-content
+          height: fit-content
+          top: -1.5px !important
+          position: relative  !important
+          a
+            color: $green
+            text-decoration: none
+        &:hover
+          box-shadow: 20px 35px 43px -13px rgb(2, 12, 27)
+        .send-message
+          border-radius: 5px
+          border: 1.5px solid $green
+          width: 150px
+          height: 50px
+          padding: auto
+          transition: all .25s ease-in-out
+          text-align: center
+          font-family: 'JetBrains Mono'
+          a
+            line-height: 45px
+            display: block
+            text-decoration: none
+            color: $green
+          &:hover
+            background-color: rgb(100, 255, 218,0.2)
+
+
+
+  &.projects
+    .v-lazy
+      align-self: center
+      width: min(100%, 800px)
+      .page-inner
+        .v-container
+          display: flex
+
+
+
+    // align-items: center
+    // min-height: 100vh
 
     // min-height: 100vh
     // margin-top: 150px
   .page-inner
+    .project-item
+      position: relative
+      max-width: 100%
+      align-self: flex-end
+      // width: 1000px
+      // max-width: max(min(550px, 40vw), 500px)
+      // &:hover
+      //   .p-container
+      //     .title
+      //       color: $white
+      //     .description
+      //       color: $light-slate
+      padding: 80px 0
+      &:nth-child(even)
+        justify-content: flex-end
+        .p-container
+          .title
+            text-align: right
+          .items
+            align-self: flex-end
+            align-items: flex-end
+            .item
+
+          .services
+            justify-content: flex-end
+            .service
+              // &:last-child
+              //   // padding-inline-end: revert
+              //   padding-inline-end: 0
+
+          .description
+            text-align: right
+        @media only screen and (max-width: 600px)
+          .img-container
+            transform: translateY(-80%) translateX(-5%)
+            right: 0
+            left: 5% !important
+        .img-container
+          right: revert
+          left: 0
+      font-family: 'gotham'
+      display: flex
+      flex-direction: row
+      // .featured-title
+      //   color: $green
+      //   font-family: 'JetBrains Mono'
+      //   font-size: 14px
+      .p-container
+        z-index: 1
+        display: flex
+        flex-direction: column
+        .title
+          // color: $light-slate
+          color: $lightest-slate
+          padding-bottom: 25px
+          font-size: 24px !important
+          font-family: 'gotham-bold' !important
+
+          &:before
+            content: "Featured Project"
+            color: $green
+            font-family: 'JetBrains Mono'
+            font-size: 14px
+            position: relative
+            display: block
+            margin-bottom: -3px
+            // transform: translateY(-30px)
+        @media only screen and (max-width: 600px)
+          .description
+            max-width: 80vw !important
+        .description
+          border-radius: 6px
+          overflow: hidden
+          padding: 20px
+          width: max(min(550px, 40vw), 500px)
+          text-align: left
+          // color: $slate
+          background: $light-navy
+          color: $light-slate
+          transition: box-shadow .2s linear
+          box-shadow: none
+          &:hover
+            box-shadow: 20px 35px 43px -13px rgb(2, 12, 27)
+            // box-shadow: 0 20px 30px -15px rgba(2,12,27,1)
+        .extra-link
+          display: inline
+          width: fit-content
+          height: fit-content
+          top: -1.5px !important
+          position: relative  !important
+          a
+            color: $green
+            text-decoration: none
+        .services
+          display: flex
+          flex-direction: row
+          font-family: 'JetBrains Mono'
+          font-size: 14px
+          color: $slate
+          .service
+            padding: 25px 15px
+            // padding-bottom: 0
+            &:first-child
+              padding-inline-start: 0
+            &:last-child
+              padding-inline-end: 0
+            // display: inline
+        .items
+          // max-height: 25px
+          display: flex
+          flex-direction: row
+          .item
+            height: 20px
+            width: 20px
+            color: $light-slate !important
+            transition: .25s transform ease-in-out
+            margin: 0 8px
+            &:first-child
+              margin-inline-start: 0
+            &:last-child
+              margin-inline-end: 0
+            // padding: 7px
+            &:hover
+              // transform: translateY(0px)
+            a
+              color: $light-slate !important
+              text-decoration: none
+              svg
+                path
+                  transition: fill .35s ease-in-out
+                  fill: currentcolor
+            a:hover
+              color: $green !important
+              svg
+                path
+                  transition: fill .35s ease-in-out
+                  fill: currentcolor
+      @media only screen and (min-width: 601px)
+        .img-container
+          position: absolute
+          right: 0
+          z-index: 0
+          // width: px
+          // height: fit-content
+
+          // height: fit-content
+          filter: url('#noise') grayscale(100%)
+          // transition: 1s !important
+          // animation: filter-anim 3s infinite
+          top: 50%
+          max-width: 50%
+          transform: translateY(-60%)
+          border-radius: 6px
+          &:hover
+            filter: none
+          .featured-project-image
+            border-radius: 6px
+            position: relative
+            height: 100%
+            width: 100%
+            // height: 100px
+            // max-height: 300px
+            // width: 100px
+      @media only screen and (max-width: 600px)
+        .img-container
+          position: absolute
+          right: 5%
+          left: 0
+          z-index: 0
+          border-radius: 6px
+          // top: 0
+          // bottom: 0
+          top: 50%
+          // width: px
+          // height: fit-content
+
+          // height: fit-content
+          // filter: grayscale(100%)
+          opacity: .1
+          // transition: 1s !important
+          // animation: filter-anim 3s infinite
+          // top: 50%
+          // max-width: 50%
+          transform: translateY(-80%) translateX(5%)
+          &:hover
+            filter: none
+          .featured-project-image
+            border-radius: 6px
+            position: relative
+            height: 100%
+            width: 100%
+            // height: 100px
+            // max-height: 300px
+            // width: 100px
+
+
     .numbered-header
       display: flex
       -webkit-box-align: center
@@ -747,7 +1017,11 @@ $green: #64ffda
             //   margin-bottom: 5px
             //   background-color: $green
             //   &:after
-
+@keyframes filter-anim
+  0%
+    filter: none
+  100%
+    filter: url('#noise')
 .home-page
   display: flex
   justify-content: center
