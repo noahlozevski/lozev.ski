@@ -11,7 +11,7 @@
       v-container.home-page-container.px-4.px-sm-6.px-md-10.px-lg-16.py-0
         transition(name='fade')
           .mx-lg-12.mx-md-12.mx-sm-4.mx-1(v-if="!loading")
-            .home-page(:style="`--app-bar-height: ${$vuetify.application.top}px`")
+            .home-page(id="home" :style="`--app-bar-height: ${$vuetify.application.top}px`")
               .home-page-inner
                 h1.hello.animate__animated.animate__fadeInDown.animate__faster.animate__delay-2s Hello, my name is
                 .typing-text-container-name.animate__animated.animate__fadeInDown.animate__faster.mb-1.animate__delay-3s
@@ -26,10 +26,11 @@
                     h6.typing-text__inner.anim-typewriter-name(:style="'--d: 2.75s; --s: steps(9); --t: 1s; --b: 4; --dd: 2.75s'") internet.
                 p.intro.mt-6.animate__animated.animate__fadeInDown.animate__faster.animate__delay-5s I am an experienced software engineer based in Raleigh, NC specializing in planning, building, and designing exceptional websites, applications, and everything in between.
                 .resume-button.mt-6.animate__animated.animate__fadeInDown.animate__faster.animate__delay-5s
-                  a.my-auto(href="mailto:noah@lozev.ski?subject=Lets Chat! 🤟&body=Hi Noah,") Message me
+                  a.my-auto(href="#contact" ) Message me
+                  //- a.my-auto(href="mailto:noah@lozev.ski?subject=Lets Chat! 🤟&body=Hi Noah,") Message me
 
             .page.about-page(id="about")
-              v-lazy(:options="{ threshold: .1 }" transition="fade-transition")
+              v-lazy(:options="{ threshold: .5 }" transition="fade-transition")
                 .page-inner
                   h2.numbered-header(:style="`--content: '01.'`") About me
                   v-container.pa-0.ma-0(fluid)
@@ -81,11 +82,11 @@
                           img.profile-pic(src="/profile.jpg")
 
             .page.experience-page(id="experience")
-              v-lazy(:options="{ threshold: .1 }" transition="fade-transition")
+              v-lazy(:options="{ threshold: .5 }" transition="fade-transition")
                 .page-inner
                   h2.numbered-header.animate__animated.animate__fadeInDown.animate__faster.animate__delay-2s(:style="`--content: '02.'`") Some Places I've Worked
                   v-container.pa-0.ma-0(fluid)
-                    .d-sm-block.d-block
+                    .d-block
                       .table-bigger
                         .labels.animate__animated.animate__fadeInDown.animate__faster.animate__delay-2s(:style="`--top-position: ${barPosition}px`")
                           .label(v-for="(data, i) in companies" @click="selectedCompanyIndex = i" :class="i === selectedCompanyIndex ? 'selected' : ''" :key="`company-label-${i}`") {{ data.company_name }}
@@ -100,7 +101,7 @@
                             li(v-for="(bullet, j) in selectedCompany.bullets" :key="`action-list-${j}`") {{ bullet }}
             
             .page.projects(id="projects")
-              v-lazy(:options="{ threshold: .1 }" transition="fade-transition")
+              v-lazy(:options="{ threshold: .2 }" transition="fade-transition")
                 .page-inner
                   h2.numbered-header(:style="`--content: '03.'`") Things I've Built
                   v-container.pa-0.ma-0(fluid)
@@ -129,7 +130,7 @@
                         img.featured-project-image(:src="project.photo")
 
             .page.contact-page(id="contact")
-              v-lazy(:options="{ threshold: .1 }" transition="fade-transition")
+              v-lazy(:options="{ threshold: .5 }" transition="fade-transition")
                 .page-inner
                   h2.numbered-header(:style="`--content: '04.'`") Contact Me
                   
@@ -920,20 +921,79 @@ $green: #64ffda
       font-family: 'gotham'
       align-items: flex-start
       min-height: 300px
-      max-width: 800px
+      max-width: min(800px, 90vw)
+      @media only screen and (max-width: 600px)
+        &
+          flex-direction: column
+          .labels
+            display: block
+            overflow-x: scroll
+            // padding-top: 10px
+            // overflow-y: hidden
+            max-width: 100%
+            white-space: nowrap
+            height: 80px
+            scrollbar-width: none
+            &::-webkit-scrollbar
+              display: none
+            .label
+              overflow-x: revert
+              max-width: 130px !important
+              overflow-wrap: break-word
+              word-wrap: break-word
+              hyphens: auto
+              // white-space: wrap
+              // word-wrap: wrap
+              white-space: break-spaces
+              display: inline-block
+              position: relative
+              height: fit-content
+              text-align: center
+              // width: fit-content !important
+              // width: 100px
+              // width: 20px !important
+              padding: 10px 20px !important
+              // transition: all 1s linear !important
+              &:hover
+                // background-color: $light-navy
+                // opacity: .2
+                color: $green
+                // background-position: -100% 0
+                box-shadow: inset 0 -100px 0 0 $light-navy !important
+            .selected
+              box-shadow: inset 0 -100px 0 0 $light-navy !important
+              color: $green
+
+              border-bottom-color: $green !important
+              border-bottom-width: 1.5px !important
+              border-bottom-style: solid
+
+              // transform: translateY(10px)
+            // &:before
+            //   content: none
+              // width: 0 !important
+              // height: 0 !important
+              // background-color: transparent
+              // position: absolute
+              // content: ""
+              // transition: all .25s ease-in-out
+              // transform: translateY(var(--top-position))
+              // background-color: red !important
+
       // background-color: red
       .labels
         // max-width: 300px
         min-width: 190px
         cursor: pointer
-        &::before
-          width: 1px
-          height: 49px
-          background-color: $green
-          position: absolute
-          content: ""
-          transition: all .25s ease-in-out
-          transform: translateY(var(--top-position))
+        @media only screen and (min-width: 601px)
+          &::before
+            width: 1px
+            height: 49px
+            background-color: $green
+            position: absolute
+            content: ""
+            transition: all .25s ease-in-out
+            transform: translateY(var(--top-position))
         .label
           font-family: 'JetBrains Mono'
           font-size: 13px
@@ -1076,6 +1136,7 @@ $green: #64ffda
   min-height: calc(100vh - var(--app-bar-height))
   // height: calc(100vh - var(--app-bar-height))
   .home-page-inner
+    // max-width: 100%
     .hello
       color: $green
       padding-left: 4px
@@ -1188,7 +1249,7 @@ $length: 2s
   // height: auto
   width: fit-content
   max-width: calc(100% - 4px)
-  font-size: clamp(40px, 8vw, 80px)
+  font-size: clamp(10px, 8vw, 80px)
   // margin: 0 !important
   transition: all 1s ease-in-out !important
   .typing-text__inner
@@ -1567,315 +1628,4 @@ ul
     -webkit-filter: blur(0)
     filter: blur(0)
     opacity: 1
-.flicker-in-2
-  -webkit-animation: flicker-in-2 3s linear reverse both
-  animation: flicker-in-2 3s linear reverse both
-
-@-webkit-keyframes flicker-in-2
-  0%
-    opacity: 0
-
-  10%
-    opacity: 0
-    -webkit-text-shadow: none
-    text-shadow: none
-
-  10.1%
-    opacity: 1
-    -webkit-text-shadow: none
-    text-shadow: none
-
-  10.2%
-    opacity: 0
-    -webkit-text-shadow: none
-    text-shadow: none
-
-  20%
-    opacity: 0
-    -webkit-text-shadow: none
-    text-shadow: none
-
-  20.1%
-    opacity: 1
-    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.25)
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.25)
-
-  20.6%
-    opacity: 0
-    -webkit-text-shadow: none
-    text-shadow: none
-
-  30%
-    opacity: 0
-    -webkit-text-shadow: none
-    text-shadow: none
-
-  30.1%
-    opacity: 1
-    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
-
-  30.5%
-    opacity: 1
-    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
-
-  30.6%
-    opacity: 0
-    -webkit-text-shadow: none
-    text-shadow: none
-
-  45%
-    opacity: 0
-    -webkit-text-shadow: none
-    text-shadow: none
-
-  45.1%
-    opacity: 1
-    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
-
-  50%
-    opacity: 1
-    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
-
-  55%
-    opacity: 1
-    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
-
-  55.1%
-    opacity: 0
-    -webkit-text-shadow: none
-    text-shadow: none
-
-  57%
-    opacity: 0
-    -webkit-text-shadow: none
-    text-shadow: none
-
-  57.1%
-    opacity: 1
-    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.55), 0 0 5px rgba(255, 255, 255, 0.3)
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.55), 0 0 5px rgba(255, 255, 255, 0.3)
-
-  60%
-    opacity: 1
-    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.55), 0 0 5px rgba(255, 255, 255, 0.3)
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.55), 0 0 5px rgba(255, 255, 255, 0.3)
-
-  60.1%
-    opacity: 0
-    -webkit-text-shadow: none
-    text-shadow: none
-
-  65%
-    opacity: 0
-    -webkit-text-shadow: none
-    text-shadow: none
-
-  65.1%
-    opacity: 1
-    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.55), 0 0 5px rgba(255, 255, 255, 0.3), 0 0 7px rgba(255, 255, 255, 0.1)
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.55), 0 0 5px rgba(255, 255, 255, 0.3), 0 0 7px rgba(255, 255, 255, 0.1)
-
-  75%
-    opacity: 1
-    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.55), 0 0 5px rgba(255, 255, 255, 0.3), 0 0 7px rgba(255, 255, 255, 0.1)
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.55), 0 0 5px rgba(255, 255, 255, 0.3), 0 0 7px rgba(255, 255, 255, 0.1)
-
-  75.1%
-    opacity: 0
-    -webkit-text-shadow: none
-    text-shadow: none
-
-  77%
-    opacity: 0
-    -webkit-text-shadow: none
-    text-shadow: none
-
-  77.1%
-    opacity: 1
-    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 5px rgba(255, 255, 255, 0.4), 0 0 9px rgba(255, 255, 255, 0.2), 0 0 7px rgba(255, 255, 255, 0.1)
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 5px rgba(255, 255, 255, 0.4), 0 0 9px rgba(255, 255, 255, 0.2), 0 0 7px rgba(255, 255, 255, 0.1)
-
-  85%
-    opacity: 1
-    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 5px rgba(255, 255, 255, 0.4), 0 0 9px rgba(255, 255, 255, 0.2), 0 0 7px rgba(255, 255, 255, 0.1)
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 5px rgba(255, 255, 255, 0.4), 0 0 9px rgba(255, 255, 255, 0.2), 0 0 7px rgba(255, 255, 255, 0.1)
-
-  85.1%
-    opacity: 0
-    -webkit-text-shadow: none
-    text-shadow: none
-
-  86%
-    opacity: 0
-    -webkit-text-shadow: none
-    text-shadow: none
-
-  86.1%
-    opacity: 1
-    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 5px rgba(255, 255, 255, 0.45), 0 0 9px rgba(255, 255, 255, 0.25), 0 0 7px rgba(255, 255, 255, 0.1)
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 5px rgba(255, 255, 255, 0.45), 0 0 9px rgba(255, 255, 255, 0.25), 0 0 7px rgba(255, 255, 255, 0.1)
-
-  100%
-    opacity: 1
-    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 5px rgba(255, 255, 255, 0.45), 0 0 9px rgba(255, 255, 255, 0.25), 0 0 7px rgba(255, 255, 255, 0.1)
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 5px rgba(255, 255, 255, 0.45), 0 0 9px rgba(255, 255, 255, 0.25), 0 0 7px rgba(255, 255, 255, 0.1)
-
-@keyframes flicker-in-2
-  0%
-    opacity: 0
-
-  10%
-    opacity: 0
-    -webkit-text-shadow: none
-    text-shadow: none
-
-  10.1%
-    opacity: 1
-    -webkit-text-shadow: none
-    text-shadow: none
-
-  10.2%
-    opacity: 0
-    -webkit-text-shadow: none
-    text-shadow: none
-
-  20%
-    opacity: 0
-    -webkit-text-shadow: none
-    text-shadow: none
-
-  20.1%
-    opacity: 1
-    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.25)
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.25)
-
-  20.6%
-    opacity: 0
-    -webkit-text-shadow: none
-    text-shadow: none
-
-  30%
-    opacity: 0
-    -webkit-text-shadow: none
-    text-shadow: none
-
-  30.1%
-    opacity: 1
-    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
-
-  30.5%
-    opacity: 1
-    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
-
-  30.6%
-    opacity: 0
-    -webkit-text-shadow: none
-    text-shadow: none
-
-  45%
-    opacity: 0
-    -webkit-text-shadow: none
-    text-shadow: none
-
-  45.1%
-    opacity: 1
-    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
-
-  50%
-    opacity: 1
-    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
-
-  55%
-    opacity: 1
-    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.45), 0 0 5px rgba(255, 255, 255, 0.25)
-
-  55.1%
-    opacity: 0
-    -webkit-text-shadow: none
-    text-shadow: none
-
-  57%
-    opacity: 0
-    -webkit-text-shadow: none
-    text-shadow: none
-
-  57.1%
-    opacity: 1
-    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.55), 0 0 5px rgba(255, 255, 255, 0.3)
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.55), 0 0 5px rgba(255, 255, 255, 0.3)
-
-  60%
-    opacity: 1
-    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.55), 0 0 5px rgba(255, 255, 255, 0.3)
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.55), 0 0 5px rgba(255, 255, 255, 0.3)
-
-  60.1%
-    opacity: 0
-    -webkit-text-shadow: none
-    text-shadow: none
-
-  65%
-    opacity: 0
-    -webkit-text-shadow: none
-    text-shadow: none
-
-  65.1%
-    opacity: 1
-    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.55), 0 0 5px rgba(255, 255, 255, 0.3), 0 0 7px rgba(255, 255, 255, 0.1)
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.55), 0 0 5px rgba(255, 255, 255, 0.3), 0 0 7px rgba(255, 255, 255, 0.1)
-
-  75%
-    opacity: 1
-    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.55), 0 0 5px rgba(255, 255, 255, 0.3), 0 0 7px rgba(255, 255, 255, 0.1)
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.55), 0 0 5px rgba(255, 255, 255, 0.3), 0 0 7px rgba(255, 255, 255, 0.1)
-
-  75.1%
-    opacity: 0
-    -webkit-text-shadow: none
-    text-shadow: none
-
-  77%
-    opacity: 0
-    -webkit-text-shadow: none
-    text-shadow: none
-
-  77.1%
-    opacity: 1
-    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 5px rgba(255, 255, 255, 0.4), 0 0 9px rgba(255, 255, 255, 0.2), 0 0 7px rgba(255, 255, 255, 0.1)
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 5px rgba(255, 255, 255, 0.4), 0 0 9px rgba(255, 255, 255, 0.2), 0 0 7px rgba(255, 255, 255, 0.1)
-
-  85%
-    opacity: 1
-    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 5px rgba(255, 255, 255, 0.4), 0 0 9px rgba(255, 255, 255, 0.2), 0 0 7px rgba(255, 255, 255, 0.1)
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 5px rgba(255, 255, 255, 0.4), 0 0 9px rgba(255, 255, 255, 0.2), 0 0 7px rgba(255, 255, 255, 0.1)
-
-  85.1%
-    opacity: 0
-    -webkit-text-shadow: none
-    text-shadow: none
-
-  86%
-    opacity: 0
-    -webkit-text-shadow: none
-    text-shadow: none
-
-  86.1%
-    opacity: 1
-    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 5px rgba(255, 255, 255, 0.45), 0 0 9px rgba(255, 255, 255, 0.25), 0 0 7px rgba(255, 255, 255, 0.1)
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 5px rgba(255, 255, 255, 0.45), 0 0 9px rgba(255, 255, 255, 0.25), 0 0 7px rgba(255, 255, 255, 0.1)
-
-  100%
-    opacity: 1
-    -webkit-text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 5px rgba(255, 255, 255, 0.45), 0 0 9px rgba(255, 255, 255, 0.25), 0 0 7px rgba(255, 255, 255, 0.1)
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 5px rgba(255, 255, 255, 0.45), 0 0 9px rgba(255, 255, 255, 0.25), 0 0 7px rgba(255, 255, 255, 0.1)
 </style>

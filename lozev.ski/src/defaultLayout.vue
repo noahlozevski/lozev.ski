@@ -23,7 +23,7 @@
               a.my-auto(href="/resume.pdf" @click="resumeButton" target="_blank") Resume
     v-app-bar.bar.w-100(app :hide-on-scroll="$vuetify.breakpoint.mdAndUp" elevate-on-scroll :prominent="$vuetify.breakpoint.mdAndUp" :shrink-on-scroll="$vuetify.breakpoint.mdAndUp")
       .ml-2.ml-md-8.logo.mr-auto(:style="$vuetify.breakpoint.mdAndUp ? 'font-size: 50px' : 'font-size: 35px'")
-        p.my-auto.text-glow(id="logo-app-bar") { nl }
+        p.my-auto.text-glow.unselectable(id="logo-app-bar" @click="$vuetify.goTo('#home', scrollOptions)") { nl }
       template(v-if="loaded")
         .item.d-none.d-sm-none.d-md-block.slide-in-top(:style="'--slide-delay: 0.1s'")
           .number 01.
@@ -45,7 +45,7 @@
           span.hamburger-inner
     v-main.pb-0(background="#0a192fd9")
       v-container.pa-0(fluid)
-        router-view(@loaded="loadedPage")
+        router-view(@loaded="loadedPage" @scroll="e=>$vuetify.goTo(e,scrollOptions)")
     v-footer.footer(app padless :absolute="$vuetify.breakpoint.smAndDown")
       .container.d-md-block.d-none
         .left-side.mx-lg-10.mx-md-6
@@ -198,7 +198,13 @@ body, .v-main
 //     backdrop-filter: blur(5px)
 
   // -webkit-filter: blur(20px)
-
+.unselectable
+  -webkit-user-select: none
+  -moz-user-select: none
+  -ms-user-select: none
+  user-select: none
+  &:hover
+    cursor: pointer
 .slide-in-top
   -webkit-animation: slide-in-top 0.7s cubic-bezier(0.075, 0.82, 0.165, 1) var(--slide-delay) both
   animation: slide-in-top 0.7s cubic-bezier(0.075, 0.82, 0.165, 1) var(--slide-delay) both
