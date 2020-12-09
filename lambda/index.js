@@ -1,45 +1,44 @@
-var sesAccessKey = '<email username>'
-var sesSecretKey = '<email password>'
+exports.handler = function(event, context, callback) {
+  var nodemailer = require('nodemailer');
+  var smtpTransport = require('nodemailer-smtp-transport');
 
- exports.handler = function(event, context, callback) {
+  var transporter = nodemailer.createTransport(smtpTransport({
+		host: "smtp.domain.com",
+		port: 587,
+		secure: true, // upgrade later with STARTTLS
+		auth: {
+			user: "noah@lozev.ski",
+			pass: process.env.EMAIL_PASSWORD
+		}
+  }));
 
-  	var nodemailer = require('nodemailer');
-  	var smtpTransport = require('nodemailer-smtp-transport');
+  var text = `${event.email} - ${event.message}`;
 
-  	var transporter = nodemailer.createTransport(smtpTransport({
-	    service: 'gmail',
-	    auth: {
-	        user: sesAccessKey,
-	        pass: sesSecretKey
-	    }
-  	}));
+  var mailOptions = {
+    from: 'noah@lozev.ski',
+    to: 'noah@lozev.ski',
+    subject: 'message from lozev.ski!',
+    text: text
+  };
 
-  	var text = 'Email body goes here';
-
-  	var mailOptions = {
-	    from: '<from email address',
-	    to: '<to email address>',
-	    bcc: '<bcc email addres>',
-	    subject: 'Test subject',
-	    text: text
-  	};
-
-  	transporter.sendMail(mailOptions, function(error, info){
-      if(error){
-        const response = {
-          statusCode: 500,
-          body: JSON.stringify({
-            error: error.message,
-          }),
-        };
-        callback(null, response);
-      }
+  transporter.sendMail(mailOptions, function(error, info){
+    if(error){
       const response = {
-        statusCode: 200,
+        statusCode: 500,
         body: JSON.stringify({
-          message: `Email processed succesfully!`
+          error: error.message,
+					message: mailOptions
         }),
       };
       callback(null, response);
-    });
+    }
+    const response = {
+      statusCode: 200,
+      body: JSON.stringify({
+        message: `Email processed succesfully!`,
+				message2: mailOptions
+      }),
+    };
+    callback(null, response);
+  });
 }

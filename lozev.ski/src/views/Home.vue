@@ -147,7 +147,15 @@
                         v-textarea(placeholder="Message" full-width v-model="email_message" color="#64ffda")
                         .send-message
                           a(@click="sendMessage") Send Message
-                      
+                      v-overlay.overlay(v-model="sending_email" :absolute="true")
+                        v-progress-circular(v-if="sending_email_progress" indeterminate color="#64ffda")
+                        template(v-if="!sending_email_progress")
+                          p.text-center.mb-4 Message sent!
+                          .svg-container
+                            svg#svg(viewBox="0 0 100 100")
+                              path#checkmark.check(fill="none", stroke="green", stroke-width="3", d="M64.5,32.4L32.6,64.3L18.4,50")
+                          .send-message.mt-4
+                            a(@click="resetSendEmail") OK
 
                     
                   
@@ -198,16 +206,9 @@
                   feDisplacementMap(in="SourceGraphic", in2="NOISE", scale="20", xChannelSelector="R", yChannelSelector="R")
 </template>
 <script>
-import TypingText from "@/components/typingText"
-import _ from "lodash"
-import Nameplate from "@/components/nameplate"
-import About from "@/components/about"
-import Projects from "@/components/projects"
-import Resume from "@/components/resume"
-import Contact from "@/components/contact"
+import axios from "axios"
 
 export default {
-  components: { TypingText, Nameplate, Contact, About, Projects, Resume },
   data() {
     return {
       state: 0,
@@ -219,8 +220,11 @@ export default {
       loading2: true,
       left: 0,
       top: 0,
+      api: null,
       email: "",
       email_message: "",
+      sending_email: false,
+      sending_email_progress: false,
       selectedCompanyIndex: 0,
       companies: [
         // {
@@ -339,11 +343,7 @@ export default {
       return `${this.selectedCompanyIndex * 49}`
     },
     message() {
-      return this.isMobile
-        ? ["{ nl }"]
-        : // ? ["hi!", "my name is$", "noah lozevski", "welcome$", "to my site."]
-          ["{ nl }"]
-      // ["hi!", "my name is$", "noah lozevski.", "welcome to$", "my site."]
+      return ["{ nl }"]
     },
     showPage() {
       return !!this.$route.query?.home
@@ -355,6 +355,10 @@ export default {
   mounted() {
     this.isMobile = window.innerWidth <= 600
     this.selectedTab = this.$route.query?.tab || 0
+    this.api = axios.create({
+      /** read base url from env variables */
+      baseURL: `https://rka4k41tt3.execute-api.us-east-2.amazonaws.com/prod`,
+    })
 
     Promise.resolve()
       .delay(250)
@@ -373,7 +377,6 @@ export default {
             text.classList.add("move-move")
           } else {
             logo_prev.classList.add("animate__animated")
-            // logo_prev.classList.add("")
             logo_prev.classList.add("text-glow-faster")
           }
           setTimeout(() => {
@@ -385,8 +388,23 @@ export default {
       })
   },
   methods: {
+    resetSendEmail() {
+      this.sending_email_progress = false
+      this.sending_email = false
+    },
     sendMessage() {
-      console.log("message sent!")
+      if (!this.email_message && !this.email) return
+      this.sending_email = true
+      this.sending_email_progress = true
+      this.api
+        .post("/email", { message: this.email_message, email: this.email })
+        .then(resp => ({}))
+        .catch(err => ({}))
+        .finally(() => {
+          this.sending_email_progress = false
+          this.email = ""
+          this.email_message = ""
+        })
     },
     mouseOver(e) {
       let picContainer = document.getElementById("picture-container-fun")
@@ -400,8 +418,6 @@ export default {
       if (this.$route.query?.tab != `${i}`) {
         this.$router.replace({ name: this.$route.name, query: { home: true, tab: `${i}` } })
       }
-      const selector = document.querySelector(`.i${this.selectedTab}`)
-
       this.selectedTab = i
     },
     trigger() {
@@ -563,6 +579,7 @@ $green: #64ffda
         transition: all .2s linear
         box-shadow: none
         max-width: 700px
+        position: relative
         .email-me
           display: inline
           width: fit-content
@@ -590,6 +607,37 @@ $green: #64ffda
             color: $green
           &:hover
             background-color: rgb(100, 255, 218,0.2)
+        .overlay
+          .v-overlay__content
+            display: flex
+            justify-content: center
+            align-items: center
+            flex-direction: column
+            .text-center
+              font-size: 22px
+            .send-message
+              width: 80px
+              margin: 0 auto
+            .svg-container
+              color: $green
+              position: relative
+              overflow: hidden
+              height: 100px
+              @keyframes svgstrokefill
+                0%
+                  stroke-dashoffset: 100
+                100%
+                  stroke-dashoffset: 0
+              svg
+                height: 150px
+                width: 150px
+                transform: translate(18px, -31px)
+                path
+                  stroke-dasharray: 100
+                  stroke-dashoffset: 100
+                  animation: svgstrokefill 1s ease forwards
+                  stroke: currentcolor
+
 
 
 

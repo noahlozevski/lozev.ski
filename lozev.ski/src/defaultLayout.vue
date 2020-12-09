@@ -79,16 +79,11 @@
           .items
             .email
               a(href="mailto:noah@lozev.ski?subject=Lets Chat! 🤟&body=Hi Noah, I'd like to hire you!") noah@lozev.ski
-      //- .d-md-none.d-block
-      //-   | footer
 </template>
 
 <script>
-import AppBarComponent from "./components/appBar"
-import NavigationComponent from "./components/navigationComponent"
 export default {
   name: "App",
-  components: { AppBarComponent, NavigationComponent },
   data() {
     return {
       loaded: false,
@@ -121,9 +116,6 @@ export default {
       if (status !== null) {
         this.$vuetify.goTo(status, this.scrollOptions)
       }
-      // else if (status === null) {
-      //   this.drawerStatus = !this.drawerStatus
-      // }
     },
     resumeButton() {
       this.navigationDrawer(false)
