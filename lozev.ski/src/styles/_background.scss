@@ -105,7 +105,7 @@ $colors: #DF0024,#F3C300,#00AC9F,#2E6DB4;
 // $shapes: '\f111', '\f10c', '\f068', '\f22d', '\f077',  '\f04b', '\f067', '\f04d';
 $shapes: '\f22d','\f077','\f067','\f121','\f0c8';
 
-$shape-count: 50;
+$shape-count: 100;
 
 
 @for $i from 1 through $shape-count {
@@ -125,8 +125,8 @@ $shape-count: 50;
 
   // $position: percentage(random(100) / 100);
   
-  $speed: 5 + random(8);
-  $delay: random(5000);
+  $speed: 5 + random(15);
+  $delay: random(1000);
   $color-key: random( length($colors) );
   $shape-color: nth( $colors, $color-key );
   $shape-key: random( length($shapes) );

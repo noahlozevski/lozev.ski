@@ -1,14 +1,19 @@
 import Vue from "vue"
 import VueRouter from "vue-router"
-import Home from "../views/home.vue"
+import NotFound from "../views/404.vue"
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: "/",
-    name: "entrance",
-    component: Home,
+    name: "home",
+    component: () => import(/* webpackChunkName: "about" */ "../views/home.vue"),
+  },
+  {
+    path: "*",
+    name: "404",
+    component: NotFound,
   },
 ]
 

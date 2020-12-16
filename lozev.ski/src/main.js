@@ -8,9 +8,30 @@ import "animate.css/animate.css"
 import "./styles/_fonts.css"
 import router from "./router"
 import store from "./store"
+import axios from "axios"
 
 /** import main css sheet */
 import "./styles/main.sass"
+
+import wb from "./registerServiceWorker"
+
+Vue.prototype.$workbox = wb
+const a = axios.create({
+  /** read base url from env variables */
+  baseURL: `https://rka4k41tt3.execute-api.us-east-2.amazonaws.com/prod`,
+})
+
+Vue.prototype.$api = a
+
+Vue.prototype.$sendMessage = async (message, email) => {
+  try {
+    a.post("/email", { message: message || "", email: email || "" }).catch(e => {
+      e
+    })
+  } catch (e) {
+    e
+  }
+}
 
 function delay(t, v) {
   return new Promise(function(resolve) {

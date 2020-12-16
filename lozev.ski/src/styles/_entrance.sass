@@ -1,24 +1,7 @@
 .entrance-page
-  // height: 100%
-  // .container
-  //   display: flex
-  //   // flex-direction: column
-  //   align-items: center
-  // margin: 2rem auto
-  // --border-width: 10px
-  // --timing: 5s
-  // padding: 2em
   color: white !important
   padding: 0 !important
   overflow-x: hidden !important
-  // background-repeat: no-repeat
-  // background-image: linear-gradient(to right, #C9C9C9 100%, #C9C9C9 100%), linear-gradient(to bottom, #C9C9C9 100%, #C9C9C9 100%), linear-gradient(to right, #C9C9C9 100%, #C9C9C9 100%), linear-gradient(to bottom, #C9C9C9 100%, #C9C9C9 100%)
-  // background-size: 100% var(--border-width), var(--border-width) 100%, 100% var(--border-width), var(--border-width) 100%
-  // animation: bg var(--timing) cubic-bezier(0.19, 1, 0.22, 1) 1
-  // animation-play-state: paused
-
-  // &:hover
-  //   animation-play-state: running
     
   .header
     align-self: flex-start
@@ -39,11 +22,6 @@
         text-shadow: 0 0 7px rgba(255, 255, 255, 0.8), 0 0 11px rgba(255, 255, 255, 0.8) !important
   .run-animation
     animation-play-state: running
-  // .items
-  //   .item
-  //     overflow: hidden
-    //   opacity: 0
-    //   transition: opacity .5s
   
 @media only screen and (min-width: 960px)
   .items
@@ -59,8 +37,6 @@
     -webkit-transform: perspective(1px) translateZ(0)
     transform: perspective(1px) translateZ(0)
     box-shadow: 0 0 1px rgba(0, 0, 0, 0)
-    // position: relative
-    // overflow-y: hidden
 
     &:before
       content: ""
@@ -71,7 +47,6 @@
       bottom: 0
       background: #ffffff
       height: 1px
-      // width: 
       -webkit-transform: translateY(14px)
       transform: translateY(14px)
       -webkit-transition-property: all
@@ -87,33 +62,3 @@
       opacity: 1
       transform: translateY(3px)
     
-
-// @keyframes bg
-//   0%
-//     background-size: 0 var(--border-width), var(--border-width) 0, 0 var(--border-width), var(--border-width) 0
-
-//   25%
-//     background-size: 100% var(--border-width), var(--border-width) 0, 0 var(--border-width), var(--border-width) 0
-
-//   50%
-//     background-size: 100% var(--border-width), var(--border-width) 100%, 0 var(--border-width), var(--border-width) 0
-
-//   75%
-//     background-size: 100% var(--border-width), var(--border-width) 100%, 100% var(--border-width), var(--border-width) 0
-
-//   100%
-//     background-size: 100% var(--border-width), var(--border-width) 100%, 100% var(--border-width), var(--border-width) 100%
-
-// div
-//   width: 25%
-//   margin: 2rem auto
-//   padding: 2em
-//   background-repeat: no-repeat
-//   background-image: linear-gradient(to right, #C9C9C9 100%, #C9C9C9 100%), linear-gradient(to bottom, #C9C9C9 100%, #C9C9C9 100%), linear-gradient(to right, #C9C9C9 100%, #C9C9C9 100%), linear-gradient(to bottom, #C9C9C9 100%, #C9C9C9 100%)
-//   background-size: 100% 3px, 3px 100%, 100% 3px, 3px 100%
-//   background-position: 0 0, 100% 0, 100% 100%, 0 100%
-//   animation: bg 1.25s cubic-bezier(0.19, 1, 0.22, 1) 1
-//   animation-play-state: paused
-
-//   &:hover
-//     animation-play-state: running

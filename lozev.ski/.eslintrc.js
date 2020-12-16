@@ -1,11 +1,11 @@
 module.exports = {
   root: true,
   env: {
-    node: true
+    node: true,
   },
-  extends: ["plugin:vue/recommended", "eslint:recommended","plugin:prettier/recommended", "prettier/vue"],
+  extends: ["plugin:vue/recommended", "eslint:recommended", "plugin:prettier/recommended", "prettier/vue"],
   parserOptions: {
-    parser: "babel-eslint"
+    parser: "babel-eslint",
   },
   rules: {
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
@@ -19,7 +19,7 @@ module.exports = {
         arrayExpand: true,
         embeddedLanguageFormatting: "auto",
         spaceBeforeFunctionParen: "never",
-      }
+      },
     ],
     "lines-between-class-members": ["error", "always"],
     "space-before-function-paren": [
@@ -27,8 +27,8 @@ module.exports = {
       {
         anonymous: "never",
         named: "never",
-        asyncArrow: "always"
-      }
+        asyncArrow: "always",
+      },
     ],
     "padding-line-between-statements": [
       "error",
@@ -36,13 +36,8 @@ module.exports = {
       {
         blankLine: "any",
         prev: ["const", "let", "var"],
-        next: ["const", "let", "var"]
-      }
-      
-      
-      
-      
-      
-    ]
-  }
+        next: ["const", "let", "var"],
+      },
+    ],
+  },
 }

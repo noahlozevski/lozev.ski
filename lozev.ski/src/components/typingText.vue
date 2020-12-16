@@ -21,7 +21,7 @@ export default {
   props: {
     delay: { type: Number, default: 0, required: false },
     length: { type: Number, default: 10, required: false },
-    message: { type: Array, default: [""], required: true },
+    message: { type: Array, default: () => [], required: true },
     offset: { type: Number, default: 0.5, required: false },
     isMobile: { type: Boolean, default: false, required: false },
   },
@@ -32,12 +32,6 @@ export default {
     }
   },
   computed: {
-    // isMobile() {
-    //   return (
-    //     /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-    //     window.innerWidth < 600
-    //   )
-    // },
     messages() {
       return this.message.map(m => m.replace("$", ""))
     },

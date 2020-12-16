@@ -1,4 +1,4 @@
-const CompressionPlugin = require("compression-webpack-plugin")
+// const CompressionPlugin = require("compression-webpack-plugin")
 
 module.exports = {
   transpileDependencies: ["vuetify"],
@@ -12,6 +12,19 @@ module.exports = {
   },
   chainWebpack(config) {
     config.plugins.delete("prefetch")
+  },
+  pwa: {
+    name: "noah.lozev.ski",
+    themeColor: "#0a192f",
+    msTileColor: "#0a192f",
+    appleMobileWebAppCache: "yes",
+    appleMobileWebAppCapable: "yes",
+    appleMobileWebAppStatusBarStyle: "black",
+    manifestOptions: {
+      name: "noah.lozev.ski",
+      short_name: "noah loz",
+    },
+    // workboxPluginMode: "InjectManifest",
   },
   pluginOptions: {
     webpackBundleAnalyzer: {
