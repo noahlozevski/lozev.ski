@@ -2,7 +2,7 @@
   div.fill-height.overflow-x-hidden
     .bg-wrapper
       .bg-container
-        .shape-animation(v-for="i in 25" :class="`shape-container--${i}`" :key="`shapesss-${i}`")
+        .shape-animation(v-for="i in 10" :class="`shape-container--${i}`" :key="`shapesss-${i}`")
           .random-shape
     v-container.entrance-page.pa-0(fluid fill-height)
       v-overlay.solid-background(v-if="loading" id="page-overlay")
@@ -30,7 +30,7 @@
                   //- a.my-auto(href="mailto:noah@lozev.ski?subject=Lets Chat! 🤟&body=Hi Noah,") Message me
 
             .page.about-page(id="about")
-              v-lazy(:options="{ threshold: .6 }" transition="fade-transition")
+              v-lazy(:options="{ threshold: .3 }" transition="fade-transition")
                 .page-inner
                   h2.numbered-header(:style="`--content: '01.'`") About me
                   v-container.pa-0.ma-0(fluid)
@@ -82,7 +82,7 @@
                           img.profile-pic(src="/profile.jpg")
 
             .page.experience-page(id="experience")
-              v-lazy(:options="{ threshold: .7 }" transition="fade-transition")
+              v-lazy(:options="{ threshold: .3 }" transition="fade-transition")
                 .page-inner
                   h2.numbered-header.animate__animated.animate__fadeInDown.animate__faster.animate__delay-2s(:style="`--content: '02.'`") Some Places I've Worked
                   v-container.pa-0.ma-0(fluid)
@@ -101,7 +101,7 @@
                             li(v-for="(bullet, j) in selectedCompany.bullets" :key="`action-list-${j}`") {{ bullet }}
             
             .page.projects(id="projects")
-              v-lazy(:options="{ threshold: .7 }" transition="fade-transition")
+              v-lazy(:options="{ threshold: .3 }" transition="fade-transition")
                 .page-inner
                   h2.numbered-header(:style="`--content: '03.'`") Things I've Built
                   v-container.pa-0.ma-0(fluid)
@@ -130,7 +130,7 @@
                         img.featured-project-image(:src="project.photo")
 
             .page.contact-page(id="contact")
-              v-lazy(:options="{ threshold: .7 }" transition="fade-transition")
+              v-lazy(:options="{ threshold: .3 }" transition="fade-transition")
                 .page-inner
                   h2.numbered-header(:style="`--content: '04.'`") Contact Me
                   
@@ -207,16 +207,14 @@
                   feDisplacementMap(in="SourceGraphic", in2="NOISE", scale="20", xChannelSelector="R", yChannelSelector="R")
 </template>
 <script>
+import axios from "axios"
+
 export default {
   data() {
     return {
       state: 0,
-      isMobile: false,
       tabs: ["home", "projects", "resume", "contact"],
-      slideOff: 0.25,
-      selectedTab: null,
       loading: true,
-      loading2: true,
       left: 0,
       top: 0,
       email: "",
@@ -224,6 +222,7 @@ export default {
       sending_email: false,
       sending_email_progress: false,
       selectedCompanyIndex: 0,
+      api: null,
       companies: [
         // {
         //   company_name: "Vaporware",
@@ -340,46 +339,32 @@ export default {
     barPosition() {
       return `${this.selectedCompanyIndex * 49}`
     },
-    message() {
-      return ["{ nl }"]
-    },
-    showPage() {
-      return !!this.$route.query?.home
-    },
-    slideOffset() {
-      return this.selectedTab !== null ? 0 : this.slideOff
-    },
   },
   mounted() {
-    this.isMobile = window.innerWidth <= 600
-    this.selectedTab = this.$route.query?.tab || 0
+    setTimeout(() => {
+      setTimeout(() => {
+        const logo = document.getElementById("logo-app-bar")
 
-    Promise.resolve()
-      .delay(250)
-      .then(() => {
+        const logo_prev = document.getElementById("typing")
+        const text = document.getElementById("p-typing")
+
+        const rect = logo.getBoundingClientRect()
+
+        if (this.$vuetify.breakpoint.mdAndUp) {
+          logo_prev.classList.add("move-logo")
+          logo_prev.style.transform = `translate3d(calc(-50vw + ${rect.left + 8}px),calc(-50vh + ${rect.top}px),0)`
+          text.classList.add("move-move")
+        } else {
+          // logo_prev.classList.add("animate__animated")
+          logo_prev.classList.add("text-glow-faster")
+        }
         setTimeout(() => {
-          const logo = document.getElementById("logo-app-bar")
-
-          const logo_prev = document.getElementById("typing")
-          const text = document.getElementById("p-typing")
-
-          const rect = logo.getBoundingClientRect()
-
-          if (this.$vuetify.breakpoint.mdAndUp) {
-            logo_prev.classList.add("move-logo")
-            logo_prev.style.transform = `translate3d(calc(-50vw + ${rect.left + 8}px),calc(-50vh + ${rect.top}px),0)`
-            text.classList.add("move-move")
-          } else {
-            logo_prev.classList.add("animate__animated")
-            logo_prev.classList.add("text-glow-faster")
-          }
-          setTimeout(() => {
-            document.getElementById("page-overlay").classList.remove("solid-background")
-            this.loading = false
-            this.$emit("loaded")
-          }, 1100)
-        }, 2500)
-      })
+          document.getElementById("page-overlay").classList.remove("solid-background")
+          this.loading = false
+          this.$emit("loaded")
+        }, 1100)
+      }, 2500)
+    }, 250)
   },
   methods: {
     resetSendEmail() {
@@ -390,6 +375,11 @@ export default {
       if (!this.email_message && !this.email) return
       this.sending_email = true
       this.sending_email_progress = true
+      if (!this.api)
+        this.api = axios.create({
+          /** read base url from env variables */
+          baseURL: `https://rka4k41tt3.execute-api.us-east-2.amazonaws.com/prod`,
+        })
       this.$api
         .post("/email", { message: this.email_message, email: this.email })
         .catch(err => err)
@@ -422,6 +412,44 @@ $light-slate: #a8b2d1
 $lightest-slate: #ccd6f6
 $white: #e6f1ff
 $green: #64ffda
+.home-page
+  display: flex
+  justify-content: center
+  flex-direction: column
+  align-items: flex-start
+  min-height: calc(100vh - var(--app-bar-height))
+  .home-page-inner
+    .hello
+      color: $green
+      padding-left: 4px
+      margin-bottom: 25px
+      font-size: clamp(14px,5vw,16px)
+    h3
+      color: $lightest-slate
+    h6
+      color: $slate
+    .intro
+      color: $light-slate
+      font-size: 16px
+      max-width: min(100%, 500px)
+      padding-right: 10px
+      font-family: gotham
+    .resume-button
+      border-radius: 5px
+      border: 1.5px solid $green
+      width: 150px
+      height: 50px
+      padding: auto
+      transition: all .25s ease-in-out
+      text-align: center
+      a
+        line-height: 45px
+
+        display: block
+        text-decoration: none
+        color: $green
+      &:hover
+        background-color: rgb(100, 255, 218,0.2)
 .hvr-underline-from-center
   /* display: inline-block;
   vertical-align: middle
@@ -464,19 +492,13 @@ $green: #64ffda
     align-items: center
     width: max(300px, 60vw)
     .item
-      // padding: 20px 10px
       height: 25px
       width: 25px
       color: $light-slate !important
-      // transform: translateY(4px)
       transition: .25s transform ease-in-out
-
-      &:hover
-        // transform: translateY(0px)
       a
         color: $light-slate !important
         text-decoration: none
-        // color: $lightest-slate !important
         svg
           path
             transition: fill .35s ease-in-out
@@ -490,8 +512,6 @@ $green: #64ffda
   .email
     margin-top: 25px
     color: $light-slate !important
-    // transform: translateY(4px)
-    // transition: .25s transform ease-in-out
     font-size: 14px
     font-family: "JetBrains Mono"
     line-height: 30px
@@ -501,14 +521,12 @@ $green: #64ffda
         text-align: center
       span
         margin: 0 10px
-    &:hover
-      // transform: translateY(0px)
     a
       transition: .25s color ease-in-out
       color: $light-slate !important
       text-decoration: none
       svg
-        transform: translateY(2px)
+        transform: translate3d(0,0,2px)
         path
           transition: fill .35s ease-in-out
           fill: currentcolor
@@ -518,18 +536,6 @@ $green: #64ffda
         path
           transition: fill .35s ease-in-out
           fill: currentcolor
-
-// @media only screen and (min-width: 600px)
-//   .page
-//     .page-inner
-//       .project-item
-//         .p-container
-//         .img-container
-//           width: 100px
-//           height: 100px
-//           .featured-project-image
-//             height: 100px
-//             width: 100px
 .page
   display: flex
   justify-content: center
@@ -639,12 +645,11 @@ $green: #64ffda
             align-items: flex-end
           .services
             justify-content: flex-end
-            .service
           .description
             text-align: right
         @media only screen and (max-width: 600px)
           .img-container
-            transform: translateY(-80%) translateX(-5%)
+            transform: translate3d(-5%,-80%,0)
             right: 0
             left: 5% !important
         .img-container
@@ -738,7 +743,7 @@ $green: #64ffda
           position: absolute
           right: 0
           z-index: 0
-          filter: grayscale(100%)
+          filter: url('#noise') grayscale(100%)
           top: 50%
           max-width: 50%
           transform: translate3d(0,-60%,0)
@@ -979,33 +984,6 @@ $green: #64ffda
 $delay:.5s
 $length: 2s
 
-.slide-in-top
-  -webkit-animation: slide-in-top 0.3s cubic-bezier(0.075, 0.82, 0.165, 1) .5s both
-  animation: slide-in-top 0.3s cubic-bezier(0.075, 0.82, 0.165, 1) .5s both
-
-
-@-webkit-keyframes slide-in-top
-  0%
-    -webkit-transform: translateY(-1000px)
-    transform: translateY(-1000px)
-    opacity: 0
-
-  100%
-    -webkit-transform: translateY(0)
-    transform: translateY(0)
-    opacity: 1
-
-@keyframes slide-in-top
-  0%
-    -webkit-transform: translateY(-1000px)
-    transform: translateY(-1000px)
-    opacity: 0
-
-  100%
-    -webkit-transform: translateY(0)
-    transform: translateY(0)
-    opacity: 1
-
 .fade-enter-active, .fade-leave-active
   transition: opacity .5s
 
@@ -1038,7 +1016,7 @@ $length: 2s
   position: fixed
   /** aligns the element in the center of the page at the start */
   // margin: 0 auto
-  transform: translate(-50%,-50%)
+  transform: translate3d(-50%,-50%,0)
   /** the typing bar */
   text-align: center
   height: 72px
@@ -1058,7 +1036,6 @@ $length: 2s
 
 .move-move
   animation: 1s ease-in-out 0s 1 normal both running typing !important
-  // animation
 
 .move-logo
   height: 28px
@@ -1074,7 +1051,6 @@ $length: 2s
   animation: typewriter $length steps(6) $delay 1 normal both, blinkTextCursor 350ms steps(6) infinite normal
 
 .anim-typewriter-name
-  // animation: typewriter 2s steps(14) var(--d) 1 normal both, blinkTextCursor 350ms steps(14) 20 normal
   animation: typewriter var(--t) var(--s) var(--d) 1 normal both, blinkTextCursor 350ms var(--s) var(--dd) var(--b) normal
 
 @keyframes typewriter
@@ -1095,182 +1071,6 @@ $length: 2s
     font-size: 72px
   100%
     font-size: 50px
-
-
-
-
-.magictime.bombRightOut
-    -webkit-animation-duration: 1s
-    animation-duration: 1s
-.card
-  animation: opacityanim .5s ease-in-out var(--delay) both
-@keyframes opacityanim
-  0%
-    opacity: 0
-  100%
-    opacity: 1
-
-.roll-in-blurred-left
-  -webkit-animation: roll-in-blurred-left 0.65s cubic-bezier(0.23, 1, 0.32, 1) var(--delay) both
-  animation: roll-in-blurred-left 0.65s cubic-bezier(0.23, 1, 0.32, 1) var(--delay) both
-
-/* ----------------------------------------------
- * Generated by Animista on 2020-11-24 23:15:20
- * Licensed under FreeBSD License.
- * See http://animista.net/license for more info.
- * w: http://animista.net, t: @cssanimista
- * ----------------------------------------------
-
-/**
- * ----------------------------------------
- * animation roll-in-blurred-left
- * ----------------------------------------
-@-webkit-keyframes roll-in-blurred-left
-  0%
-    -webkit-transform: translateX(-1000px) rotate(-720deg)
-    transform: translateX(-1000px) rotate(-720deg)
-    -webkit-filter: blur(50px)
-    filter: blur(50px)
-    opacity: 0
-
-  100%
-    -webkit-transform: translateX(0) rotate(0deg)
-    transform: translateX(0) rotate(0deg)
-    -webkit-filter: blur(0)
-    filter: blur(0)
-    opacity: 1
-
-@keyframes roll-in-blurred-left
-  0%
-    -webkit-transform: translateX(-1000px) rotate(-720deg)
-    transform: translateX(-1000px) rotate(-720deg)
-    -webkit-filter: blur(50px)
-    filter: blur(50px)
-    opacity: 0
-
-  100%
-    -webkit-transform: translateX(0) rotate(0deg)
-    transform: translateX(0) rotate(0deg)
-    -webkit-filter: blur(0)
-    filter: blur(0)
-    opacity: 1
-.card-animation
-  -webkit-animation: all 1s ease
-  animation: all 1s ease
-
-// ul.pre-loader
-//   // position: absolute
-//   // top: 50%
-//   // left: 50%
-//   // transform: translate(-50%, -50%)
-//   // margin: 0
-//   // padding: 0
-//   -webkit-animation: slide-in-blurred-bottom 0.6s cubic-bezier(0.23, 1, 0.32, 1) var(--delay) both
-//   animation: slide-in-blurred-bottom 0.6s cubic-bezier(0.23, 1, 0.32, 1) var(--delay) both
-
-
-// .items
-//   li
-//     list-style: none
-
-.list-complete-item
-  transition: all 1s
-
-.list-complete-enter, .list-complete-leave-to
-  /* .list-complete-leave-active below version 2.1.8 */
-  opacity: 0
-  transform: translateX(30px)
-
-.list-complete-leave-active
-  position: absolute
-
-// ul.pre-loader li
-//   list-style: none
-//   color: #484848
-//   display: inline
-//   // font-size: 5em
-//   font-size: 2.25em
-//   // letter-spacing: 15px
-
-// .animate-start
-//   -webkit-animation: pre-load 3s ease-in-out 2s infinite
-//   animation: pre-load 3s ease-in-out 2s infinite
-
-  // animation: pre-load 3s ease-in-out infinite,
-// .flip-list-move
-//   transition: transform 1s
-
-// @keyframes pre-load
-//   0%
-//     color: #ddbf3b
-//     text-shadow: 0 0 3px #ddbf3b, 0 0 10px #ddbf3b
-
-//   20%
-//     color: white
-//     text-shadow: none
-
-//   40%
-//     color: #ddbf3b
-//     text-shadow: 0 0 3px #ddbf3b, 0 0 10px #ddbf3b
-
-//   60%
-//     color: white
-//     text-shadow: none
-
-//   80%
-//     color: #ddbf3b
-//     text-shadow: 0 0 3px #ddbf3b, 0 0 10px #ddbf3b
-
-//   100%
-//     color: white
-//     text-shadow: none
-
-// ul
-//   li:nth-child(1)
-//     animation-delay: .1s
-
-//   &.pre-loader li
-//     &:nth-child(2)
-//       animation-delay: .15s
-
-//     &:nth-child(3)
-//       animation-delay: .2s
-
-//     &:nth-child(4)
-//       animation-delay: .25s
-
-//     &:nth-child(5)
-//       animation-delay: .3s
-
-//     &:nth-child(6)
-//       animation-delay: .35s
-
-//     &:nth-child(7)
-//       animation-delay: .4s
-
-//     &:nth-child(8)
-//       animation-delay: .45s
-
-//     &:nth-child(9)
-//       animation-delay: .5s
-
-//     &:nth-child(10)
-//       animation-delay: .55s
-
-//     &:nth-child(11)
-//       animation-delay: .6s
-//     &:nth-child(12)
-//       animation-delay: .65s
-//     &:nth-child(13)
-//       animation-delay: .7s
-
-// .entrance-page
-//   // height: 50%
-//   padding: 2px
-//   border: solid
-//   // border-width: var(--border-thickness)
-//   border-color: white
-
 .text-glow
   animation: textPulse 2s ease-in-out 0s infinite normal !important
 .text-glow-faster
@@ -1288,98 +1088,4 @@ $length: 2s
   100%
     -webkit-text-shadow: 0 0 5px rgba(255, 255, 255, 0.75)
     text-shadow: 0 0 5px rgba(255, 255, 255, 0.75)
-
-
-// @media only screen and (max-width: 600px)
-//   .entrance-page
-//     border-width: 0px
-
-// @media only screen and (min-width: 601px)
-//   .entrance-page
-//     border-width: 0px
-
-
-// .slide-in-blurred-bl
-//   -webkit-animation: slide-in-blurred-bl 0.6s cubic-bezier(0.23, 1, 0.32, 1) var(--delay) both
-//   animation: slide-in-blurred-bl 0.6s cubic-bezier(0.23, 1, 0.32, 1) var(--delay) both
-
-// @-webkit-keyframes slide-in-blurred-bl
-//   0%
-//     -webkit-transform: translate(-1000px, 1000px) skew(-80deg, -10deg)
-//     transform: translate(-1000px, 1000px) skew(-80deg, -10deg)
-//     -webkit-transform-origin: 100% 100%
-//     transform-origin: 100% 100%
-//     -webkit-filter: blur(40px)
-//     filter: blur(40px)
-//     opacity: 0
-
-//   100%
-//     -webkit-transform: translate(0, 0) skew(0deg, 0deg)
-//     transform: translate(0, 0) skew(0deg, 0deg)
-//     -webkit-transform-origin: 50% 50%
-//     transform-origin: 50% 50%
-//     -webkit-filter: blur(0)
-//     filter: blur(0)
-//     opacity: 1
-
-// @keyframes slide-in-blurred-bl
-//   0%
-//     -webkit-transform: translate(-1000px, 1000px) skew(-80deg, -10deg)
-//     transform: translate(-1000px, 1000px) skew(-80deg, -10deg)
-//     -webkit-transform-origin: 100% 100%
-//     transform-origin: 100% 100%
-//     -webkit-filter: blur(40px)
-//     filter: blur(40px)
-//     opacity: 0
-
-//   100%
-//     -webkit-transform: translate(0, 0) skew(0deg, 0deg)
-//     transform: translate(0, 0) skew(0deg, 0deg)
-//     -webkit-transform-origin: 50% 50%
-//     transform-origin: 50% 50%
-//     -webkit-filter: blur(0)
-//     filter: blur(0)
-//     opacity: 1
-
-// .slide-in-blurred-bottom
-//   -webkit-animation: slide-in-blurred-bottom 0.6s cubic-bezier(0.23, 1, 0.32, 1) var(--delay) both
-//   animation: slide-in-blurred-bottom 0.6s cubic-bezier(0.23, 1, 0.32, 1) var(--delay) both
-
-// @-webkit-keyframes slide-in-blurred-bottom
-//   0%
-//     -webkit-transform: translateY(1000px) scaleY(2.5) scaleX(0.2)
-//     transform: translateY(1000px) scaleY(2.5) scaleX(0.2)
-//     -webkit-transform-origin: 50% 100%
-//     transform-origin: 50% 100%
-//     -webkit-filter: blur(40px)
-//     filter: blur(40px)
-//     opacity: 0
-
-//   100%
-//     -webkit-transform: translateY(0) scaleY(1) scaleX(1)
-//     transform: translateY(0) scaleY(1) scaleX(1)
-//     -webkit-transform-origin: 50% 50%
-//     transform-origin: 50% 50%
-//     -webkit-filter: blur(0)
-//     filter: blur(0)
-//     opacity: 1
-
-// @keyframes slide-in-blurred-bottom
-//   0%
-//     -webkit-transform: translateY(1000px) scaleY(2.5) scaleX(0.2)
-//     transform: translateY(1000px) scaleY(2.5) scaleX(0.2)
-//     -webkit-transform-origin: 50% 100%
-//     transform-origin: 50% 100%
-//     -webkit-filter: blur(40px)
-//     filter: blur(40px)
-//     opacity: 0
-
-//   100%
-//     -webkit-transform: translateY(0) scaleY(1) scaleX(1)
-//     transform: translateY(0) scaleY(1) scaleX(1)
-//     -webkit-transform-origin: 50% 50%
-//     transform-origin: 50% 50%
-//     -webkit-filter: blur(0)
-//     filter: blur(0)
-//     opacity: 1
 </style>

@@ -1,10 +1,10 @@
 <template lang="pug">
   v-app
-    v-overlay.overlay-ui(v-if="showUpdateUI" style="z-index: 99999;")
-      .update-ui.text-center
-        h3.top New page update available!
-        h6.subtitle Would you like to update?
-        button.button.animate__animated(@click="updateApp" :class="{ animate__tada: mouseOver }" @mouseover="mouseOver = true" @mouseleave="mouseOver = false") Update!
+    //- v-overlay.overlay-ui(v-if="showUpdateUI" style="z-index: 99999;")
+    //-   .update-ui.text-center
+    //-     h3.top New page update available!
+    //-     h6.subtitle Would you like to update?
+    //-     button.button.animate__animated(@click="updateApp" :class="{ animate__tada: mouseOver }" @mouseover="mouseOver = true" @mouseleave="mouseOver = false") Update!
     v-navigation-drawer.drawer(app right temporary v-model="drawerStatus" @input="test" v-if="$vuetify.breakpoint.smAndDown")
       .px-4.py-1
         button.ml-auto.hamburger.hamburger--collapse(@click="navigationDrawer()" type="button")
@@ -26,8 +26,13 @@
           .item
             .resume-button
               a.my-auto(href="/resume.pdf" target="_blank") Resume
-    //- v-app-bar.bar.w-100(app :hide-on-scroll="$vuetify.breakpoint.mdAndUp" elevate-on-scroll :prominent="$vuetify.breakpoint.mdAndUp" :shrink-on-scroll="$vuetify.breakpoint.mdAndUp")
-    v-app-bar.bar.w-100(app :prominent="$vuetify.breakpoint.mdAndUp")
+    //- v-app-bar.bar.w-100(app :prominent="$vuetify.breakpoint.mdAndUp")
+                        //- :shrink-on-scroll="$vuetify.breakpoint.mdAndUp"
+                        //- :prominent="$vuetify.breakpoint.mdAndUp"
+    v-app-bar.bar.w-100(app
+                        :hide-on-scroll="$vuetify.breakpoint.mdAndUp"
+                        elevate-on-scroll
+                        )
       .ml-2.ml-md-8.logo.mr-auto(:style="$vuetify.breakpoint.mdAndUp ? 'font-size: 50px' : 'font-size: 35px'")
         p.my-auto.text-glow.unselectable(id="logo-app-bar" @click="goHome") { nl }
       template(v-if="loaded")
@@ -102,14 +107,14 @@ export default {
       mouseOver: false,
     }
   },
-  created() {
-    if (this.$workbox) {
-      this.$workbox.addEventListener("waiting", () => {
-        this.showUpdateUI = true
-        console.log("new update is available!")
-      })
-    }
-  },
+  // created() {
+  //   if (this.$workbox) {
+  //     this.$workbox.addEventListener("waiting", () => {
+  //       this.showUpdateUI = true
+  //       console.log("new update is available!")
+  //     })
+  //   }
+  // },
   methods: {
     // async sendUserAgentInfo() {
     //   try {
@@ -150,7 +155,7 @@ export default {
     },
     async updateApp() {
       this.showUpdateUI = false
-      await this.$workbox.messageSW({ type: "SKIP_WAITING" })
+      // await this.$workbox.messageSW({ type: "SKIP_WAITING" })
     },
 
     navigationDrawer(status = null) {
@@ -225,34 +230,60 @@ body, .v-main
   // transition: all 1s ease-in-out !important
 
 .v-app-bar
-  backdrop-filter: blur(10px)
-  // background-color: #0a192fd9 !important
+  -webkit-backface-visibility: hidden
+  -moz-backface-visibility: hidden
+  -ms-backface-visibility: hidden
+  backface-visibility: hidden
+
+  -webkit-perspective: 1000
+  -moz-perspective: 1000
+  -ms-perspective: 1000
+  perspective: 1000
+  -webkit-transform: translate3d(0, 0, 0)
+  -moz-transform: translate3d(0, 0, 0)
+  -ms-transform: translate3d(0, 0, 0)
+  transform: translate3d(0, 0, 0)
+  // backdrop-filter: blur(10px)
   background-color: #0a192fd9 !important
 .v-navigation-drawer
+  -webkit-backface-visibility: hidden
+  -moz-backface-visibility: hidden
+  -ms-backface-visibility: hidden
+  backface-visibility: hidden
+
+  -webkit-perspective: 1000
+  -moz-perspective: 1000
+  -ms-perspective: 1000
+  perspective: 1000
+  -webkit-transform: translate3d(0, 0, 0)
+  -moz-transform: translate3d(0, 0, 0)
+  -ms-transform: translate3d(0, 0, 0)
+  transform: translate3d(0, 0, 0)
   backdrop-filter: blur(20px)
   background-color: #0a192fd9 !important
 
 .v-navigation-drawer__content
-  // background-color: $dark-blue
   background-color: transparent
 .v-toolbar__content
   background-color: transparent
   align-items: center !important
-  // backdrop-filter: blur(10px)
 .v-overlay
   transition: all .2s ease-in-out !important
 .v-overlay--active
-  // -webkit-backdrop-filter: blur(20px)
+  -webkit-backface-visibility: hidden
+  -moz-backface-visibility: hidden
+  -ms-backface-visibility: hidden
+  backface-visibility: hidden
+
+  -webkit-perspective: 1000
+  -moz-perspective: 1000
+  -ms-perspective: 1000
+  perspective: 1000
+  -webkit-transform: translate3d(0, 0, 0)
+  -moz-transform: translate3d(0, 0, 0)
+  -ms-transform: translate3d(0, 0, 0)
+  transform: translate3d(0, 0, 0)
   backdrop-filter: blur(5px)
-//   animation: overlay-anim 1s ease-in-out 1
-
-// @keyframes overlay-anim
-//   0%
-//     backdrop-filter: none
-//   100%
-//     backdrop-filter: blur(5px)
-
-  // -webkit-filter: blur(20px)
 .unselectable
   -webkit-user-select: none
   -moz-user-select: none
@@ -267,24 +298,24 @@ body, .v-main
 
 @-webkit-keyframes slide-in-top
   0%
-    -webkit-transform: translateY(-1000px)
-    transform: translateY(-1000px)
+    -webkit-transform: translate3d(0,-1000px,0)
+    transform: translate3d(0,-1000px,0)
     opacity: 0
 
   100%
-    -webkit-transform: translateY(0)
-    transform: translateY(0)
+    -webkit-transform: translate3d(0,0,0)
+    transform: translate3d(0,0,0)
     opacity: 1
 
 @keyframes slide-in-top
   0%
-    -webkit-transform: translateY(-1000px)
-    transform: translateY(-1000px)
+    -webkit-transform: translate3d(0,-1000px,0)
+    transform: translate3d(0,-1000px,0)
     opacity: 0
 
   100%
-    -webkit-transform: translateY(0)
-    transform: translateY(0)
+    -webkit-transform: translate3d(0,0,0)
+    transform: translate3d(0,0,0)
     opacity: 1
 .overlay-ui
   backdrop-filter: blur(10px)
@@ -337,7 +368,7 @@ body, .v-main
       margin: 20px auto 20px auto !important
     .email
       writing-mode: vertical-rl
-      transform: translateY(4px)
+      transform: translate3d(0,4px,0)
       transition: .25s transform ease-in-out
       // margin-bottom: 18px
       margin: 0 auto 18px auto
@@ -349,17 +380,17 @@ body, .v-main
         &:hover
           color: $green
       &:hover
-        transform: translateY(0px)
+        transform: translate3d(0,0,0)
 
     .item
       height: 18px
       width: 18px
       color: $light-slate !important
-      transform: translateY(4px)
+      transform: translate3d(0,4px,0)
       transition: .25s transform ease-in-out
       margin: 25px auto 25px auto
       &:hover
-        transform: translateY(0px)
+        transform: translate3d(0,0,0)
       a
         color: $light-slate !important
         // color: $lightest-slate !important
@@ -379,7 +410,7 @@ body, .v-main
       display: block
       width: 1px
       height: 107px
-      transform: translateY(10px)
+      transform: translate3d(0,10px,0)
       bottom: 0
       margin: 0px auto
       overflow: hidden
@@ -526,27 +557,4 @@ body, .v-main
   &:hover:before, &:focus:before, &:active:before
     left: 0
     right: 0
-/*! purgecss end ignore */
-// .routerAnimation-enter-active,
-// .routerAnimation-leave-active
-//   transition-duration: 0.3s
-//   transition-property: opacity
-//   transition-timing-function: ease
-//   overflow: hidden
-
-// .routerAnimation-enter,
-// .routerAnimation-leave-active
-//   opacity: 0
-// html, body
-//   width: auto!important
-//   overflow-x: hidden!important
-
-
-// .bg
-//   width: 100%
-//   height:100%
-//   background: url('https://www.pngkey.com/png/full/15-150952_transparent-pattern-sacred-geometry-svg-pattern.png') repeat
-//   position: fixed
-//   top: 0
-//   left: 0
 </style>
