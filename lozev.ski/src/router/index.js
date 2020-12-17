@@ -1,6 +1,6 @@
 import Vue from "vue"
 import VueRouter from "vue-router"
-import NotFound from "../views/404.vue"
+import Home from "../views/home.vue"
 
 Vue.use(VueRouter)
 
@@ -8,12 +8,12 @@ const routes = [
   {
     path: "/",
     name: "home",
-    component: () => import(/* webpackChunkName: "about" */ "../views/home.vue"),
+    component: Home,
   },
   {
     path: "*",
     name: "404",
-    component: NotFound,
+    component: () => import(/* webpackChunkName: "about" */ "../views/404.vue"),
   },
 ]
 

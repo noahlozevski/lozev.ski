@@ -7,7 +7,7 @@ import "material-design-icons-iconfont/dist/material-design-icons.css"
 import "animate.css/animate.css"
 import "./styles/_fonts.css"
 import router from "./router"
-import store from "./store"
+// import store from "./store"
 import axios from "axios"
 
 /** import main css sheet */
@@ -55,6 +55,6 @@ Vue.config.productionTip = false
 new Vue({
   vuetify,
   router,
-  store,
+  // store,
   render: h => h(App),
 }).$mount("#app")

@@ -2,7 +2,7 @@
   div.fill-height.overflow-x-hidden
     .bg-wrapper
       .bg-container
-        .shape-animation(v-for="i in 100" :class="`shape-container--${i}`" :key="`shapesss-${i}`")
+        .shape-animation(v-for="i in 25" :class="`shape-container--${i}`" :key="`shapesss-${i}`")
           .random-shape
     v-container.entrance-page.pa-0(fluid fill-height)
       v-overlay.solid-background(v-if="loading" id="page-overlay")
@@ -30,7 +30,7 @@
                   //- a.my-auto(href="mailto:noah@lozev.ski?subject=Lets Chat! 🤟&body=Hi Noah,") Message me
 
             .page.about-page(id="about")
-              v-lazy(:options="{ threshold: .5 }" transition="fade-transition")
+              v-lazy(:options="{ threshold: .6 }" transition="fade-transition")
                 .page-inner
                   h2.numbered-header(:style="`--content: '01.'`") About me
                   v-container.pa-0.ma-0(fluid)
@@ -82,7 +82,7 @@
                           img.profile-pic(src="/profile.jpg")
 
             .page.experience-page(id="experience")
-              v-lazy(:options="{ threshold: .5 }" transition="fade-transition")
+              v-lazy(:options="{ threshold: .7 }" transition="fade-transition")
                 .page-inner
                   h2.numbered-header.animate__animated.animate__fadeInDown.animate__faster.animate__delay-2s(:style="`--content: '02.'`") Some Places I've Worked
                   v-container.pa-0.ma-0(fluid)
@@ -101,7 +101,7 @@
                             li(v-for="(bullet, j) in selectedCompany.bullets" :key="`action-list-${j}`") {{ bullet }}
             
             .page.projects(id="projects")
-              v-lazy(:options="{ threshold: .2 }" transition="fade-transition")
+              v-lazy(:options="{ threshold: .7 }" transition="fade-transition")
                 .page-inner
                   h2.numbered-header(:style="`--content: '03.'`") Things I've Built
                   v-container.pa-0.ma-0(fluid)
@@ -130,7 +130,7 @@
                         img.featured-project-image(:src="project.photo")
 
             .page.contact-page(id="contact")
-              v-lazy(:options="{ threshold: .5 }" transition="fade-transition")
+              v-lazy(:options="{ threshold: .7 }" transition="fade-transition")
                 .page-inner
                   h2.numbered-header(:style="`--content: '04.'`") Contact Me
                   
@@ -161,7 +161,7 @@
                     
                   
                     
-            .footer
+            .footer(v-if="$vuetify.breakpoint.smAndDown")
               .links.d-md-none
                 .item
                   a(href="https://github.com/noahlozevski" target="_blank" rel="noopener")
@@ -367,7 +367,7 @@ export default {
 
           if (this.$vuetify.breakpoint.mdAndUp) {
             logo_prev.classList.add("move-logo")
-            logo_prev.style.transform = `translate(calc(-50vw + ${rect.left + 8}px),calc(-50vh + ${rect.top}px))`
+            logo_prev.style.transform = `translate3d(calc(-50vw + ${rect.left + 8}px),calc(-50vh + ${rect.top}px),0)`
             text.classList.add("move-move")
           } else {
             logo_prev.classList.add("animate__animated")
@@ -623,27 +623,11 @@ $green: #64ffda
       .page-inner
         .v-container
           display: flex
-
-
-
-    // align-items: center
-    // min-height: 100vh
-
-    // min-height: 100vh
-    // margin-top: 150px
   .page-inner
     .project-item
       position: relative
       max-width: 100%
       align-self: flex-end
-      // width: 1000px
-      // max-width: max(min(550px, 40vw), 500px)
-      // &:hover
-      //   .p-container
-      //     .title
-      //       color: $white
-      //     .description
-      //       color: $light-slate
       padding: 80px 0
       &:nth-child(even)
         justify-content: flex-end
@@ -653,15 +637,9 @@ $green: #64ffda
           .items
             align-self: flex-end
             align-items: flex-end
-
-
           .services
             justify-content: flex-end
             .service
-              // &:last-child
-              //   // padding-inline-end: revert
-              //   padding-inline-end: 0
-
           .description
             text-align: right
         @media only screen and (max-width: 600px)
@@ -675,16 +653,11 @@ $green: #64ffda
       font-family: 'gotham'
       display: flex
       flex-direction: row
-      // .featured-title
-      //   color: $green
-      //   font-family: 'JetBrains Mono'
-      //   font-size: 14px
       .p-container
         z-index: 1
         display: flex
         flex-direction: column
         .title
-          // color: $light-slate
           color: $lightest-slate
           padding-bottom: 25px
           font-size: 24px !important
@@ -698,7 +671,6 @@ $green: #64ffda
             position: relative
             display: block
             margin-bottom: -3px
-            // transform: translateY(-30px)
         @media only screen and (max-width: 600px)
           .description
             max-width: 80vw !important
@@ -708,14 +680,12 @@ $green: #64ffda
           padding: 20px
           width: max(min(550px, 40vw), 500px)
           text-align: left
-          // color: $slate
           background: $light-navy
           color: $light-slate
           transition: box-shadow .2s linear
           box-shadow: none
           &:hover
             box-shadow: 20px 35px 43px -13px rgb(2, 12, 27)
-            // box-shadow: 0 20px 30px -15px rgba(2,12,27,1)
         .extra-link
           display: inline
           width: fit-content
@@ -733,14 +703,11 @@ $green: #64ffda
           color: $slate
           .service
             padding: 25px 15px
-            // padding-bottom: 0
             &:first-child
               padding-inline-start: 0
             &:last-child
               padding-inline-end: 0
-            // display: inline
         .items
-          // max-height: 25px
           display: flex
           flex-direction: row
           .item
@@ -753,9 +720,6 @@ $green: #64ffda
               margin-inline-start: 0
             &:last-child
               margin-inline-end: 0
-            // padding: 7px
-            &:hover
-              // transform: translateY(0px)
             a
               color: $light-slate !important
               text-decoration: none
@@ -774,16 +738,10 @@ $green: #64ffda
           position: absolute
           right: 0
           z-index: 0
-          // width: px
-          // height: fit-content
-
-          // height: fit-content
-          filter: url('#noise') grayscale(100%)
-          // transition: 1s !important
-          // animation: filter-anim 3s infinite
+          filter: grayscale(100%)
           top: 50%
           max-width: 50%
-          transform: translateY(-60%)
+          transform: translate3d(0,-60%,0)
           border-radius: 6px
           &:hover
             filter: none
@@ -792,9 +750,6 @@ $green: #64ffda
             position: relative
             height: 100%
             width: 100%
-            // height: 100px
-            // max-height: 300px
-            // width: 100px
       @media only screen and (max-width: 600px)
         .img-container
           position: absolute
@@ -802,20 +757,9 @@ $green: #64ffda
           left: 0
           z-index: 0
           border-radius: 6px
-          // top: 0
-          // bottom: 0
           top: 50%
-          // width: px
-          // height: fit-content
-
-          // height: fit-content
-          // filter: grayscale(100%)
           opacity: .1
-          // transition: 1s !important
-          // animation: filter-anim 3s infinite
-          // top: 50%
-          // max-width: 50%
-          transform: translateY(-80%) translateX(5%)
+          transform: translate3d(5%,-80%,0)
           &:hover
             filter: none
           .featured-project-image
@@ -823,11 +767,6 @@ $green: #64ffda
             position: relative
             height: 100%
             width: 100%
-            // height: 100px
-            // max-height: 300px
-            // width: 100px
-
-
     .numbered-header
       display: flex
       -webkit-box-align: center
@@ -854,8 +793,6 @@ $green: #64ffda
         margin-left: 25px
         background-color: $slate
     .picture-container
-      // height: 500px
-      // width: min(50%, 200px)
       width: 100%
       max-width: 300px
       position: relative
@@ -873,7 +810,6 @@ $green: #64ffda
         z-index: 1
       &:after
         content: ""
-        // display: block
         position: absolute
         width: calc(100% - 2px)
         height: calc(100% - 2px)
@@ -902,8 +838,6 @@ $green: #64ffda
           .labels
             display: block
             overflow-x: scroll
-            // padding-top: 10px
-            // overflow-y: hidden
             max-width: 100%
             white-space: nowrap
             height: 80px
@@ -916,47 +850,22 @@ $green: #64ffda
               overflow-wrap: break-word
               word-wrap: break-word
               hyphens: auto
-              // white-space: wrap
-              // word-wrap: wrap
               white-space: break-spaces
               display: inline-block
               position: relative
               height: fit-content
               text-align: center
-              // width: fit-content !important
-              // width: 100px
-              // width: 20px !important
               padding: 10px 20px !important
-              // transition: all 1s linear !important
               &:hover
-                // background-color: $light-navy
-                // opacity: .2
                 color: $green
-                // background-position: -100% 0
                 box-shadow: inset 0 -100px 0 0 $light-navy !important
             .selected
               box-shadow: inset 0 -100px 0 0 $light-navy !important
               color: $green
-
               border-bottom-color: $green !important
               border-bottom-width: 1.5px !important
               border-bottom-style: solid
-
-              // transform: translateY(10px)
-            // &:before
-            //   content: none
-              // width: 0 !important
-              // height: 0 !important
-              // background-color: transparent
-              // position: absolute
-              // content: ""
-              // transition: all .25s ease-in-out
-              // transform: translateY(var(--top-position))
-              // background-color: red !important
-
-      // background-color: red
       .labels
-        // max-width: 300px
         min-width: 190px
         cursor: pointer
         @media only screen and (min-width: 601px)
@@ -967,7 +876,7 @@ $green: #64ffda
             position: absolute
             content: ""
             transition: all .25s ease-in-out
-            transform: translateY(var(--top-position))
+            transform: translate3d(0,var(--top-position),0)
         .label
           font-family: 'JetBrains Mono'
           font-size: 13px
@@ -975,26 +884,17 @@ $green: #64ffda
           color: $slate
           transition: box-shadow .2s ease-in-out, color 0.2s ease-in-out
           box-shadow: inset 0px 0 0 0 $navy
-          // background-size: 200% 100%
-          // background-position: 0 0
-          // background-image: linear-gradient(to right, $navy 50%, $light-navy 50%)
           &:hover
-            // background-color: $light-navy
-            // opacity: .2
             color: $green
-            // background-position: -100% 0
             box-shadow: inset 0 -50px 0 0 $light-navy
         .selected
           box-shadow: inset 0 -50px 0 0 $light-navy
           color: $green
-
-
       .item
         padding: 0 25px
         font-family: 'gotham'
         padding: 10px 20px
         .top
-          // margin-bottom: 5px
           .position
             color: $white
             font-size: 16px
@@ -1025,29 +925,14 @@ $green: #64ffda
             font-size: 14px
             position: relative
             margin-bottom: 10px
-            // &:nth-child(odd)
             &:before
               content: "▹"
-              // margin-right: 10px
               left: 10px
               top: 2px
-              // transform: translateY(50%)
               position: absolute
               color: $green
               font-size: 16px
               line-height: 12px
-            // &:nth-child(even)
-            //   margin-left: 30px
-            //   padding: 0
-            //   content: ""
-            //   display: block
-            //   width: var(--amt)
-            //   height: 2px
-            //   margin-top: 5px
-            //   margin-bottom: 5px
-            //   background-color: $green
-            //   &:after
-        // background: green
     .bio
       p
         font-family: 'gotham'
@@ -1060,10 +945,6 @@ $green: #64ffda
           font-size: 16px
           color: $green
           margin-bottom: 7px
-          // &:after
-          //   content: "test"
-          //   text-align: right
-          //   display: inline-block
         .skills-list
           display: grid
           grid-template-columns: repeat(2, minmax(140px, 300px))
@@ -1075,75 +956,14 @@ $green: #64ffda
             color: $light-slate
             font-size: 14px
             position: relative
-            // &:nth-child(odd)
             &:before
               content: "▹"
-              // margin-right: 10px
               left: 10px
               top: 2px
-              // transform: translateY(50%)
               position: absolute
               color: $green
               font-size: 16px
               line-height: 12px
-            // &:nth-child(even)
-            //   margin-left: 30px
-            //   padding: 0
-            //   content: ""
-            //   display: block
-            //   width: var(--amt)
-            //   height: 2px
-            //   margin-top: 5px
-            //   margin-bottom: 5px
-            //   background-color: $green
-            //   &:after
-@keyframes filter-anim
-  0%
-    filter: none
-  100%
-    filter: url('#noise')
-.home-page
-  display: flex
-  justify-content: center
-  flex-direction: column
-  align-items: flex-start
-  min-height: calc(100vh - var(--app-bar-height))
-  // height: calc(100vh - var(--app-bar-height))
-  .home-page-inner
-    // max-width: 100%
-    .hello
-      color: $green
-      padding-left: 4px
-      margin-bottom: 25px
-      // padding-left: 2px
-      font-size: clamp(14px,5vw,16px)
-    h3
-      color: $lightest-slate
-    h6
-      color: $slate
-    .intro
-      color: $light-slate
-      font-size: 16px
-      max-width: min(100%, 500px)
-      padding-right: 10px
-      font-family: gotham
-    .resume-button
-      border-radius: 5px
-      border: 1.5px solid $green
-      width: 150px
-      height: 50px
-      padding: auto
-      transition: all .25s ease-in-out
-      text-align: center
-      a
-        line-height: 45px
-
-        display: block
-        text-decoration: none
-        color: $green
-      &:hover
-        background-color: rgb(100, 255, 218,0.2)
-
 
 .home-page-container
   max-width: 1200px !important
@@ -1154,7 +974,6 @@ $green: #64ffda
       position: absolute !important
 
 .solid-background
-  // transition: all 1s ease-in-out !important
   background-color: #040b15 !important
 
 $delay:.5s
@@ -1234,8 +1053,6 @@ $length: 2s
     font-size: 72px
     line-height: 100%
     border-right: 2px solid #e6f1ff
-    // &p
-      // position: fixed
 .hide-text
   display: none
 
@@ -1252,19 +1069,6 @@ $length: 2s
     border: none !important
     line-height: 28px
     overflow: visible
-
-  // animation: 1s ease-in-out 0s 1 normal both running typing !important
-  // transition: all 1s ease-in-out
-  p
-    // font-size: 35px !important
-    // line-height: 35px !important
-
-  // height: 35px
-
-  // position: fixed !important
-  // transform: translate(calc(-145px),-50px)
-  // position: absolute
-  // width: 150px
 
 .anim-typewriter
   animation: typewriter $length steps(6) $delay 1 normal both, blinkTextCursor 350ms steps(6) infinite normal
@@ -1354,15 +1158,15 @@ $length: 2s
   -webkit-animation: all 1s ease
   animation: all 1s ease
 
-ul.pre-loader
-  // position: absolute
-  // top: 50%
-  // left: 50%
-  // transform: translate(-50%, -50%)
-  // margin: 0
-  // padding: 0
-  -webkit-animation: slide-in-blurred-bottom 0.6s cubic-bezier(0.23, 1, 0.32, 1) var(--delay) both
-  animation: slide-in-blurred-bottom 0.6s cubic-bezier(0.23, 1, 0.32, 1) var(--delay) both
+// ul.pre-loader
+//   // position: absolute
+//   // top: 50%
+//   // left: 50%
+//   // transform: translate(-50%, -50%)
+//   // margin: 0
+//   // padding: 0
+//   -webkit-animation: slide-in-blurred-bottom 0.6s cubic-bezier(0.23, 1, 0.32, 1) var(--delay) both
+//   animation: slide-in-blurred-bottom 0.6s cubic-bezier(0.23, 1, 0.32, 1) var(--delay) both
 
 
 // .items
@@ -1380,92 +1184,92 @@ ul.pre-loader
 .list-complete-leave-active
   position: absolute
 
-ul.pre-loader li
-  list-style: none
-  color: #484848
-  display: inline
-  // font-size: 5em
-  font-size: 2.25em
-  // letter-spacing: 15px
+// ul.pre-loader li
+//   list-style: none
+//   color: #484848
+//   display: inline
+//   // font-size: 5em
+//   font-size: 2.25em
+//   // letter-spacing: 15px
 
-.animate-start
-  -webkit-animation: pre-load 3s ease-in-out 2s infinite
-  animation: pre-load 3s ease-in-out 2s infinite
+// .animate-start
+//   -webkit-animation: pre-load 3s ease-in-out 2s infinite
+//   animation: pre-load 3s ease-in-out 2s infinite
 
   // animation: pre-load 3s ease-in-out infinite,
-.flip-list-move
-  transition: transform 1s
+// .flip-list-move
+//   transition: transform 1s
 
-@keyframes pre-load
-  0%
-    color: #ddbf3b
-    text-shadow: 0 0 3px #ddbf3b, 0 0 10px #ddbf3b
+// @keyframes pre-load
+//   0%
+//     color: #ddbf3b
+//     text-shadow: 0 0 3px #ddbf3b, 0 0 10px #ddbf3b
 
-  20%
-    color: white
-    text-shadow: none
+//   20%
+//     color: white
+//     text-shadow: none
 
-  40%
-    color: #ddbf3b
-    text-shadow: 0 0 3px #ddbf3b, 0 0 10px #ddbf3b
+//   40%
+//     color: #ddbf3b
+//     text-shadow: 0 0 3px #ddbf3b, 0 0 10px #ddbf3b
 
-  60%
-    color: white
-    text-shadow: none
+//   60%
+//     color: white
+//     text-shadow: none
 
-  80%
-    color: #ddbf3b
-    text-shadow: 0 0 3px #ddbf3b, 0 0 10px #ddbf3b
+//   80%
+//     color: #ddbf3b
+//     text-shadow: 0 0 3px #ddbf3b, 0 0 10px #ddbf3b
 
-  100%
-    color: white
-    text-shadow: none
+//   100%
+//     color: white
+//     text-shadow: none
 
-ul
-  li:nth-child(1)
-    animation-delay: .1s
+// ul
+//   li:nth-child(1)
+//     animation-delay: .1s
 
-  &.pre-loader li
-    &:nth-child(2)
-      animation-delay: .15s
+//   &.pre-loader li
+//     &:nth-child(2)
+//       animation-delay: .15s
 
-    &:nth-child(3)
-      animation-delay: .2s
+//     &:nth-child(3)
+//       animation-delay: .2s
 
-    &:nth-child(4)
-      animation-delay: .25s
+//     &:nth-child(4)
+//       animation-delay: .25s
 
-    &:nth-child(5)
-      animation-delay: .3s
+//     &:nth-child(5)
+//       animation-delay: .3s
 
-    &:nth-child(6)
-      animation-delay: .35s
+//     &:nth-child(6)
+//       animation-delay: .35s
 
-    &:nth-child(7)
-      animation-delay: .4s
+//     &:nth-child(7)
+//       animation-delay: .4s
 
-    &:nth-child(8)
-      animation-delay: .45s
+//     &:nth-child(8)
+//       animation-delay: .45s
 
-    &:nth-child(9)
-      animation-delay: .5s
+//     &:nth-child(9)
+//       animation-delay: .5s
 
-    &:nth-child(10)
-      animation-delay: .55s
+//     &:nth-child(10)
+//       animation-delay: .55s
 
-    &:nth-child(11)
-      animation-delay: .6s
-    &:nth-child(12)
-      animation-delay: .65s
-    &:nth-child(13)
-      animation-delay: .7s
+//     &:nth-child(11)
+//       animation-delay: .6s
+//     &:nth-child(12)
+//       animation-delay: .65s
+//     &:nth-child(13)
+//       animation-delay: .7s
 
-.entrance-page
-  // height: 50%
-  padding: 2px
-  border: solid
-  // border-width: var(--border-thickness)
-  border-color: white
+// .entrance-page
+//   // height: 50%
+//   padding: 2px
+//   border: solid
+//   // border-width: var(--border-thickness)
+//   border-color: white
 
 .text-glow
   animation: textPulse 2s ease-in-out 0s infinite normal !important
@@ -1486,96 +1290,96 @@ ul
     text-shadow: 0 0 5px rgba(255, 255, 255, 0.75)
 
 
-@media only screen and (max-width: 600px)
-  .entrance-page
-    border-width: 0px
+// @media only screen and (max-width: 600px)
+//   .entrance-page
+//     border-width: 0px
 
-@media only screen and (min-width: 601px)
-  .entrance-page
-    border-width: 0px
+// @media only screen and (min-width: 601px)
+//   .entrance-page
+//     border-width: 0px
 
 
-.slide-in-blurred-bl
-  -webkit-animation: slide-in-blurred-bl 0.6s cubic-bezier(0.23, 1, 0.32, 1) var(--delay) both
-  animation: slide-in-blurred-bl 0.6s cubic-bezier(0.23, 1, 0.32, 1) var(--delay) both
+// .slide-in-blurred-bl
+//   -webkit-animation: slide-in-blurred-bl 0.6s cubic-bezier(0.23, 1, 0.32, 1) var(--delay) both
+//   animation: slide-in-blurred-bl 0.6s cubic-bezier(0.23, 1, 0.32, 1) var(--delay) both
 
-@-webkit-keyframes slide-in-blurred-bl
-  0%
-    -webkit-transform: translate(-1000px, 1000px) skew(-80deg, -10deg)
-    transform: translate(-1000px, 1000px) skew(-80deg, -10deg)
-    -webkit-transform-origin: 100% 100%
-    transform-origin: 100% 100%
-    -webkit-filter: blur(40px)
-    filter: blur(40px)
-    opacity: 0
+// @-webkit-keyframes slide-in-blurred-bl
+//   0%
+//     -webkit-transform: translate(-1000px, 1000px) skew(-80deg, -10deg)
+//     transform: translate(-1000px, 1000px) skew(-80deg, -10deg)
+//     -webkit-transform-origin: 100% 100%
+//     transform-origin: 100% 100%
+//     -webkit-filter: blur(40px)
+//     filter: blur(40px)
+//     opacity: 0
 
-  100%
-    -webkit-transform: translate(0, 0) skew(0deg, 0deg)
-    transform: translate(0, 0) skew(0deg, 0deg)
-    -webkit-transform-origin: 50% 50%
-    transform-origin: 50% 50%
-    -webkit-filter: blur(0)
-    filter: blur(0)
-    opacity: 1
+//   100%
+//     -webkit-transform: translate(0, 0) skew(0deg, 0deg)
+//     transform: translate(0, 0) skew(0deg, 0deg)
+//     -webkit-transform-origin: 50% 50%
+//     transform-origin: 50% 50%
+//     -webkit-filter: blur(0)
+//     filter: blur(0)
+//     opacity: 1
 
-@keyframes slide-in-blurred-bl
-  0%
-    -webkit-transform: translate(-1000px, 1000px) skew(-80deg, -10deg)
-    transform: translate(-1000px, 1000px) skew(-80deg, -10deg)
-    -webkit-transform-origin: 100% 100%
-    transform-origin: 100% 100%
-    -webkit-filter: blur(40px)
-    filter: blur(40px)
-    opacity: 0
+// @keyframes slide-in-blurred-bl
+//   0%
+//     -webkit-transform: translate(-1000px, 1000px) skew(-80deg, -10deg)
+//     transform: translate(-1000px, 1000px) skew(-80deg, -10deg)
+//     -webkit-transform-origin: 100% 100%
+//     transform-origin: 100% 100%
+//     -webkit-filter: blur(40px)
+//     filter: blur(40px)
+//     opacity: 0
 
-  100%
-    -webkit-transform: translate(0, 0) skew(0deg, 0deg)
-    transform: translate(0, 0) skew(0deg, 0deg)
-    -webkit-transform-origin: 50% 50%
-    transform-origin: 50% 50%
-    -webkit-filter: blur(0)
-    filter: blur(0)
-    opacity: 1
+//   100%
+//     -webkit-transform: translate(0, 0) skew(0deg, 0deg)
+//     transform: translate(0, 0) skew(0deg, 0deg)
+//     -webkit-transform-origin: 50% 50%
+//     transform-origin: 50% 50%
+//     -webkit-filter: blur(0)
+//     filter: blur(0)
+//     opacity: 1
 
-.slide-in-blurred-bottom
-  -webkit-animation: slide-in-blurred-bottom 0.6s cubic-bezier(0.23, 1, 0.32, 1) var(--delay) both
-  animation: slide-in-blurred-bottom 0.6s cubic-bezier(0.23, 1, 0.32, 1) var(--delay) both
+// .slide-in-blurred-bottom
+//   -webkit-animation: slide-in-blurred-bottom 0.6s cubic-bezier(0.23, 1, 0.32, 1) var(--delay) both
+//   animation: slide-in-blurred-bottom 0.6s cubic-bezier(0.23, 1, 0.32, 1) var(--delay) both
 
-@-webkit-keyframes slide-in-blurred-bottom
-  0%
-    -webkit-transform: translateY(1000px) scaleY(2.5) scaleX(0.2)
-    transform: translateY(1000px) scaleY(2.5) scaleX(0.2)
-    -webkit-transform-origin: 50% 100%
-    transform-origin: 50% 100%
-    -webkit-filter: blur(40px)
-    filter: blur(40px)
-    opacity: 0
+// @-webkit-keyframes slide-in-blurred-bottom
+//   0%
+//     -webkit-transform: translateY(1000px) scaleY(2.5) scaleX(0.2)
+//     transform: translateY(1000px) scaleY(2.5) scaleX(0.2)
+//     -webkit-transform-origin: 50% 100%
+//     transform-origin: 50% 100%
+//     -webkit-filter: blur(40px)
+//     filter: blur(40px)
+//     opacity: 0
 
-  100%
-    -webkit-transform: translateY(0) scaleY(1) scaleX(1)
-    transform: translateY(0) scaleY(1) scaleX(1)
-    -webkit-transform-origin: 50% 50%
-    transform-origin: 50% 50%
-    -webkit-filter: blur(0)
-    filter: blur(0)
-    opacity: 1
+//   100%
+//     -webkit-transform: translateY(0) scaleY(1) scaleX(1)
+//     transform: translateY(0) scaleY(1) scaleX(1)
+//     -webkit-transform-origin: 50% 50%
+//     transform-origin: 50% 50%
+//     -webkit-filter: blur(0)
+//     filter: blur(0)
+//     opacity: 1
 
-@keyframes slide-in-blurred-bottom
-  0%
-    -webkit-transform: translateY(1000px) scaleY(2.5) scaleX(0.2)
-    transform: translateY(1000px) scaleY(2.5) scaleX(0.2)
-    -webkit-transform-origin: 50% 100%
-    transform-origin: 50% 100%
-    -webkit-filter: blur(40px)
-    filter: blur(40px)
-    opacity: 0
+// @keyframes slide-in-blurred-bottom
+//   0%
+//     -webkit-transform: translateY(1000px) scaleY(2.5) scaleX(0.2)
+//     transform: translateY(1000px) scaleY(2.5) scaleX(0.2)
+//     -webkit-transform-origin: 50% 100%
+//     transform-origin: 50% 100%
+//     -webkit-filter: blur(40px)
+//     filter: blur(40px)
+//     opacity: 0
 
-  100%
-    -webkit-transform: translateY(0) scaleY(1) scaleX(1)
-    transform: translateY(0) scaleY(1) scaleX(1)
-    -webkit-transform-origin: 50% 50%
-    transform-origin: 50% 50%
-    -webkit-filter: blur(0)
-    filter: blur(0)
-    opacity: 1
+//   100%
+//     -webkit-transform: translateY(0) scaleY(1) scaleX(1)
+//     transform: translateY(0) scaleY(1) scaleX(1)
+//     -webkit-transform-origin: 50% 50%
+//     transform-origin: 50% 50%
+//     -webkit-filter: blur(0)
+//     filter: blur(0)
+//     opacity: 1
 </style>

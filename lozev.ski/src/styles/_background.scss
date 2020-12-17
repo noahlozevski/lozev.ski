@@ -72,13 +72,19 @@ $inner-dim: 14px;
 .bg-wrapper {
   /** drastically improves blur/filter performance */
   -webkit-backface-visibility: hidden;
-  -webkit-perspective: 1000;
-  -webkit-transform: translate3d(0,0,0);
-  -webkit-transform: translateZ(0);
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
   backface-visibility: hidden;
+
+  -webkit-perspective: 1000;
+  -moz-perspective: 1000;
+  -ms-perspective: 1000;
   perspective: 1000;
-  transform: translate3d(0,0,0);
-  transform: translateZ(0);
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+
 }
 .bg-container {
   position: absolute;
@@ -86,7 +92,8 @@ $inner-dim: 14px;
   height: 100vh;
   z-index: 0;
   opacity: .8;
-  filter: blur(4px);
+
+  // filter: blur(4px);
 }
 .shape {
   margin: 0 auto;
@@ -105,7 +112,7 @@ $colors: #DF0024,#F3C300,#00AC9F,#2E6DB4;
 // $shapes: '\f111', '\f10c', '\f068', '\f22d', '\f077',  '\f04b', '\f067', '\f04d';
 $shapes: '\f22d','\f077','\f067','\f121','\f0c8';
 
-$shape-count: 100;
+$shape-count: 25;
 
 
 @for $i from 1 through $shape-count {
@@ -118,13 +125,6 @@ $shape-count: 100;
   $position-2: percentage(random(100) / 100);
   $px: random(75);
   $py: random(35);
-  // $position-y1: percentage(random(100) / 100);
-
-  // $position-x2: percentage(random(100) / 100);
-  // $position-y2: percentage(random(100) / 100);
-
-  // $position: percentage(random(100) / 100);
-  
   $speed: 5 + random(15);
   $delay: random(1000);
   $color-key: random( length($colors) );
@@ -132,43 +132,15 @@ $shape-count: 100;
   $shape-key: random( length($shapes) );
   $shape-type: nth( $shapes, $shape-key );
   // $text: random(10);
-  @if 1 == 1 {
-  // @if $axis > 0.5 {
-    // x-axis starting point
-    /** base point is 125vw, -25vh */
-    // x range -> 25,125
-    // y range -> -25, 50
-    @keyframes shape-#{$i} {
-          0% {
-            transform: translate(#{175 - $px}vw,#{-35 - $py}vh) 
-            // rotate(#{$rotation + 0}deg)
-            // transform: translate(calc($position-1 * -1),-110%) rotate(#{$rotation + 0}deg);
-          }
-          // 50% {
-          //   transform: translate($position-2,110%) rotate(#{$rotation + 0}deg);
-          // }
-          100% {
-            transform: translate(#{-25 - $px}vw,#{120 + $py}vh)
-            // transform: translate(-10vw,100vh) rotate(#{$rotation + 0}deg)
-            // transform: translate($position-1,-110%) rotate(#{$rotation + 0}deg);
-          }
-        }
-      }
-  @else {
     @keyframes shape-#{$i} {
       0% {
-            transform: translate(-100%,-100%) rotate(#{$rotation + 0}deg);
-            // transform: translate(-110%,$position-1) rotate(#{$rotation + 0}deg);
-          }
-          50% {
-            transform: translate(110%,$position-2) rotate(#{$rotation + 0}deg);
-          }
-          100% {
-            transform: translate(100%,100%) rotate(#{$rotation + 0}deg);
-            // transform: translate(-110%,$position-1) rotate(#{$rotation + 0}deg);
-        }
+        transform: translate3d(#{175 - $px}vw,#{-35 - $py}vh,0) 
+      }
+      100% {
+        transform: translate3d(#{-25 - $px}vw,#{120 + $py}vh,0)
+      }
     }
-  }
+
 
   .shape-container--#{$i} { 
       animation: shape-#{$i} #{$speed}s linear infinite;

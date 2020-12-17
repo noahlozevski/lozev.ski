@@ -10,9 +10,9 @@ module.exports = {
     https: false,
     hotOnly: false,
   },
-  chainWebpack(config) {
-    config.plugins.delete("prefetch")
-  },
+  // chainWebpack(config) {
+  //   config.plugins.delete("prefetch")
+  // },
   pwa: {
     name: "noah.lozev.ski",
     themeColor: "#0a192f",
@@ -27,9 +27,9 @@ module.exports = {
     // workboxPluginMode: "InjectManifest",
   },
   pluginOptions: {
-    webpackBundleAnalyzer: {
-      openAnalyzer: false,
-    },
+    // webpackBundleAnalyzer: {
+    //   openAnalyzer: false,
+    // },
     compression: {
       brotli: {
         filename: "[path].br[query]",

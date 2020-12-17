@@ -2,7 +2,7 @@
   div.fill-height.overflow-hidden
     .bg-wrapper
       .bg-container
-        .shape-animation(v-for="i in 100" :class="`shape-container--${i}`" :key="`shapesss-${i}`")
+        .shape-animation(v-for="i in 25" :class="`shape-container--${i}`" :key="`shapesss-${i}`")
           .random-shape
     v-container.entrance-page.pa-0(fluid fill-height)
       v-container.home-page-container.px-4.px-sm-6.px-md-10.px-lg-16.py-0

@@ -26,7 +26,8 @@
           .item
             .resume-button
               a.my-auto(href="/resume.pdf" target="_blank") Resume
-    v-app-bar.bar.w-100(app :hide-on-scroll="$vuetify.breakpoint.mdAndUp" elevate-on-scroll :prominent="$vuetify.breakpoint.mdAndUp" :shrink-on-scroll="$vuetify.breakpoint.mdAndUp")
+    //- v-app-bar.bar.w-100(app :hide-on-scroll="$vuetify.breakpoint.mdAndUp" elevate-on-scroll :prominent="$vuetify.breakpoint.mdAndUp" :shrink-on-scroll="$vuetify.breakpoint.mdAndUp")
+    v-app-bar.bar.w-100(app :prominent="$vuetify.breakpoint.mdAndUp")
       .ml-2.ml-md-8.logo.mr-auto(:style="$vuetify.breakpoint.mdAndUp ? 'font-size: 50px' : 'font-size: 35px'")
         p.my-auto.text-glow.unselectable(id="logo-app-bar" @click="goHome") { nl }
       template(v-if="loaded")
@@ -110,34 +111,34 @@ export default {
     }
   },
   methods: {
-    async sendUserAgentInfo() {
-      try {
-        let user = {
-          user_agent: await window.navigator.userAgent,
-          appName: await window.navigator.appName,
-          appCodeName: await window.navigator.appCodeName,
-          appVersion: await window.navigator.appVersion,
-          onLine: await window.navigator.onLine,
-          connection: await window.navigator.connection,
-          cookieEnabled: await window.navigator.cookieEnabled,
-          doNotTrack: await window.navigator.doNotTrack,
-          language: await window.navigator.langauges,
-          serviceWorker: await window.navigator.serviceWorker,
-          userActivation: await window.navigator.userActivation,
-          product: await window.navigator.product,
-          platform: await window.navigator.platform,
-          userAgentData: await window.navigator.userAgentData,
-          vendor: await window.navigator.vendor,
-          vendorSub: await window.navigator.vendorSub,
-          time: new Date().toUTCString(),
-          time_ms: new Date().getTime(),
-        }
+    // async sendUserAgentInfo() {
+    //   try {
+    //     let user = {
+    //       user_agent: await window.navigator.userAgent,
+    //       appName: await window.navigator.appName,
+    //       appCodeName: await window.navigator.appCodeName,
+    //       appVersion: await window.navigator.appVersion,
+    //       onLine: await window.navigator.onLine,
+    //       connection: await window.navigator.connection,
+    //       cookieEnabled: await window.navigator.cookieEnabled,
+    //       doNotTrack: await window.navigator.doNotTrack,
+    //       language: await window.navigator.langauges,
+    //       serviceWorker: await window.navigator.serviceWorker,
+    //       userActivation: await window.navigator.userActivation,
+    //       product: await window.navigator.product,
+    //       platform: await window.navigator.platform,
+    //       userAgentData: await window.navigator.userAgentData,
+    //       vendor: await window.navigator.vendor,
+    //       vendorSub: await window.navigator.vendorSub,
+    //       time: new Date().toUTCString(),
+    //       time_ms: new Date().getTime(),
+    //     }
 
-        this.$sendMessage(JSON.stringify(user, null, 2), "user-agent-info")
-      } catch (e) {
-        e
-      }
-    },
+    //     this.$sendMessage(JSON.stringify(user, null, 2), "user-agent-info")
+    //   } catch (e) {
+    //     e
+    //   }
+    // },
     test(input) {
       this.drawerStatus = input
       const els = document.getElementsByClassName("hamburger")
@@ -165,7 +166,7 @@ export default {
       }
     },
     loadedPage() {
-      this.sendUserAgentInfo()
+      // this.sendUserAgentInfo()
       console.log("hey there :)")
       console.info("thanks for visiting my site")
       this.loaded = true
@@ -179,6 +180,7 @@ export default {
 </script>
 
 <style lang="sass">
+/*! purgecss start ignore */
 $dark-blue: #0a192fd9
 $lighter-blue: rgb(23, 42, 69)
 $neon-green: rgb(100, 255, 218)
@@ -524,6 +526,7 @@ body, .v-main
   &:hover:before, &:focus:before, &:active:before
     left: 0
     right: 0
+/*! purgecss end ignore */
 // .routerAnimation-enter-active,
 // .routerAnimation-leave-active
 //   transition-duration: 0.3s
