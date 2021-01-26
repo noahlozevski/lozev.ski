@@ -1,8 +1,8 @@
 <template lang="pug">
   div.fill-height.overflow-x-hidden
-    .bg-wrapper
+    .bg-wrapper(v-if="shapes.length")
       .bg-container
-        .shape-animation(v-for="i in 10" :class="`shape-container--${i}`" :key="`shapesss-${i}`")
+        .shape-animation.shape-container--test(v-for="(style,i) in shapes" :key="`shape-${i}`" :style="style")
           .random-shape
     v-container.entrance-page.pa-0(fluid fill-height)
       v-overlay.solid-background(v-if="loading" id="page-overlay")
@@ -30,7 +30,7 @@
                   //- a.my-auto(href="mailto:noah@lozev.ski?subject=Lets Chat! 🤟&body=Hi Noah,") Message me
 
             .page.about-page(id="about")
-              v-lazy(:options="{ threshold: .3 }" transition="fade-transition")
+              v-lazy(:options="{ threshold: .1 }" transition="fade-transition")
                 .page-inner
                   h2.numbered-header(:style="`--content: '01.'`") About me
                   v-container.pa-0.ma-0(fluid)
@@ -82,7 +82,7 @@
                           img.profile-pic(src="/profile.jpg")
 
             .page.experience-page(id="experience")
-              v-lazy(:options="{ threshold: .3 }" transition="fade-transition")
+              v-lazy(:options="{ threshold: .1 }" transition="fade-transition")
                 .page-inner
                   h2.numbered-header.animate__animated.animate__fadeInDown.animate__faster.animate__delay-2s(:style="`--content: '02.'`") Some Places I've Worked
                   v-container.pa-0.ma-0(fluid)
@@ -101,7 +101,7 @@
                             li(v-for="(bullet, j) in selectedCompany.bullets" :key="`action-list-${j}`") {{ bullet }}
             
             .page.projects(id="projects")
-              v-lazy(:options="{ threshold: .3 }" transition="fade-transition")
+              v-lazy(:options="{ threshold: .1 }" transition="fade-transition")
                 .page-inner
                   h2.numbered-header(:style="`--content: '03.'`") Things I've Built
                   v-container.pa-0.ma-0(fluid)
@@ -130,7 +130,7 @@
                         img.featured-project-image(:src="project.photo")
 
             .page.contact-page(id="contact")
-              v-lazy(:options="{ threshold: .3 }" transition="fade-transition")
+              v-lazy(:options="{ threshold: .1 }" transition="fade-transition")
                 .page-inner
                   h2.numbered-header(:style="`--content: '04.'`") Contact Me
                   
@@ -161,8 +161,8 @@
                     
                   
                     
-            .footer(v-if="$vuetify.breakpoint.smAndDown")
-              .links.d-md-none
+            .footer
+              .links.d-md-none(v-if="$vuetify.breakpoint.smAndDown")
                 .item
                   a(href="https://github.com/noahlozevski" target="_blank" rel="noopener")
                     svg.icon(xmlns="http://www.w3.org/2000/svg", role="img", viewBox="0 0 438.549 438.549")
@@ -192,14 +192,15 @@
                 a(href="mailto:noah@lozev.ski?subject=Lets Chat! 🤟&body=Hi Noah, I'd like to hire you!") noah@lozev.ski
               .item.github-link.email
                 a(href="https://github.com/noahlozevski/lozev.ski" target="_blank" rel="noopener")
-                  div Designed and Built by Noah Lozevski
+                  .text-center Written in Vue.js
+                  .text-center Designed and Built by Noah Lozevski
                   .stats
                     svg(aria-label="stars", viewBox="0 0 14 16", version="1.1", width="14", height="16", role="img")
                       path(fill-rule="evenodd", d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z")
-                    span 2,032
+                    span {{ stars }}
                     svg(aria-label="forks", viewBox="0 0 10 16", version="1.1", width="10", height="16", role="img")
                       path(fill-rule="evenodd", d="M8 1a1.993 1.993 0 0 0-1 3.72V6L5 8 3 6V4.72A1.993 1.993 0 0 0 2 1a1.993 1.993 0 0 0-1 3.72V6.5l3 3v1.78A1.993 1.993 0 0 0 5 15a1.993 1.993 0 0 0 1-3.72V9.5l3-3V4.72A1.993 1.993 0 0 0 8 1zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3 10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3-10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z")
-                    span 1,535
+                    span {{ forks }}
             svg#svgfilters(aria-hidden="true", style="position: absolute; width: 0; height: 0; overflow: hidden;", version="1.1", xmlns="http://www.w3.org/2000/svg", xlink="http://www.w3.org/1999/xlink")
               defs
                 filter#noise(x="0%", y="0%", width="100%", height="100%")
@@ -223,6 +224,9 @@ export default {
       sending_email_progress: false,
       selectedCompanyIndex: 0,
       api: null,
+      shapes: [],
+      forks: Math.round(Math.random() * 5000),
+      stars: Math.round(Math.random() * 5000),
       companies: [
         // {
         //   company_name: "Vaporware",
@@ -342,31 +346,56 @@ export default {
   },
   mounted() {
     setTimeout(() => {
+      const logo = document.getElementById("logo-app-bar")
+
+      const logo_prev = document.getElementById("typing")
+      const text = document.getElementById("p-typing")
+
+      const rect = logo.getBoundingClientRect()
+
+      if (this.$vuetify.breakpoint.mdAndUp) {
+        logo_prev.classList.add("move-logo")
+        logo_prev.style.transform = `translate3d(calc(-50vw + ${rect.left + 8}px),calc(-50vh + ${rect.top}px),0)`
+        text.classList.add("move-move")
+      } else {
+        logo_prev.classList.add("text-glow-faster")
+      }
       setTimeout(() => {
-        const logo = document.getElementById("logo-app-bar")
+        document.getElementById("page-overlay").classList.remove("solid-background")
+        this.loading = false
+        this.$emit("loaded")
 
-        const logo_prev = document.getElementById("typing")
-        const text = document.getElementById("p-typing")
-
-        const rect = logo.getBoundingClientRect()
-
-        if (this.$vuetify.breakpoint.mdAndUp) {
-          logo_prev.classList.add("move-logo")
-          logo_prev.style.transform = `translate3d(calc(-50vw + ${rect.left + 8}px),calc(-50vh + ${rect.top}px),0)`
-          text.classList.add("move-move")
-        } else {
-          // logo_prev.classList.add("animate__animated")
-          logo_prev.classList.add("text-glow-faster")
-        }
         setTimeout(() => {
-          document.getElementById("page-overlay").classList.remove("solid-background")
-          this.loading = false
-          this.$emit("loaded")
-        }, 1100)
-      }, 2500)
-    }, 250)
+          this.createBackground()
+        }, 1250)
+      }, 1100)
+    }, 2750)
   },
   methods: {
+    async createBackground() {
+      let a = []
+
+      for (let i of Array(25).keys()) {
+        // console.log(i)
+        // await Promise.resolve().delay(5)
+        a.push(this.getRandomStyle())
+      }
+      this.shapes = a
+    },
+    getRandomStyle() {
+      return {
+        "--px": `${175 - Math.random() * 75}vw`,
+        "--py": `${-35 - Math.random() * 35}vh`,
+        "--pxx": `${-25 - Math.random() * 75}vw`,
+        "--pyy": `${120 + Math.random() * 35}vh`,
+        "--speed": `${5 + Math.random() * 15}s`,
+        "--delay": `${-1}s`,
+        "--size": `${1 + Math.random()}rem`,
+        "--color": ["#DF0024", "#F3C300", "#00AC9F", "#2E6DB4"][Math.round(Math.random() * 3)],
+        "--type": ["'\\f22d'", "'\\f077'", "'\\f067'", "'\\f121'", "'\\f0c8'"][Math.round(Math.random() * 4)],
+        "--shape-size": `${4 + 5 * Math.random()}px`,
+      }
+    },
     resetSendEmail() {
       this.sending_email_progress = false
       this.sending_email = false
@@ -380,7 +409,7 @@ export default {
           /** read base url from env variables */
           baseURL: `https://rka4k41tt3.execute-api.us-east-2.amazonaws.com/prod`,
         })
-      this.$api
+      this.api
         .post("/email", { message: this.email_message, email: this.email })
         .catch(err => err)
         .finally(() => {
