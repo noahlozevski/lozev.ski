@@ -345,7 +345,7 @@ export default {
     },
   },
   mounted() {
-    setTimeout(() => {
+    setTimeout(async () => {
       const logo = document.getElementById("logo-app-bar")
 
       const logo_prev = document.getElementById("typing")
@@ -356,16 +356,17 @@ export default {
       if (this.$vuetify.breakpoint.mdAndUp) {
         logo_prev.classList.add("move-logo")
         logo_prev.style.transform = `translate3d(calc(-50vw + ${rect.left + 8}px),calc(-50vh + ${rect.top}px),0)`
+        console.log(`translate3d(calc(-50vw + ${rect.left + 8}px),calc(-50vh + ${rect.top}px),0)`)
         text.classList.add("move-move")
       } else {
         logo_prev.classList.add("text-glow-faster")
       }
-      setTimeout(() => {
+      setTimeout(async () => {
         document.getElementById("page-overlay").classList.remove("solid-background")
         this.loading = false
         this.$emit("loaded")
 
-        setTimeout(() => {
+        setTimeout(async () => {
           this.createBackground()
         }, 1250)
       }, 1100)
