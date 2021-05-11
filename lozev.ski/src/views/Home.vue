@@ -146,21 +146,26 @@
                       .form
                         v-text-field(placeholder="Email" clearable v-model="email" color="#64ffda")
                         v-textarea(placeholder="Message" full-width v-model="email_message" color="#64ffda")
-                        .send-message
-                          a(@click="sendMessage") Send Message
+                        .d-flex.relative-element
+                          .send-message.mr-auto
+                            a(@click="sendMessage" @mouseover="showFunnyMessage = true" @mouseleave="showFunnyMessage = false") Send Message
+                          divo.animate__animated.animate__lightSpeedInRight.animate__faster(v-if="showFunnyMessage")
+                            | {{ funnyMessage }}
                       v-overlay.overlay(v-model="sending_email" :absolute="true")
                         v-progress-circular(v-if="sending_email_progress" indeterminate color="#64ffda")
                         template(v-if="!sending_email_progress")
                           p.text-center.mb-4 Message sent!
-                          .svg-container
+                          .thank-you-message-container
+                            dancing-star
+                          //- .svg-container
                             svg#svg(viewBox="0 0 100 100")
                               path#checkmark.check(fill="none", stroke="green", stroke-width="3", d="M64.5,32.4L32.6,64.3L18.4,50")
                           .send-message.mt-4
-                            a(@click="resetSendEmail") OK
+                            a.hover-happy(@click="resetSendEmail" @mouseover="okButtonContent = 'OK!'" @mouseleave="okButtonContent = 'OK'") {{ okButtonContent }}
+                            
+            .page(v-if="$isEnabled('coolAssName')")
+              cool-ass-name
 
-                    
-                  
-                    
             .footer
               .links.d-md-none(v-if="$vuetify.breakpoint.smAndDown")
                 .item
@@ -208,9 +213,14 @@
                   feDisplacementMap(in="SourceGraphic", in2="NOISE", scale="20", xChannelSelector="R", yChannelSelector="R")
 </template>
 <script>
-import axios from "axios"
+import DancingStar from "../components/dancingStar"
+import CoolAssName from "../components/coolAssName"
 
 export default {
+  components: {
+    DancingStar,
+    CoolAssName,
+  },
   data() {
     return {
       state: 0,
@@ -222,6 +232,8 @@ export default {
       email_message: "",
       sending_email: false,
       sending_email_progress: false,
+      showFunnyMessage: false,
+      okButtonContent: "OK",
       selectedCompanyIndex: 0,
       api: null,
       shapes: [],
@@ -343,6 +355,11 @@ export default {
     barPosition() {
       return `${this.selectedCompanyIndex * 49}`
     },
+    funnyMessage() {
+      return !this.email_message && !this.email
+        ? `c'mon, dont be shy, type something!`
+        : `you know you want to send it :)`
+    }
   },
   mounted() {
     setTimeout(async () => {
@@ -356,7 +373,6 @@ export default {
       if (this.$vuetify.breakpoint.mdAndUp) {
         logo_prev.classList.add("move-logo")
         logo_prev.style.transform = `translate3d(calc(-50vw + ${rect.left + 8}px),calc(-50vh + ${rect.top}px),0)`
-        console.log(`translate3d(calc(-50vw + ${rect.left + 8}px),calc(-50vh + ${rect.top}px),0)`)
         text.classList.add("move-move")
       } else {
         logo_prev.classList.add("text-glow-faster")
@@ -377,8 +393,6 @@ export default {
       let a = []
 
       for (let i of Array(25).keys()) {
-        // console.log(i)
-        // await Promise.resolve().delay(5)
         a.push(this.getRandomStyle())
       }
       this.shapes = a
@@ -405,13 +419,8 @@ export default {
       if (!this.email_message && !this.email) return
       this.sending_email = true
       this.sending_email_progress = true
-      if (!this.api)
-        this.api = axios.create({
-          /** read base url from env variables */
-          baseURL: `https://rka4k41tt3.execute-api.us-east-2.amazonaws.com/prod`,
-        })
-      this.api
-        .post("/email", { message: this.email_message, email: this.email })
+      this.$api
+        .sendMail({ message: this.email_message, email: this.email })
         .catch(err => err)
         .finally(() => {
           this.sending_email_progress = false
@@ -629,6 +638,11 @@ $green: #64ffda
             .send-message
               width: 80px
               margin: 0 auto
+            .send-another-message
+              margin: 0 0 0 auto
+            .thank-you-message-container
+              height: 250px
+              // width: 100%
             .svg-container
               color: $green
               position: relative
@@ -640,8 +654,8 @@ $green: #64ffda
                 100%
                   stroke-dashoffset: 0
               svg
-                height: 150px
-                width: 150px
+                height: 100px
+                width: 100px
                 transform: translate(18px, -31px)
                 path
                   stroke-dasharray: 100
@@ -1118,4 +1132,6 @@ $length: 2s
   100%
     -webkit-text-shadow: 0 0 5px rgba(255, 255, 255, 0.75)
     text-shadow: 0 0 5px rgba(255, 255, 255, 0.75)
+.relative-element
+  position: relative
 </style>
