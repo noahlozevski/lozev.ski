@@ -19,7 +19,7 @@ module.exports = {
         printWidth: 120,
         arrayExpand: true,
         embeddedLanguageFormatting: "auto",
-        spaceBeforeFunctionParen: "never",
+        spaceBeforeFunctionParen: "always",
       },
     ],
     "lines-between-class-members": ["error", "always"],
