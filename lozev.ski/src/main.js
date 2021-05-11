@@ -7,6 +7,8 @@ import "animate.css/animate.css"
 import "./styles/_fonts.css"
 import router from "./router"
 import VueAnime from "vue-animejs"
+import ApiClient from "./plugins/api"
+import FeatureFlag from "./plugins/featureFlag"
 
 // import store from "./store"
 
@@ -32,6 +34,9 @@ import "./styles/main.sass"
 //     e
 //   }
 // }
+
+Vue.use(ApiClient)
+Vue.use(FeatureFlag)
 
 function delay(t, v) {
   return new Promise(function(resolve) {
