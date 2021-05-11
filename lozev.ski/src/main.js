@@ -6,6 +6,8 @@ import "material-design-icons-iconfont/dist/material-design-icons.css"
 import "animate.css/animate.css"
 import "./styles/_fonts.css"
 import router from "./router"
+import VueAnime from "vue-animejs"
+
 // import store from "./store"
 
 /** import main css sheet */
@@ -42,6 +44,7 @@ Promise.prototype.delay = function(t) {
     return delay(t, v)
   })
 }
+
 String.prototype.indexOfEnd = function(string) {
   var io = this.indexOf(string)
 
@@ -49,6 +52,9 @@ String.prototype.indexOfEnd = function(string) {
 }
 
 Vue.config.productionTip = false
+Vue.config.silent = true
+
+Vue.use(VueAnime)
 
 new Vue({
   vuetify,
