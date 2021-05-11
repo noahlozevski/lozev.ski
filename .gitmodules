@@ -1,0 +1,3 @@
+[submodule "website-notification-app"]
+	path = website-notification-app
+	url = git@github.com:noahlozevski/website-notification-app.git
