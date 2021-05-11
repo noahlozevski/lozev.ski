@@ -172,8 +172,45 @@ export default {
     },
     loadedPage() {
       // this.sendUserAgentInfo()
-      console.log("hey there :)")
-      console.info("thanks for visiting my site")
+      console.log(
+        "%c hey there 👋 thanks for visiting my site",
+        [
+          "font-size: 20px",
+          "font-family: monospace",
+          "background: rgb(100, 255, 218, 0.2)",
+          "display: inline-block",
+          "color: #fff",
+          "padding: 9px 14px",
+          "border: 1px solid #64ffda",
+          "border-radius: 7px"
+        ].join(";")
+      )
+      console.log(
+        "%c if you like what you see 👀, feel free to drop me a line",
+        [
+          "font-size: 20px",
+          "font-family: monospace",
+          "background: rgb(100, 255, 218, 0.2)",
+          "display: inline-block",
+          "color: #fff",
+          "padding: 9px 14px",
+          "border: 1px solid #64ffda",
+          "border-radius: 7px"
+        ].join(";")
+      )
+      console.log(
+        "%c 📞 (919) 946-3334",
+        [
+          "font-size: 18px",
+          "font-family: monospace",
+          "background: rgb(100, 255, 218, 0.2)",
+          "display: inline-block",
+          "color: #fff",
+          "padding: 9px 14px",
+          "border: 1px solid #64ffda",
+          "border-radius: 7px",
+        ].join(";")
+      )
       this.loaded = true
     },
     goHome() {
